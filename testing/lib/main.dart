@@ -46,7 +46,7 @@ class MyHomePage extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 0,
         fixedColor: Colors.blue,
-        items: [
+        items: const [
           BottomNavigationBarItem(
             label: "Water",
             icon: Icon(Icons.water_drop), ),
