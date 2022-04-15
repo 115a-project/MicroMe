@@ -43,6 +43,21 @@ class MyHomePage extends StatelessWidget {
         body: const Center(
           child: Text('Welcome!')
         ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 0,
+        fixedColor: Colors.blue,
+        items: const [
+          BottomNavigationBarItem(
+            label: "Water",
+            icon: Icon(Icons.water_drop), ),
+          BottomNavigationBarItem(
+            label: "Steps",
+            icon: Icon(Icons.run_circle_outlined), ),
+          BottomNavigationBarItem(
+            label: "Journal",
+            icon: Icon(Icons.book), ),
+        ],
+      ),
     );
   }
 }
