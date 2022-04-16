@@ -24,9 +24,9 @@ class _navigationBar extends State<bottom_nav_bar> {
 
   // Allows tapping fucntionality
   void onTappedBar(int index) {
-    setState() {
+    setState(() {
       _currentIndex = index;
-    }
+    });
   }
 
   @override
