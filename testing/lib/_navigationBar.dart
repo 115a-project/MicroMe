@@ -4,25 +4,27 @@ import 'package:testing/water.dart';
 import 'package:testing/steps.dart';
 import 'package:testing/journal.dart';
 
-class bottom_nav_bar extends StatefulWidget {
+class NavBar extends StatefulWidget {
+  const NavBar({Key? key}) : super(key: key);
+
   // const ({ Key? key }) : super(key: key);
 
   @override
-  _navigationBar createState() => _navigationBar();
+  _NavBarState createState() => _NavBarState();
 }
 
-class _navigationBar extends State<bottom_nav_bar> {
+class _NavBarState extends State<NavBar> {
 
   // determines which nav_child is being picked: water, journal, ...
   int _currentIndex = 0;
-  final List<Widget> _nav_bar_children = 
+  final List<Widget> navbarChildren =
   [
-    water(),
-    steps(),
-    journal(),
+    const water(),
+    const steps(),
+    const journal(),
   ];
 
-  // Allows tapping fucntionality
+  // Allows tapping functionality
   void onTappedBar(int index) {
     setState(() {
       _currentIndex = index;
@@ -55,7 +57,7 @@ class _navigationBar extends State<bottom_nav_bar> {
 
         onTap: onTappedBar, currentIndex: _currentIndex, 
 
-        items: [
+        items: const [
           BottomNavigationBarItem(
             label: "Water",
             icon: Icon(Icons.water_drop), 
