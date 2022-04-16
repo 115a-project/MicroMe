@@ -19,5 +19,5 @@ samples, guidance on mobile development, and a full API reference.
 
 
 For Mac users if it will not build use 
-xattr -cr <path to file>
+xattr -cr <path to file>  https://stackoverflow.com/questions/69667774/flutter-navigate-in-popupmenubutton-ontap-does-not-work
 xattr -cr /Users/kimigrace/Desktop/dev/flutter_application_1
