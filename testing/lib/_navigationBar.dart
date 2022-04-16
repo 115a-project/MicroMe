@@ -51,7 +51,7 @@ class _NavBarState extends State<NavBar> {
             icon: const Icon(Icons.home),
             tooltip: 'Return to homepage',
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MyHomePage()));
+              //Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MyHomePage()));
             },
           )
         ),

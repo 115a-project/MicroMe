@@ -1,4 +1,4 @@
-
+import 'package:testing/_navigationBar.dart';
 import 'package:flutter/material.dart';
 import 'package:testing/homepage.dart';
 
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  const MaterialApp(
       title: 'Welcome to Flutter!',
-      home: MyHomePage(),
+      home: NavBar(),
     );
   }
 }
