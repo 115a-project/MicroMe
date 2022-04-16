@@ -17,6 +17,7 @@
 
 */
 import 'package:flutter/material.dart';
+import 'package:testing/water_page.dart';
 
 class water extends StatefulWidget {
   const water({ Key? key }) : super(key: key);
@@ -29,9 +30,9 @@ class _water_widgetState extends State<water> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar:  AppBar (
-      //   title:  Text("test"),
-      // ),
+      appBar:  AppBar (
+        title:  Text("test"),
+      ),
       body:  Center (
         child: new Text("water"),
       ),

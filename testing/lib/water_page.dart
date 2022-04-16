@@ -1,7 +1,6 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:testing/home.dart';
 
 class WaterPage extends StatefulWidget {
   const WaterPage({Key? key}) : super(key: key);
@@ -18,7 +17,7 @@ class _WaterPageState extends State<WaterPage> {
           leading: IconButton(
             icon: const Icon(Icons.redo),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MyHomePage()));
+              //Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MyHomePage()));
             },
           ),
           flexibleSpace: Container(
@@ -34,7 +33,7 @@ class _WaterPageState extends State<WaterPage> {
             ),
           ),
       ),
-      body: new Text("awowow"),
+      body: const Text("awowow"),
     );
   }
 }
