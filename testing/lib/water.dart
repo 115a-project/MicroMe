@@ -29,9 +29,9 @@ class _water_widgetState extends State<water> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  AppBar (
-        title:  Text("test"),
-      ),
+      // appBar:  AppBar (
+      //   title:  Text("test"),
+      // ),
       body:  Center (
         child: new Text("water"),
       ),

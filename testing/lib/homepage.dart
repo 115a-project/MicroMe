@@ -1,6 +1,8 @@
+import 'package:testing/_navigationBar.dart';
+import 'package:flutter/material.dart';
+
 class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key}) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
@@ -14,17 +16,11 @@ class MyHomePage extends StatelessWidget {
               onPressed: () {},
             ),
           ],
-          leading: IconButton(
-            icon: const Icon(Icons.home),
-            tooltip: 'Return to homepage',
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Screen2()));
-            },
-          )
       ),
       body: const Center(
           child: Text('Welcome!')
       ),
+      bottomNavigationBar: const NavBar(),
 
     );
   }
