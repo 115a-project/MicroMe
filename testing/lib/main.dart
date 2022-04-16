@@ -1,5 +1,9 @@
-import 'package:flutter/material.dart';
 
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/_navigationBar.dart';
+
+// main to run 
 void main() {
   runApp(const MyApp());
 }
@@ -10,12 +14,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return  const MaterialApp(
+    return  MaterialApp(
       title: 'Welcome to Flutter!',
-      home: MyHomePage(),
+      home: bottom_nav_bar(),
     );
   }
 }
+
+var _selectedIndex = 0;
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -43,21 +49,7 @@ class MyHomePage extends StatelessWidget {
         body: const Center(
           child: Text('Welcome!')
         ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0,
-        fixedColor: Colors.blue,
-        items: const [
-          BottomNavigationBarItem(
-            label: "Water",
-            icon: Icon(Icons.water_drop), ),
-          BottomNavigationBarItem(
-            label: "Steps",
-            icon: Icon(Icons.run_circle_outlined), ),
-          BottomNavigationBarItem(
-            label: "Journal",
-            icon: Icon(Icons.book), ),
-        ],
-      ),
+        
     );
   }
 }
