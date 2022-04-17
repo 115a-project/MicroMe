@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:testing/water.dart';
 import 'package:testing/steps.dart';
 import 'package:testing/journal.dart';
+import 'package:testing/water_page.dart';
 import 'package:testing/homepage.dart';
+
 
 
 
@@ -55,23 +57,40 @@ class _NavBarState extends State<NavBar> {
             },
           )
         ),
-      body: navbarChildren[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar (
-        onTap: onTappedBar, currentIndex: _currentIndex,
-        items: const [
-          BottomNavigationBarItem(
-            label: "Water",
-            icon: Icon(Icons.water_drop),
-          ),
-          BottomNavigationBarItem(
-            label: "Steps",
-            icon: Icon(Icons.run_circle_outlined), ),
-          BottomNavigationBarItem(
-            label: "Journal",
-            icon: Icon(Icons.book), ),
-        ],
-        type: BottomNavigationBarType.fixed,
+      body: const Text("Zoo wee mama"),
+      bottomNavigationBar: BottomAppBar(
+        elevation: 0,
+        color: Colors.lightBlueAccent,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const WaterPage()));
+              },
+              icon: const Icon(Icons.water_drop),
+            )
+          ]
+        )
       )
+
+
+      // BottomNavigationBar (
+      //   onTap: onTappedBar, currentIndex: _currentIndex,
+      //   items: const [
+      //     BottomNavigationBarItem(
+      //       label: "Water",
+      //       icon: Icon(Icons.water_drop),
+      //     ),
+      //     BottomNavigationBarItem(
+      //       label: "Steps",
+      //       icon: Icon(Icons.run_circle_outlined), ),
+      //     BottomNavigationBarItem(
+      //       label: "Journal",
+      //       icon: Icon(Icons.book), ),
+      //   ],
+      //   type: BottomNavigationBarType.fixed,
+      // )
     );
   } 
 }

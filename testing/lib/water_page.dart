@@ -1,5 +1,5 @@
 
-
+import 'package:testing/_navigationBar.dart';
 import 'package:flutter/material.dart';
 
 class WaterPage extends StatefulWidget {
@@ -17,7 +17,7 @@ class _WaterPageState extends State<WaterPage> {
           leading: IconButton(
             icon: const Icon(Icons.redo),
             onPressed: () {
-              //Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MyHomePage()));
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const NavBar()));
             },
           ),
           flexibleSpace: Container(
