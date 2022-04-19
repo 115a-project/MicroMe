@@ -27,13 +27,13 @@ class MyHomePage extends StatelessWidget {
             title: const Text('Welcome to the Homepage'),
           actions: <Widget> [
             IconButton(
-              icon: const Icon(Icons.settings),
+              icon: Image.asset('assets/settings.png'),
               tooltip: 'Settings',
               onPressed: () {},
             ),
           ],
           leading: IconButton(
-            icon: const Icon(Icons.home),
+            icon: Image.asset('assets/home.png'),
             tooltip: 'Return to homepage',
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Screen2()));
@@ -46,16 +46,25 @@ class MyHomePage extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 0,
         fixedColor: Colors.blue,
-        items: const [
+        items: [
           BottomNavigationBarItem(
             label: "Water",
-            icon: Icon(Icons.water_drop), ),
+            icon:  IconButton(
+              icon: Image.asset('assets/water.png'),
+              onPressed: () {},
+            ),),
           BottomNavigationBarItem(
             label: "Steps",
-            icon: Icon(Icons.run_circle_outlined), ),
+            icon: IconButton(
+             icon: Image.asset('assets/steps.png'),
+             onPressed: () {},
+            ),),
           BottomNavigationBarItem(
             label: "Journal",
-            icon: Icon(Icons.book), ),
+            icon: IconButton(
+              icon: Image.asset('assets/journal.png'),
+              onPressed: () {},
+            ),),
         ],
       ),
     );
