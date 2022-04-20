@@ -1,8 +1,8 @@
 // SRC @ https://www.youtube.com/watch?v=18PVdmBOEQM
 import 'package:flutter/material.dart';
-import 'package:flutter_testing_env/steps_page.dart';
-import 'package:flutter_testing_env/journal_page.dart';
-import 'package:flutter_testing_env/water_page.dart';
+import 'package:testing/steps_page.dart';
+import 'package:testing/journal_page.dart';
+import 'package:testing/water_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
