@@ -1,8 +1,9 @@
 // SRC @ https://www.youtube.com/watch?v=18PVdmBOEQM
 import 'package:flutter/material.dart';
-import 'package:testing/steps_page.dart';
-import 'package:testing/journal_page.dart';
-import 'package:testing/water_page.dart';
+import 'package:testing/Pages/steps_page.dart';
+import 'package:testing/Pages/journal_page.dart';
+import 'package:testing/Pages/water_page.dart';
+import 'package:testing/Pages/homepage_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
   final List<Widget> navbarChildren =
   [
+    const Home(),
     const WaterPage(),
     const StepsPage(),
     const JournalPage(),
@@ -56,11 +58,16 @@ class _HomePageState extends State<HomePage> {
           selectedFontSize: 15,
           selectedIconTheme: const IconThemeData(
             size: 30,
+            color: Colors.blue
           ),
           selectedLabelStyle: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
           items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: "Home",
+            ),
             BottomNavigationBarItem(
               icon: Icon(Icons.water_drop),
               label: "Water",
