@@ -6,15 +6,24 @@ void main() {
   runApp(const MyApp());
 }
 
+/*
+ MyApp Class
+ Class app launches from. Builds Material UI
+ */
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return  const MaterialApp(
-      title: 'Welcome to Flutter!',
-      home: HomePage(),
+    return MaterialApp(
+      theme: ThemeData(
+          brightness: Brightness.dark,
+          primaryColor: Colors.yellow,
+      ),
+      home: const HomePage(),
+      debugShowCheckedModeBanner: false, // Open Homepage upon app launch
     );
   }
 }
