@@ -26,7 +26,7 @@ class _JournalPageState extends State<JournalPage> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Text("awowow"),
+      body: Text("Journal Page"),
     );
   }
 }

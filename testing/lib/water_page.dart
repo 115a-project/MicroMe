@@ -11,7 +11,7 @@ class _WaterPageState extends State<WaterPage> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Text("awowow"),
+      body: Text("Water Page"),
     );
   }
 }
