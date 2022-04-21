@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:testing/homepage.dart';
 
+// main to run
 void main() {
   runApp(const MyApp());
 }
+
+/*
+ MyApp Class
+ Class app launches from. Builds Material UI
+ */
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -10,92 +17,51 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return  const MaterialApp(
-      title: 'Welcome to Flutter!',
-      home: MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-            title: const Text('Welcome to the Homepage'),
-          actions: <Widget> [
-            IconButton(
-              icon: const Icon(Icons.settings),
-              tooltip: 'Settings',
-              onPressed: () {},
-            ),
-          ],
-          leading: IconButton(
-            icon: const Icon(Icons.home),
-            tooltip: 'Return to homepage',
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Screen2()));
-            },
-          )
-        ),
-        body: const Center(
-          child: Text('Welcome!')
-        ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0,
-        fixedColor: Colors.blue,
-        items: const [
-          BottomNavigationBarItem(
-            label: "Water",
-            icon: Icon(Icons.water_drop), ),
-          BottomNavigationBarItem(
-            label: "Steps",
-            icon: Icon(Icons.run_circle_outlined), ),
-          BottomNavigationBarItem(
-            label: "Journal",
-            icon: Icon(Icons.book), ),
-        ],
+    return MaterialApp(
+      theme: ThemeData(
+          brightness: Brightness.dark,
+          primaryColor: Colors.yellow,
       ),
+      home: const HomePage(),
+      debugShowCheckedModeBanner: false, // Open Homepage upon app launch
     );
   }
 }
 
-class Screen2 extends StatefulWidget {
-  const Screen2({Key? key}) : super(key: key);
-
-  @override
-  _Screen2State createState() => _Screen2State();
-}
-class _Screen2State extends State<Screen2> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          title: const Text('Navigate to a new screen on Button click'),
-          leading: IconButton(
-            icon: const Icon(Icons.redo),
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MyHomePage()));
-            },
-          ),
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: <Color>[
-                  Colors.blue,
-                  Colors.green
-                ]
-              ),
-            ),
-          ),
-      ),
-    );
-  }
-}
+// class Screen2 extends StatefulWidget {
+//   const Screen2({Key? key}) : super(key: key);
+//
+//   @override
+//   _Screen2State createState() => _Screen2State();
+// }
+// class _Screen2State extends State<Screen2> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//           title: const Text('Navigate to a new screen on Button click'),
+//           leading: IconButton(
+//             icon: const Icon(Icons.redo),
+//             onPressed: () {
+//               Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MyHomePage()));
+//             },
+//           ),
+//           flexibleSpace: Container(
+//             decoration: const BoxDecoration(
+//               gradient: LinearGradient(
+//                 begin: Alignment.topLeft,
+//                 end: Alignment.bottomRight,
+//                 colors: <Color>[
+//                   Colors.blue,
+//                   Colors.green
+//                 ]
+//               ),
+//             ),
+//           ),
+//       ),
+//     );
+//   }
+// }
 
 
 
