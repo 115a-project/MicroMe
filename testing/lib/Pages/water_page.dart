@@ -8,10 +8,19 @@ class WaterPage extends StatefulWidget {
   _WaterPageState createState() => _WaterPageState();
 }
 class _WaterPageState extends State<WaterPage> {
+  int i=0;
+  
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Text("Water Page"),
+      body: Text("Daily Intake: XXX "),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        // isExtended: true,
+        child: Icon(Icons.add),
+        backgroundColor: Colors.green,
+        
+      ),
     );
   }
 }
