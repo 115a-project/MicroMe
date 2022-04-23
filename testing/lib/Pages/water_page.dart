@@ -1,4 +1,4 @@
-import 'package:testing/lib/homepage.dart';
+
 import 'package:flutter/material.dart';
 
 class WaterPage extends StatefulWidget {
@@ -39,6 +39,7 @@ class _WaterPageState extends State<WaterPage> {
   /*
    * Updates Controller by allowing floating button to add water.
    * Returns a string that is amount of water inputted by user
+   * https://www.youtube.com/watch?v=D6icsXS8NeA
    */
   Future<String?> openDialog() => showDialog<String>(
   context: context, builder: (context) => AlertDialog(
