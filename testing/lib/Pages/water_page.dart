@@ -1,4 +1,4 @@
-import 'package:testing/lib/Pages/homepage_page.dart';
+import 'package:testing/lib/homepage.dart';
 import 'package:flutter/material.dart';
 
 class WaterPage extends StatefulWidget {
@@ -8,19 +8,58 @@ class WaterPage extends StatefulWidget {
   _WaterPageState createState() => _WaterPageState();
 }
 class _WaterPageState extends State<WaterPage> {
-  int i=0;
+  late TextEditingController controller;
+  String amount = '0';
+
+  @override
+  void initState() {
+    super.initState();
+    controller = TextEditingController();
+  }
   
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Text("Daily Intake: XXX "),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        // isExtended: true,
-        child: Icon(Icons.add),
-        backgroundColor: Colors.green,
-        
-      ),
+    return Scaffold(
+      body: Text(amount),
+      floatingActionButton: buildNavigateButton(),
     );
   }
+
+  Widget buildNavigateButton() => FloatingActionButton(
+    onPressed: () async {
+          final amount = await openDialog();
+          if ( amount == null || amount.isEmpty ) return;    // Toss out invalid values
+        },
+  );
+
+  /*
+   * Updates Controller by allowing floating button to add water.
+   * Returns a string that is amount of water inputted by user
+   */
+  Future<String?> openDialog() => showDialog<String>(
+  context: context, builder: (context) => AlertDialog(
+      title: Text('Enter Amount Drank: '),
+      content: TextField(
+        autofocus: true,                                              // keeps the keyboard open
+        decoration: InputDecoration(hintText: '12 fl oz.'),
+        controller: controller,
+      ), // Text Pop Up
+      actions: [
+        TextButton(
+          child: Text('SUBMIT'),
+          onPressed: submit,
+        ),
+      ]
+    ) // AlertDialog
+  );
+
+  // Closes the input pop up and passes controller.text back to body
+  void submit () {
+    Navigator.of(context).pop(controller.text);
+  }
 }
+
