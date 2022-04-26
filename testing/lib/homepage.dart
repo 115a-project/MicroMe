@@ -61,16 +61,11 @@ class _HomePageState extends State<HomePage> {
             title: const Text('Welcome to the Homepage'),
             actions: <Widget> [
               IconButton(
-                icon: const Icon(Icons.settings),
+                icon: Image.asset('assets/settings.png'),
                 tooltip: 'Settings',
                 onPressed: () {},
               ),
             ],
-            leading: IconButton(
-              icon: const Icon(Icons.home),
-              tooltip: 'Return to homepage',
-              onPressed: () {},
-            )
         ),
         body: navbarChildren[_currentIndex],
         /* Homepage NavBar
@@ -88,27 +83,36 @@ class _HomePageState extends State<HomePage> {
           currentIndex: _currentIndex,
           selectedFontSize: 15,
           selectedIconTheme: const IconThemeData(
-            size: 30,
+            size: 50,
           ),
-          selectedItemColor: Colors.red,
+          //selectedItemColor: Colors.red,
           selectedLabelStyle: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
+          iconSize: 38,
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: ImageIcon(
+                AssetImage('assets/home.png'),
+              ),
               label: "Home",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.water_drop),
+              icon: ImageIcon(
+                AssetImage('assets/water.png'),
+              ),
               label: "Water",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.run_circle_outlined),
+              icon: ImageIcon(
+                AssetImage('assets/steps.png'),
+              ),
               label: "Steps",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.book),
+              icon: ImageIcon(
+                AssetImage('assets/journal.png'),
+              ),
               label: "Journal",
             ),
           ],
