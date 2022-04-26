@@ -20,13 +20,20 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         brightness: Brightness.light,
-        primaryColor: Colors.yellow,
+        primarySwatch: Colors.orange,
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           backgroundColor: Colors.white,
           selectedItemColor: Colors.deepPurpleAccent,
           selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
           showUnselectedLabels: false,
-        )
+        ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.purpleAccent,
+          titleTextStyle: TextStyle(
+            color: Colors.black,
+            fontSize: 25,
+          )
+        ),
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
