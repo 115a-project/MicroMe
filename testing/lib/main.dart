@@ -29,13 +29,20 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         brightness: Brightness.light,
-        primaryColor: Colors.yellow,
+        primarySwatch: Colors.orange,
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           backgroundColor: Colors.white,
           selectedItemColor: Colors.deepPurpleAccent,
           selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
           showUnselectedLabels: false,
-        )
+        ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.purpleAccent,
+          titleTextStyle: TextStyle(
+            color: Colors.black,
+            fontSize: 25,
+          )
+        ),
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
@@ -47,41 +54,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-// class Screen2 extends StatefulWidget {
-//   const Screen2({Key? key}) : super(key: key);
-//
-//   @override
-//   _Screen2State createState() => _Screen2State();
-// }
-// class _Screen2State extends State<Screen2> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//           title: const Text('Navigate to a new screen on Button click'),
-//           leading: IconButton(
-//             icon: const Icon(Icons.redo),
-//             onPressed: () {
-//               Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MyHomePage()));
-//             },
-//           ),
-//           flexibleSpace: Container(
-//             decoration: const BoxDecoration(
-//               gradient: LinearGradient(
-//                 begin: Alignment.topLeft,
-//                 end: Alignment.bottomRight,
-//                 colors: <Color>[
-//                   Colors.blue,
-//                   Colors.green
-//                 ]
-//               ),
-//             ),
-//           ),
-//       ),
-//     );
-//   }
-// }
-
-
-

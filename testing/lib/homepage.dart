@@ -4,6 +4,7 @@ import 'package:testing/Pages/steps_page.dart';
 import 'package:testing/Pages/journal_page.dart';
 import 'package:testing/Pages/water_page.dart';
 import 'package:testing/Pages/homepage_page.dart';
+import 'package:testing/Pages/settings.dart';
 
 /*
 HomePage Class
@@ -63,7 +64,9 @@ class _HomePageState extends State<HomePage> {
               IconButton(
                 icon: Image.asset('assets/settings.png'),
                 tooltip: 'Settings',
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const Settings()));
+                },
               ),
             ],
         ),
