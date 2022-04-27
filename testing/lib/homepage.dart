@@ -65,6 +65,7 @@ class _HomePageState extends State<HomePage> {
                 icon: Image.asset('assets/settings.png'),
                 tooltip: 'Settings',
                 onPressed: () {
+                  // Navigates to settings page upon tap
                   Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const Settings()));
                 },
               ),

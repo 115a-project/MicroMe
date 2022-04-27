@@ -11,6 +11,11 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      /* AppBar for settings
+        Properties:
+        Title - Displays AppBar Title
+        Leading - Leading Icon Button at top-left acts as return button
+        */
       appBar: AppBar(
           title: const Text('Settings'),
           leading: IconButton(
@@ -20,6 +25,13 @@ class _SettingsState extends State<Settings> {
             },
           ),
       ),
+      /*
+      SettingsList body provides list of settings divided into individual
+      sections.
+      Uses settings_ui package
+      Properties:
+      sections - List of different settings sections
+       */
       body: SettingsList(
         sections: [
           SettingsSection(
