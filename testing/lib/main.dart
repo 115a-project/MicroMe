@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:testing/homepage.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-// main to run
-void main() {
+/*
+  main function
+  Needed to run the app
+  Changes for Firebase 4/25/2022
+  Had to make the function asynchronous to allow
+  the app to wait on firebase to initialize.
+ */
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
