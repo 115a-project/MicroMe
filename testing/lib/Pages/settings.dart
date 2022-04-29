@@ -9,8 +9,7 @@ class Settings extends StatefulWidget {
   _SettingsState createState() => _SettingsState();
 }
 class _SettingsState extends State<Settings> {
-
-
+  bool _notifs = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +37,7 @@ class _SettingsState extends State<Settings> {
       body: SettingsList(
         sections: [
           SettingsSection(
-            title: const Text('Theme'),
+            title: const Text('GENERAL'),
             tiles: [
               SettingsTile(
                 title: const Text('Example 1'),
@@ -46,10 +45,14 @@ class _SettingsState extends State<Settings> {
                 onPressed: (BuildContext context) {},
               ),
               SettingsTile.switchTile(
-                title: const Text('PoopSock'),
-                initialValue: true,
+                title: const Text('Lock app in background'),
+                leading: const Icon(Icons.phonelink_lock),
                 onToggle: (bool value) {
+                  setState(() {
+                    _notifs = value;
+                  });
                 },
+                initialValue: _notifs,
               ),
             ],
           ),

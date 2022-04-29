@@ -11,20 +11,22 @@ class Themes {
   static ThemeData lightMode() {
     return ThemeData(
       brightness: Brightness.light,
-      primarySwatch: Colors.orange,
+      colorScheme: ColorScheme.fromSwatch(
+        primarySwatch: Colors.purple,
+      ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: Colors.white,
         selectedItemColor: Colors.deepPurpleAccent,
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
         showUnselectedLabels: false,
       ),
-      appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.purpleAccent,
-          titleTextStyle: TextStyle(
-            color: Colors.black,
-            fontSize: 25,
-          )
-      ),
+      // appBarTheme: const AppBarTheme(
+      //     backgroundColor: Colors.purpleAccent,
+      //     titleTextStyle: TextStyle(
+      //       color: Colors.black,
+      //       fontSize: 25,
+      //     )
+      // ),
     );
   }
 }

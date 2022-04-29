@@ -62,7 +62,10 @@ class _HomePageState extends State<HomePage> {
             title: const Text('Welcome to the Homepage'),
             actions: <Widget> [
               IconButton(
-                icon: Image.asset('assets/settings.png'),
+                icon: const ImageIcon(
+                  AssetImage('assets/settings.png'),
+                  size: 35,
+                ),
                 tooltip: 'Settings',
                 onPressed: () {
                   // Navigates to settings page upon tap
