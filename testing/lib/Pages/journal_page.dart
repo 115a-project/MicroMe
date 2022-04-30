@@ -27,8 +27,14 @@ class JournalPage extends StatefulWidget {
 class _JournalPageState extends State<JournalPage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Text("Journal Page"),
+      floatingActionButton: FloatingActionButton (
+        child: Icon(Icons.add),
+      backgroundColor: Colors.blue,
+      onPressed: () {
+      },
+      )
     );
   }
 }
