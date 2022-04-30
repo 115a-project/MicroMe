@@ -1,7 +1,7 @@
 // SRC @ https://www.youtube.com/watch?v=18PVdmBOEQM
 import 'package:flutter/material.dart';
 import 'package:testing/Pages/steps_page.dart';
-import 'package:testing/Pages/journal_page.dart';
+import 'package:testing/Pages/Journal_Pages/journal_page.dart';
 import 'package:testing/Pages/water_page.dart';
 import 'package:testing/Pages/homepage_page.dart';
 

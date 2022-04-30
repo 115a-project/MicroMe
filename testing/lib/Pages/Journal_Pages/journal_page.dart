@@ -15,6 +15,7 @@
 */
 import 'package:testing/homepage.dart';
 import 'package:flutter/material.dart';
+import 'package:testing/Pages/Journal_Pages/edit_entry_page.dart';
 
 class JournalPage extends StatefulWidget {
   const JournalPage({Key? key}) : super(key: key);
@@ -31,6 +32,7 @@ class _JournalPageState extends State<JournalPage> {
         child: Icon(Icons.add),
       backgroundColor: Colors.blue,
       onPressed: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const EditEntryPage()));
       },
       )
     );
