@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:testing/Db/microme_db.dart';
-import 'package:testing/Models/note_model.dart';
+import 'package:testing/Models/entry_model.dart';
 import 'package:testing/Widgets/entry_form_widget.dart';
 
 class AddEditNotePage extends StatefulWidget {

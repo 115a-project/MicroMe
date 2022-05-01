@@ -1,6 +1,6 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:testing/Models/note_model.dart';
+import 'package:testing/Models/entry_model.dart';
 
 
 

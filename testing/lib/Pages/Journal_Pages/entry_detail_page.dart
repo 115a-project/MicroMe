@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:testing/Db/microme_db.dart';
-import 'package:testing/Models/note_model.dart';
+import 'package:testing/Models/entry_model.dart';
 import 'package:testing/Pages/Journal_Pages/edit_entry_page.dart';
 
 class NoteDetailPage extends StatefulWidget {
