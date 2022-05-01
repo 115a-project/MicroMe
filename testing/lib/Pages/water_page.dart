@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:pie_chart/pie_chart.dart';   // in pubspec.yaml dependecies  pie_chart: ^5.1.0
 
 
 // import 'package:flutter_icons/flutter_icons.dart';
@@ -10,8 +11,13 @@ import 'package:flutter/material.dart';
 // ROWS  |------------------------------------------------|  
 //       |  WATER PAGE                                    |
 //       |------------------------------------------------|
-//       |      STATS         |         PIECHART          |
-//       |                    |                           |
+//       |                Title                           |
+//       |             PIECHART                           |  @https://www.youtube.com/watch?v=NvTQAzGCh5U
+//       | Change Goal option
+//       | History: 
+//       |     (trash) List Tile 1
+//       |             List Tile 2 
+//       |                 ...
 //       __________________________________________________
 
 
@@ -32,9 +38,27 @@ class WaterPage extends StatefulWidget {
   _WaterPageState createState() => _WaterPageState();
 }
 class _WaterPageState extends State<WaterPage> {
+  // Controllers for goal and added amounts
   late TextEditingController controller;
   String amount = '0';
+  String total = '0';
   String goal = '2500';
+  // double amount_d = double.parse(amount);
+  // double total_d = double.parse(total);
+  // double goal_d = double.parse(goal);
+  // double percentageDrank = this.amount_d/this.goal_d;
+
+  // Piechart set to UI displaying amount drank
+  Map<String, double> dataMap = {
+    "left to drink " : 80,
+    "drank "         : 20,
+  };
+
+  // Color list to control color of our piechart
+  List<Color> pieChartColorList = [
+    const Color(0xffD9A5F3),
+    const Color(0xffA5A5F3),
+  ];
 
   @override
   void initState() {
@@ -56,23 +80,39 @@ class _WaterPageState extends State<WaterPage> {
         // child: Text(amount + '2500ml'),
         children:<Widget> [
           Container(
-            child: Row(
-              children:<Widget> [
-                Text('Goal ' + goal + 'ml'),
-                FlatButton(  
-                child: Text('Change Goal', style: TextStyle(fontSize: 15.0),),  
-                onPressed: () {},  
-              ),
-              ],
+            margin: EdgeInsets.all(30),
+            child: Text('Daily Water Intake',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 35),
+                    ),
+          ),
+          Container(
+            child: FlatButton(  
+              child: Text('Change Goal', style: TextStyle(fontSize: 15.0),),  
+              onPressed: () async {
+                final goal = await openDialog();
+                if ( goal == null || goal.isEmpty ) return;    // Toss out invalid values
+                setState(
+                  () => this.goal = goal 
+                ); 
+              } // on pressed for goal amounts
             ),
           ),
           Container(
-            child: Text(amount + ' / 25000ml '),
-            margin: EdgeInsets.all(100.0),
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              shape: BoxShape.circle,
-            ),
+            margin: EdgeInsets.all(30),
+            alignment: Alignment.center,
+            child: PieChart(
+                  dataMap: dataMap,
+                  colorList: pieChartColorList,
+                  chartRadius: MediaQuery.of(context).size.width / 2,
+                  chartType: ChartType.ring,
+                  ringStrokeWidth: 24,
+                  animationDuration: Duration(seconds: 2),
+                  centerText: amount + " / " + goal + " ml",
+                  chartValuesOptions: ChartValuesOptions( showChartValues: false ),
+                  legendOptions: LegendOptions( showLegends: false,),
+                ), 
           ),
           SingleChildScrollView(
             child: Container(
@@ -92,7 +132,11 @@ class _WaterPageState extends State<WaterPage> {
   //Expected: opens a text entry where user submits
   // a new value that changes the pi chart
   Widget buildNavigateButton() => FloatingActionButton(
-    child:Text("+"),
+    child:Text("+",
+      style: TextStyle(
+        fontSize: 20,
+       ),
+    ),
     onPressed: () async {
       final amount = await openDialog();
       if ( amount == null || amount.isEmpty ) return;    // Toss out invalid values
@@ -112,7 +156,7 @@ class _WaterPageState extends State<WaterPage> {
       title: Text('Enter Amount Drank: '),
       content: TextField(
         autofocus: true,                                              // keeps the keyboard open
-        decoration: InputDecoration(hintText: '12 fl oz.'),
+        decoration: InputDecoration(hintText: '200 ml'),
         controller: controller,
       ), // Text Pop Up
       actions: [
@@ -149,3 +193,18 @@ class _WaterPageState extends State<WaterPage> {
 } // water
 
 // ********************************
+
+
+// Pie chart for water widget builder List Tile 1 child: WaterPieChartWidget(),
+
+// class WaterPieChartWidget extends StatefulWidget {
+//   @override
+//   _WaterPieChartWidgetState createState() => _WaterPieChartWidgetState();
+// }
+
+// class _WaterPieChartWidgetState extends State<WaterPieChartWidget> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Chart(dataSet: dataSet, dataRec: dataRec);
+//   }
+// }
