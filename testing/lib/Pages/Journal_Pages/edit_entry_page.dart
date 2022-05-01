@@ -1,35 +1,110 @@
 import 'package:flutter/material.dart';
+import 'package:testing/Db/microme_db.dart';
 import 'package:testing/Models/note_model.dart';
+import 'package:testing/Widgets/entry_form_widget.dart';
 
-/* EditEntryPage Class
-   Purpose - Provides the user with a way to create or edit
-   an entry within the journal portion of the app. Right now
-   it has an extra parameter that must be passed in which is
-   the note onject.
- */
-class EditEntryPage extends StatefulWidget {
-  const EditEntryPage({Key? key, this.note}) : super(key: key);
-
+class AddEditNotePage extends StatefulWidget {
   final Note? note;
 
+  const AddEditNotePage({
+    Key? key,
+    this.note,
+  }) : super(key: key);
   @override
-  State<EditEntryPage> createState() => _EditEntryPageState();
+  _AddEditNotePageState createState() => _AddEditNotePageState();
 }
 
-class _EditEntryPageState extends State<EditEntryPage> {
+class _AddEditNotePageState extends State<AddEditNotePage> {
+  final _formKey = GlobalKey<FormState>();
+  late bool isImportant;
+  late int number;
+  late String title;
+  late String description;
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Text("Journal Page"),
-      appBar: AppBar(
-        title: const Text('Edit test'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.of(context).pop();
-          }
+  void initState() {
+    super.initState();
+
+    isImportant = widget.note?.isImportant ?? false;
+    number = widget.note?.number ?? 0;
+    title = widget.note?.title ?? '';
+    description = widget.note?.description ?? '';
+  }
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(
+      actions: [buildButton()],
+    ),
+    body: Form(
+      key: _formKey,
+      child: NoteFormWidget(
+        isImportant: isImportant,
+        number: number,
+        title: title,
+        description: description,
+        onChangedImportant: (isImportant) =>
+            setState(() => this.isImportant = isImportant),
+        onChangedNumber: (number) => setState(() => this.number = number),
+        onChangedTitle: (title) => setState(() => this.title = title),
+        onChangedDescription: (description) =>
+            setState(() => this.description = description),
+      ),
+    ),
+  );
+
+  Widget buildButton() {
+    final isFormValid = title.isNotEmpty && description.isNotEmpty;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          onPrimary: Colors.white,
+          primary: isFormValid ? null : Colors.grey.shade700,
         ),
+        onPressed: addOrUpdateNote,
+        child: Text('Save'),
       ),
     );
+  }
+
+  void addOrUpdateNote() async {
+    final isValid = _formKey.currentState!.validate();
+
+    if (isValid) {
+      final isUpdating = widget.note != null;
+
+      if (isUpdating) {
+        await updateNote();
+      } else {
+        await addNote();
+      }
+
+      Navigator.of(context).pop();
+    }
+  }
+
+  Future updateNote() async {
+    final note = widget.note!.copy(
+      isImportant: isImportant,
+      number: number,
+      title: title,
+      description: description,
+    );
+
+    await NotesDatabase.instance.update(note);
+  }
+
+  Future addNote() async {
+    final note = Note(
+      title: title,
+      isImportant: true,
+      number: number,
+      description: description,
+      createdTime: DateTime.now(),
+    );
+
+    await NotesDatabase.instance.create(note);
   }
 }

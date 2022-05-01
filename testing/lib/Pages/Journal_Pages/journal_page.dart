@@ -32,7 +32,7 @@ class _JournalPageState extends State<JournalPage> {
         child: Icon(Icons.add),
       backgroundColor: Colors.blue,
       onPressed: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const EditEntryPage()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const AddEditNotePage()));
       },
       )
     );
