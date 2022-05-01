@@ -31,7 +31,7 @@ class _StepsPageState extends State<StepsPage> {
   //Will initiate the state of the application (Wrapper function)//
   void initState() {
     super.initState();
-    // initPlatformState();
+    initPlatformState();
   }
   //Function below updates step counter whenever a 'event' occurs //
   void onStepCount(StepCount event) {
