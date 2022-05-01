@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:testing/Models/note_model.dart';
 
 class EditEntryPage extends StatefulWidget {
-  const EditEntryPage({Key? key}) : super(key: key);
-
+  const EditEntryPage({Key? key, this.note}) : super(key: key);
+  final Note? note;
   @override
   State<EditEntryPage> createState() => _EditEntryPageState();
 }
