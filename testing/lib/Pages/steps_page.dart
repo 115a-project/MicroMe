@@ -24,10 +24,59 @@ class StepsPage extends StatefulWidget {
   _StepsPageState createState() => _StepsPageState();
 }
 class _StepsPageState extends State<StepsPage> {
+  // This line connects to the package for steps //
+  late Stream<StepCount> _stepCountStream;
+  String _steps = '?';
+  @override
+  //Will initiate the state of the application (Wrapper function)//
+  void initState() {
+    super.initState();
+    // initPlatformState();
+  }
+  //Function below updates step counter whenever a 'event' occurs //
+  void onStepCount(StepCount event) {
+      print(event);
+      setState(() {
+        _steps = event.steps.toString();
+      });
+  }
+  // Error checking if an event passed into onStepCount is invalid //
+  void onStepCountError(error) {
+    print('onStepCountError: $error ');
+    setState(() {
+      _steps = 'Error with Steps';
+    });
+  }
+  //Will initiate the pedometer package //
+  void initPlatformState() {
+    _stepCountStream = Pedometer.stepCountStream;
+    _stepCountStream.listen(onStepCount).onError(onStepCountError);
+
+    if(!mounted) return;
+  }
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Text("Steps Page"),
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'Steps Taken:',
+                  style: TextStyle(fontSize: 30),
+            ),
+            Text(
+              _steps,
+              style: const TextStyle(fontSize: 30),
+            ),
+            const Divider(
+              height: 100,
+              thickness: 0,
+              color: Colors.white,
+            ),
+          ],
+        ),
+      )
     );
   }
 }
