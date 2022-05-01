@@ -15,6 +15,7 @@
 */
 import 'package:testing/homepage.dart';
 import 'package:flutter/material.dart';
+import 'package:pedometer/pedometer.dart';
 
 class StepsPage extends StatefulWidget {
   const StepsPage({Key? key}) : super(key: key);
