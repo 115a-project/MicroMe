@@ -2,6 +2,8 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:testing/Models/note_model.dart';
 
+
+
 // Creating a notes database class
 class NotesDatabase {
   // Creating an instance of the notes database
@@ -82,7 +84,7 @@ CREATE TABLE $tableNotes (
   // Returns all the notes in the database by ascending order
   Future<List<Note>> readAllNotes() async {
     final db = await instance.database;
-    final orderBy = '${NoteFields.time} ASC';
+    final orderBy = '${NoteFields.time} DESC';
     final result = await db.query(tableNotes, orderBy: orderBy);
     return result.map((json) => Note.fromJson(json)).toList();
   }
@@ -111,6 +113,8 @@ CREATE TABLE $tableNotes (
   }
 
   // Function for closing our database
+  // Fix for database closed error when switching pages
+  // https://stackoverflow.com/questions/63812832/error-database-closed-when-using-flutters-sqflite
   Future close() async {
     final db = await instance.database;
     _database = null;
