@@ -1,24 +1,24 @@
 
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';   // in pubspec.yaml dependecies  pie_chart: ^5.1.0
+// import 'package:testing/Pages/PastWaterEntry.dart';
+// import 'package:testing/lib/Pages/PastWaterEntry.dart';
 
-
-// import 'package:flutter_icons/flutter_icons.dart';
 
 // ****************** Structure *************************
-// *GOAL* :            XXX  Fl Oz
+// 
 //                                COLUMN
-// ROWS  |------------------------------------------------|  
-//       |  WATER PAGE                                    |
-//       |------------------------------------------------|
-//       |                Title                           |
-//       |             PIECHART                           |  @https://www.youtube.com/watch?v=NvTQAzGCh5U
-//       | Change Goal option
-//       | History: 
-//       |     (trash) List Tile 1
-//       |             List Tile 2 
-//       |                 ...
-//       __________________________________________________
+// Container   |------------------------------------------------|  
+//             |  WATER PAGE                                    |
+//             |------------------------------------------------|
+//             |                Title                           |
+//             |             PIECHART                           |  @https://www.youtube.com/watch?v=NvTQAzGCh5U
+//             | Change Goal option
+//             | History: 
+//             |     (trash) List Tile 1                        |  @https://www.youtube.com/watch?v=XBeYlgjZbms
+//             |             List Tile 2 
+//             |                 ...
+//             __________________________________________________
 
 
 
@@ -43,21 +43,23 @@ class _WaterPageState extends State<WaterPage> {
   String amount = '0';
   String total = '0';
   String goal = '2500';
+  TimeOfDay time = TimeOfDay.now();
   // double amount_d = double.parse(amount);
   // double total_d = double.parse(total);
   // double goal_d = double.parse(goal);
-  // double percentageDrank = this.amount_d/this.goal_d;
+  double percentageDrank = 0;
 
   // Piechart set to UI displaying amount drank
   Map<String, double> dataMap = {
-    "left to drink " : 80,
-    "drank "         : 20,
+    "left to drink " : 100,
+    "drank "         : 0,
   };
 
   // Color list to control color of our piechart
   List<Color> pieChartColorList = [
-    const Color(0xffD9A5F3),
-    const Color(0xffA5A5F3),
+    Color.fromARGB(60, 104, 104, 176),
+    Color.fromARGB(255, 91, 121, 192),
+    
   ];
 
   @override
@@ -92,10 +94,15 @@ class _WaterPageState extends State<WaterPage> {
               child: Text('Change Goal', style: TextStyle(fontSize: 15.0),),  
               onPressed: () async {
                 final goal = await openDialog();
-                if ( goal == null || goal.isEmpty ) return;    // Toss out invalid values
+                if ( goal == null || goal.isEmpty ) return;    // TODO: Toss out invalid values
                 setState(
                   () => this.goal = goal 
                 ); 
+                var percentageDrank = double.parse(total) / double.parse(goal);
+                var remainder = 100 - (percentageDrank*100);
+
+                dataMap.update("left to drink ", (value) => remainder);
+                dataMap.update("drank ", (value) => percentageDrank*100);
               } // on pressed for goal amounts
             ),
           ),
@@ -109,24 +116,26 @@ class _WaterPageState extends State<WaterPage> {
                   chartType: ChartType.ring,
                   ringStrokeWidth: 24,
                   animationDuration: Duration(seconds: 2),
-                  centerText: amount + " / " + goal + " ml",
+                  centerText: total + " / " + goal + " ml",
                   chartValuesOptions: ChartValuesOptions( showChartValues: false ),
                   legendOptions: LegendOptions( showLegends: false,),
                 ), 
           ),
           SingleChildScrollView(
             child: Container(
-              child: Text("Past Entries: "),
-              // child: myListView(),
+              child: Column(
+                children:<Widget> [ 
+                  const Text("Past Entries: "),
+                  Text("Added " + amount + 'ml ' + " at " + time.toString()),
+                ],
+              ),
             ),
           ),
-         
         ]
       ),
       floatingActionButton: buildNavigateButton(),
     );
   }
-
 
   //Button to control adding more water
   //Expected: opens a text entry where user submits
@@ -141,8 +150,15 @@ class _WaterPageState extends State<WaterPage> {
       final amount = await openDialog();
       if ( amount == null || amount.isEmpty ) return;    // Toss out invalid values
       setState(
-        () => this.amount = amount 
+        () => this.amount = amount ,
       ); 
+      var amountDouble = double.parse(amount) + double.parse(total);
+      total = amountDouble.toString();
+      var percentageDrank = double.parse(total) / double.parse(goal);
+      var remainder = 100 - (percentageDrank*100);
+
+      dataMap.update("left to drink ", (value) => remainder);
+      dataMap.update("drank ", (value) => percentageDrank*100);
     }
   );
 
@@ -173,30 +189,16 @@ class _WaterPageState extends State<WaterPage> {
     Navigator.of(context).pop(controller.text);
   }
 
-  // Widget log to view past water enteries with ability to delete them later
-  // should show up on bottom and be scrollabale
-  // Widget myListView() {
-  //   // backing data
-  //   var pastWaterLog = ['Drank ' + amount + 'ml', ]; 
-
-  //   return ListView.builder(
-  //     itemCount: pastWaterLog.length,
-  //     itemBuilder: (context, index) {
-  //       return ListTile(
-  //         title: Text(pastWaterLog[index]),
-  //       );
-  //     },
-  //   );
- 
-  // } // widget
-  
 } // water
 
-// ********************************
+/*
+  ********************************
+  List section
+  ********************************
+*/ 
 
 
 // Pie chart for water widget builder List Tile 1 child: WaterPieChartWidget(),
-
 // class WaterPieChartWidget extends StatefulWidget {
 //   @override
 //   _WaterPieChartWidgetState createState() => _WaterPieChartWidgetState();
