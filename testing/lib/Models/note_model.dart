@@ -1,5 +1,4 @@
 // Table for the notes
-// A journal is comprised of notes
 final String tableNotes = 'notes';
 
 // Column names for the table
