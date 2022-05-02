@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
+import 'package:testing/Utils/notificationservice.dart';
 
 
 class Settings extends StatefulWidget {
@@ -10,6 +11,13 @@ class Settings extends StatefulWidget {
 }
 class _SettingsState extends State<Settings> {
   bool _notifs = true;
+
+  void goalMet(goal)  {
+    if (!goal) {
+      NotificationService().showNotification(1, "title", "body", 2);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,9 +58,20 @@ class _SettingsState extends State<Settings> {
                 onToggle: (bool value) {
                   setState(() {
                     _notifs = value;
+                    goalMet(_notifs);
                   });
                 },
                 initialValue: _notifs,
+              ),
+              CustomSettingsTile(
+                  child: IconButton(
+                    icon: const ImageIcon(
+                      AssetImage('assets/home.png'),
+                    ),
+                    onPressed: () {
+                      NotificationService().showNotification(1, "title", "body", 2);
+                    },
+                  )
               ),
             ],
           ),

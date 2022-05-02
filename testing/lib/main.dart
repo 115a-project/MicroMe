@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:testing/Utils/notificationservice.dart';
 import 'package:testing/homepage.dart';
-import 'package:testing/themes.dart';
+import 'package:testing/Utils/themes.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 
 /*
   main function
   Needed to run the app
-  Changes for Firebase 4/25/2022
   Had to make the function asynchronous to allow
   the app to wait on firebase to initialize.
  */
-Future<void> main() async {
+void main()  {
   WidgetsFlutterBinding.ensureInitialized();
+  NotificationService().initNotification();
   runApp(const MyApp());
 }
 
@@ -28,7 +31,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: Themes.lightMode(),
       darkTheme: Themes.darkMode(),
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.system, // Uses phone theme
       home: const HomePage(),
       debugShowCheckedModeBanner: false, // Open Homepage upon app launch
     );
