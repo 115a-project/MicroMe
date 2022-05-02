@@ -27,6 +27,7 @@ class _StepsPageState extends State<StepsPage> {
   // This line connects to the package for steps //
   late Stream<StepCount> _stepCountStream;
   String _steps = '?';
+  int miles = 0;
   @override
   //Will initiate the state of the application (Wrapper function)//
   void initState() {
@@ -38,6 +39,7 @@ class _StepsPageState extends State<StepsPage> {
       print(event);
       setState(() {
         _steps = event.steps.toString();
+        miles = event.steps.toInt() ~/ 2000;
       });
   }
   // Error checking if an event passed into onStepCount is invalid //
@@ -74,6 +76,10 @@ class _StepsPageState extends State<StepsPage> {
               thickness: 0,
               color: Colors.white,
             ),
+            Text(
+              'Miles: $miles',
+              style: const TextStyle(fontSize: 30),
+            )
           ],
         ),
       )
