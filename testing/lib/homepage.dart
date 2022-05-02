@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
     const Home(),
     const WaterPage(),
     const StepsPage(),
-    NotesPage(),
+    EntriesPage(),
   ];
 
   // Allows tapping functionality

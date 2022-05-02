@@ -6,20 +6,20 @@ import 'package:testing/Pages/Journal_Pages/edit_entry_page.dart';
 import 'package:testing/Pages/Journal_Pages/entry_detail_page.dart';
 import 'package:testing/Widgets/entry_card_widget.dart';
 
-class NotesPage extends StatefulWidget {
+class EntriesPage extends StatefulWidget {
   @override
-  _NotesPageState createState() => _NotesPageState();
+  _EntriesPageState createState() => _EntriesPageState();
 }
 
-class _NotesPageState extends State<NotesPage> {
-  late List<Note> notes;
+class _EntriesPageState extends State<EntriesPage> {
+  late List<Note> entriesList;
   bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
 
-    refreshNotes();
+    refreshEntries();
   }
 
   @override
@@ -29,10 +29,11 @@ class _NotesPageState extends State<NotesPage> {
     super.dispose();
   }
 
-  Future refreshNotes() async {
+  Future refreshEntries() async {
     setState(() => isLoading = true);
 
-    this.notes = await NotesDatabase.instance.readAllNotes();
+    // Could possibly remove the 'this' here
+    this.entriesList = await NotesDatabase.instance.readAllNotes();
 
     setState(() => isLoading = false);
   }
@@ -42,12 +43,12 @@ class _NotesPageState extends State<NotesPage> {
     body: Center(
       child: isLoading
           ? CircularProgressIndicator()
-          : notes.isEmpty
+          : entriesList.isEmpty
           ? Text(
-        'No Notes',
+        'No Entries',
         style: TextStyle(color: Colors.white, fontSize: 24),
       )
-          : buildNotes(),
+          : buildEntries(),
     ),
     floatingActionButton: FloatingActionButton(
       backgroundColor: Colors.black,
@@ -57,30 +58,30 @@ class _NotesPageState extends State<NotesPage> {
           MaterialPageRoute(builder: (context) => AddEditNotePage()),
         );
 
-        refreshNotes();
+        refreshEntries();
       },
     ),
   );
 
-  Widget buildNotes() => StaggeredGridView.countBuilder(
+  Widget buildEntries() => StaggeredGridView.countBuilder(
     padding: EdgeInsets.all(8),
-    itemCount: notes.length,
+    itemCount: entriesList.length,
     staggeredTileBuilder: (index) => StaggeredTile.fit(2),
     crossAxisCount: 4,
     mainAxisSpacing: 4,
     crossAxisSpacing: 4,
     itemBuilder: (context, index) {
-      final note = notes[index];
+      final entry = entriesList[index];
 
       return GestureDetector(
         onTap: () async {
           await Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => NoteDetailPage(noteId: note.id!),
+            builder: (context) => NoteDetailPage(noteId: entry.id!),
           ));
 
-          refreshNotes();
+          refreshEntries();
         },
-        child: NoteCardWidget(note: note, index: index),
+        child: NoteCardWidget(note: entry, index: index),
       );
     },
   );
