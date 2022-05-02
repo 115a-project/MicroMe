@@ -18,9 +18,10 @@ class NotificationService {
 
     const IOSInitializationSettings initializationSettingsIOS =
     IOSInitializationSettings(
-      requestAlertPermission: false,
-      requestBadgePermission: false,
-      requestSoundPermission: false,
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+
     );
 
     const InitializationSettings initializationSettings =

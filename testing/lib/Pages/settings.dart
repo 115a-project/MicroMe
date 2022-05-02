@@ -69,7 +69,7 @@ class _SettingsState extends State<Settings> {
                       AssetImage('assets/home.png'),
                     ),
                     onPressed: () {
-                      NotificationService().showNotification(1, "title", "body", 2);
+                      NotificationService().showNotification(1, "title", "body", 10);
                     },
                   )
               ),
