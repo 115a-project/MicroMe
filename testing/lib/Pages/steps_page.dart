@@ -39,7 +39,7 @@ class _StepsPageState extends State<StepsPage> {
       print(event);
       setState(() {
         _steps = event.steps.toString();
-        miles = event.steps.toInt() ~/ 2000;
+        miles = event.steps.toDouble() ~/ 2000;
       });
   }
   // Error checking if an event passed into onStepCount is invalid //
@@ -77,7 +77,7 @@ class _StepsPageState extends State<StepsPage> {
               color: Colors.white,
             ),
             Text(
-              'Miles: $miles',
+              'You walked $miles miles',
               style: const TextStyle(fontSize: 30),
             )
           ],
