@@ -20,13 +20,6 @@ import 'package:pie_chart/pie_chart.dart';   // in pubspec.yaml dependecies  pie
 
 
 
-// ****************** PIE CHART *************************
-// Function that builds the pie chart for water tracking
-// https://www.youtube.com/watch?v=rZx_isqXrhg
-
-// *************************************************
-
-
 //******************* Water Class *******************
 class WaterPage extends StatefulWidget {
   const WaterPage({Key? key}) : super(key: key);
@@ -72,7 +65,6 @@ class _WaterPageState extends State<WaterPage> {
   }
 
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Column(
         children:<Widget> [
@@ -147,7 +139,7 @@ class _WaterPageState extends State<WaterPage> {
     // When pressed updates the (dataMap) map for pie chart to allow values to change // 
     onPressed: () async {
       final amount = await openDialog();
-      if ( amount == null || amount.isEmpty ) return;    // Toss out invalid values
+      if ( amount == null || amount.isEmpty ) return;        // Toss out invalid values, TODO: make sure it is an int
       setState(
         () => this.amount = amount ,
       ); 
@@ -156,6 +148,7 @@ class _WaterPageState extends State<WaterPage> {
       var percentageDrank = double.parse(total) / double.parse(goal);
       var remainder = 100 - (percentageDrank*100);
 
+      // Update values for pichart so it changes //
       dataMap.update("left to drink ", (value) => remainder);
       dataMap.update("drank ", (value) => percentageDrank*100);
     }
