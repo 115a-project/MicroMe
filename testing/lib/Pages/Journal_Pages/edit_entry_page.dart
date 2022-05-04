@@ -3,18 +3,18 @@ import 'package:testing/Db/microme_db.dart';
 import 'package:testing/Models/entry_model.dart';
 import 'package:testing/Widgets/entry_form_widget.dart';
 
-class AddEditNotePage extends StatefulWidget {
-  final Note? note;
+class AddEditEntryPage extends StatefulWidget {
+  final Entry? entry;
 
-  const AddEditNotePage({
+  const AddEditEntryPage({
     Key? key,
-    this.note,
+    this.entry,
   }) : super(key: key);
   @override
-  _AddEditNotePageState createState() => _AddEditNotePageState();
+  _AddEditEntryPageState createState() => _AddEditEntryPageState();
 }
 
-class _AddEditNotePageState extends State<AddEditNotePage> {
+class _AddEditEntryPageState extends State<AddEditEntryPage> {
   final _formKey = GlobalKey<FormState>();
   late bool isImportant;
   late int number;
@@ -25,10 +25,10 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
   void initState() {
     super.initState();
 
-    isImportant = widget.note?.isImportant ?? false;
-    number = widget.note?.number ?? 0;
-    title = widget.note?.title ?? '';
-    description = widget.note?.description ?? '';
+    isImportant = widget.entry?.isImportant ?? false;
+    number = widget.entry?.number ?? 0;
+    title = widget.entry?.title ?? '';
+    description = widget.entry?.description ?? '';
   }
 
   @override
@@ -38,7 +38,7 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
     ),
     body: Form(
       key: _formKey,
-      child: NoteFormWidget(
+      child: EntryFormWidget(
         isImportant: isImportant,
         number: number,
         title: title,
@@ -63,41 +63,41 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
           onPrimary: Colors.white,
           primary: isFormValid ? null : Colors.grey.shade700,
         ),
-        onPressed: addOrUpdateNote,
+        onPressed: addOrUpdateEntry,
         child: Text('Save'),
       ),
     );
   }
 
-  void addOrUpdateNote() async {
+  void addOrUpdateEntry() async {
     final isValid = _formKey.currentState!.validate();
 
     if (isValid) {
-      final isUpdating = widget.note != null;
+      final isUpdating = widget.entry != null;
 
       if (isUpdating) {
-        await updateNote();
+        await updateEntry();
       } else {
-        await addNote();
+        await addEntry();
       }
 
       Navigator.of(context).pop();
     }
   }
 
-  Future updateNote() async {
-    final note = widget.note!.copy(
+  Future updateEntry() async {
+    final entry = widget.entry!.copy(
       isImportant: isImportant,
       number: number,
       title: title,
       description: description,
     );
 
-    await NotesDatabase.instance.update(note);
+    await MicromeDatabase.instance.update(entry);
   }
 
-  Future addNote() async {
-    final note = Note(
+  Future addEntry() async {
+    final entry = Entry(
       title: title,
       isImportant: true,
       number: number,
@@ -105,6 +105,6 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
       createdTime: DateTime.now(),
     );
 
-    await NotesDatabase.instance.create(note);
+    await MicromeDatabase.instance.create(entry);
   }
 }

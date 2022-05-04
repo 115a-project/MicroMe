@@ -4,33 +4,33 @@ import 'package:testing/Db/microme_db.dart';
 import 'package:testing/Models/entry_model.dart';
 import 'package:testing/Pages/Journal_Pages/edit_entry_page.dart';
 
-class NoteDetailPage extends StatefulWidget {
-  final int noteId;
+class EntryDetailPage extends StatefulWidget {
+  final int entryId;
 
-  const NoteDetailPage({
+  const EntryDetailPage({
     Key? key,
-    required this.noteId,
+    required this.entryId,
   }) : super(key: key);
 
   @override
-  _NoteDetailPageState createState() => _NoteDetailPageState();
+  _EntryDetailPageState createState() => _EntryDetailPageState();
 }
 
-class _NoteDetailPageState extends State<NoteDetailPage> {
-  late Note note;
+class _EntryDetailPageState extends State<EntryDetailPage> {
+  late Entry entry;
   bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
 
-    refreshNote();
+    refreshEntry();
   }
 
-  Future refreshNote() async {
+  Future refreshEntry() async {
     setState(() => isLoading = true);
 
-    this.note = await NotesDatabase.instance.readNote(widget.noteId);
+    this.entry = await MicromeDatabase.instance.readEntry(widget.entryId);
 
     setState(() => isLoading = false);
   }
@@ -48,7 +48,7 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
         padding: EdgeInsets.symmetric(vertical: 8),
         children: [
           Text(
-            note.title,
+            entry.title,
             style: TextStyle(
               color: Colors.white,
               fontSize: 22,
@@ -57,12 +57,12 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
           ),
           SizedBox(height: 8),
           Text(
-            DateFormat.yMMMd().format(note.createdTime),
+            DateFormat.yMMMd().format(entry.createdTime),
             style: TextStyle(color: Colors.white38),
           ),
           SizedBox(height: 8),
           Text(
-            note.description,
+            entry.description,
             style: TextStyle(color: Colors.white70, fontSize: 18),
           )
         ],
@@ -76,16 +76,16 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
         if (isLoading) return;
 
         await Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => AddEditNotePage(note: note),
+          builder: (context) => AddEditEntryPage(entry: entry),
         ));
 
-        refreshNote();
+        refreshEntry();
       });
 
   Widget deleteButton() => IconButton(
     icon: Icon(Icons.delete),
     onPressed: () async {
-      await NotesDatabase.instance.delete(widget.noteId);
+      await MicromeDatabase.instance.delete(widget.entryId);
 
       Navigator.of(context).pop();
     },

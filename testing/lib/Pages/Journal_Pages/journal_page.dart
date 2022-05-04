@@ -26,7 +26,7 @@ class EntriesPage extends StatefulWidget {
  */
 
 class _EntriesPageState extends State<EntriesPage> {
-  late List<Note> entriesList;
+  late List<Entry> entriesList;
   bool isLoading = false;
   /*
   initState function
@@ -50,7 +50,7 @@ class _EntriesPageState extends State<EntriesPage> {
 
   @override
   void dispose() {
-    NotesDatabase.instance.close();
+    MicromeDatabase.instance.close();
 
     super.dispose();
   }
@@ -59,7 +59,7 @@ class _EntriesPageState extends State<EntriesPage> {
     setState(() => isLoading = true);
 
     // Could possibly remove the 'this' here
-    this.entriesList = await NotesDatabase.instance.readAllNotes();
+    this.entriesList = await MicromeDatabase.instance.readAllEntries();
 
     setState(() => isLoading = false);
   }
@@ -81,7 +81,7 @@ class _EntriesPageState extends State<EntriesPage> {
       child: Icon(Icons.add),
       onPressed: () async {
         await Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => AddEditNotePage()),
+          MaterialPageRoute(builder: (context) => AddEditEntryPage()),
         );
 
         refreshEntries();
@@ -102,12 +102,12 @@ class _EntriesPageState extends State<EntriesPage> {
       return GestureDetector(
         onTap: () async {
           await Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => NoteDetailPage(noteId: entry.id!),
+            builder: (context) => EntryDetailPage(entryId: entry.id!),
           ));
 
           refreshEntries();
         },
-        child: NoteCardWidget(note: entry, index: index),
+        child: EntryCardWidget(entry: entry, index: index),
       );
     },
   );
