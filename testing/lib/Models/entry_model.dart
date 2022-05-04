@@ -2,7 +2,7 @@
 
 // Column names for the table
 class EntryFields {
-  // A list of all the values in the database
+  // A list of all the values in the table
   static final List<String> values = [
     id, isImportant, number, title, description, time
   ];
