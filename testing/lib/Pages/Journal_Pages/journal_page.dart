@@ -6,14 +6,34 @@ import 'package:testing/Pages/Journal_Pages/edit_entry_page.dart';
 import 'package:testing/Pages/Journal_Pages/entry_detail_page.dart';
 import 'package:testing/Widgets/entry_card_widget.dart';
 
+/*
+  EntriesPage Class
+  Purpose - This class serves to build the page that displays all the entries of
+  the journal. It is a stateful page and employs many functions in and out of file
+
+ */
+
 class EntriesPage extends StatefulWidget {
   @override
   _EntriesPageState createState() => _EntriesPageState();
 }
 
+/*
+  _EntriesPageState Class
+  Purpose - This class handles the actual execution and manipulation of the state
+  of the EntriesPage class. It overrides some of the functions present in the
+  state class.
+ */
+
 class _EntriesPageState extends State<EntriesPage> {
   late List<Note> entriesList;
   bool isLoading = false;
+  /*
+  initState function
+  This function is an override of the default initState function, with the
+  difference that everytime it is called, the function refreshEntries
+  queries the database to display the new state of the journal entries database.
+   */
 
   @override
   void initState() {
@@ -21,6 +41,12 @@ class _EntriesPageState extends State<EntriesPage> {
 
     refreshEntries();
   }
+
+  /*
+  dispose function
+  This function overrides the default dispose function, with the difference that
+  when it is called, it ensures to close the journal entry database.
+   */
 
   @override
   void dispose() {
