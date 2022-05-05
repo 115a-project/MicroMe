@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:testing/homepage.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-// main to run
-void main() {
+/*
+  main function
+  Needed to run the app
+  Changes for Firebase 4/25/2022
+  Had to make the function asynchronous to allow
+  the app to wait on firebase to initialize.
+ */
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -19,49 +28,29 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-          brightness: Brightness.dark,
-          primaryColor: Colors.yellow,
+        brightness: Brightness.light,
+        primarySwatch: Colors.orange,
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: Colors.white,
+          selectedItemColor: Colors.deepPurpleAccent,
+          selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+          showUnselectedLabels: false,
+        ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.purpleAccent,
+          titleTextStyle: TextStyle(
+            color: Colors.black,
+            fontSize: 25,
+          )
+        ),
       ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.red,
+      ),
+      themeMode: ThemeMode.system,
       home: const HomePage(),
       debugShowCheckedModeBanner: false, // Open Homepage upon app launch
     );
   }
 }
-
-// class Screen2 extends StatefulWidget {
-//   const Screen2({Key? key}) : super(key: key);
-//
-//   @override
-//   _Screen2State createState() => _Screen2State();
-// }
-// class _Screen2State extends State<Screen2> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//           title: const Text('Navigate to a new screen on Button click'),
-//           leading: IconButton(
-//             icon: const Icon(Icons.redo),
-//             onPressed: () {
-//               Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MyHomePage()));
-//             },
-//           ),
-//           flexibleSpace: Container(
-//             decoration: const BoxDecoration(
-//               gradient: LinearGradient(
-//                 begin: Alignment.topLeft,
-//                 end: Alignment.bottomRight,
-//                 colors: <Color>[
-//                   Colors.blue,
-//                   Colors.green
-//                 ]
-//               ),
-//             ),
-//           ),
-//       ),
-//     );
-//   }
-// }
-
-
-
