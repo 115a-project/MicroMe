@@ -1,7 +1,7 @@
 // SRC @ https://www.youtube.com/watch?v=18PVdmBOEQM
 import 'package:flutter/material.dart';
 import 'package:testing/Pages/steps_page.dart';
-import 'package:testing/Pages/journal_page.dart';
+import 'package:testing/Pages/Journal_Pages/journal_page.dart';
 import 'package:testing/Pages/water_page.dart';
 import 'package:testing/Pages/homepage_page.dart';
 import 'package:testing/Pages/settings.dart';
@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
     const Home(),
     const WaterPage(),
     const StepsPage(),
-    const JournalPage(),
+    EntriesPage(),
   ];
 
   // Allows tapping functionality

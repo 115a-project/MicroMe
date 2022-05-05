@@ -10,7 +10,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
   Had to make the function asynchronous to allow
   the app to wait on firebase to initialize.
  */
-void main()  {
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().initNotification();
   runApp(const MyApp());
