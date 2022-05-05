@@ -27,7 +27,8 @@ class _StepsPageState extends State<StepsPage> {
   // This line connects to the package for steps //
   late Stream<StepCount> _stepCountStream;
   String _steps = '?';
-  int miles = 0;
+  double miles = 0;
+  String _miles = '?';
   @override
   //Will initiate the state of the application (Wrapper function)//
   void initState() {
@@ -39,7 +40,10 @@ class _StepsPageState extends State<StepsPage> {
       print(event);
       setState(() {
         _steps = event.steps.toString();
-        miles = event.steps.toDouble() ~/ 2000;
+        miles = event.steps / 2000;
+        // This function truncates the double 'miles' to two decimal places
+        // while also turning it into a string
+        _miles = miles.toStringAsFixed(2);
       });
   }
   // Error checking if an event passed into onStepCount is invalid //
@@ -77,7 +81,7 @@ class _StepsPageState extends State<StepsPage> {
               color: Colors.white,
             ),
             Text(
-              'You walked $miles miles',
+              'You walked $_miles miles',
               style: const TextStyle(fontSize: 30),
             )
           ],
