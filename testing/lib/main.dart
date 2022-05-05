@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:testing/Utils/notificationservice.dart';
 import 'package:testing/homepage.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:testing/Utils/themes.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 /*
   main function
   Needed to run the app
-  Changes for Firebase 4/25/2022
   Had to make the function asynchronous to allow
   the app to wait on firebase to initialize.
  */
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  NotificationService().initNotification();
   runApp(const MyApp());
 }
 
@@ -27,28 +29,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        brightness: Brightness.light,
-        primarySwatch: Colors.orange,
-        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          backgroundColor: Colors.white,
-          selectedItemColor: Colors.deepPurpleAccent,
-          selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-          showUnselectedLabels: false,
-        ),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.purpleAccent,
-          titleTextStyle: TextStyle(
-            color: Colors.black,
-            fontSize: 25,
-          )
-        ),
-      ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        primaryColor: Colors.red,
-      ),
-      themeMode: ThemeMode.system,
+      theme: Themes.lightMode(),
+      darkTheme: Themes.darkMode(),
+      themeMode: ThemeMode.system, // Uses phone theme
       home: const HomePage(),
       debugShowCheckedModeBanner: false, // Open Homepage upon app launch
     );

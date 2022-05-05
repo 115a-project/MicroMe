@@ -1,10 +1,13 @@
 // SRC @ https://www.youtube.com/watch?v=18PVdmBOEQM
 import 'package:flutter/material.dart';
 import 'package:testing/Pages/steps_page.dart';
-import 'package:testing/Pages/journal_page.dart';
+import 'package:testing/Pages/Journal_Pages/journal_page.dart';
 import 'package:testing/Pages/water_page.dart';
 import 'package:testing/Pages/homepage_page.dart';
 import 'package:testing/Pages/settings.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
+
 
 /*
 HomePage Class
@@ -23,7 +26,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-
+  @override
+  void initState() {
+    super.initState();
+    tz.initializeTimeZones();
+  }
   int _currentIndex = 0; // Indicates the starting index upon calling homepage
   // List of classes with respective files to populate body
   final List<Widget> navbarChildren =
@@ -31,7 +38,7 @@ class _HomePageState extends State<HomePage> {
     const Home(),
     const WaterPage(),
     const StepsPage(),
-    const JournalPage(),
+    EntriesPage(),
   ];
 
   // Allows tapping functionality
@@ -62,7 +69,10 @@ class _HomePageState extends State<HomePage> {
             title: const Text('Welcome to the Homepage'),
             actions: <Widget> [
               IconButton(
-                icon: Image.asset('assets/settings.png'),
+                icon: const ImageIcon(
+                  AssetImage('assets/settings.png'),
+                  size: 35,
+                ),
                 tooltip: 'Settings',
                 onPressed: () {
                   // Navigates to settings page upon tap
