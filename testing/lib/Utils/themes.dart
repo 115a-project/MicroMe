@@ -20,13 +20,6 @@ class Themes {
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
         showUnselectedLabels: false,
       ),
-      // appBarTheme: const AppBarTheme(
-      //     backgroundColor: Colors.purpleAccent,
-      //     titleTextStyle: TextStyle(
-      //       color: Colors.black,
-      //       fontSize: 25,
-      //     )
-      // ),
     );
   }
 }
