@@ -2,10 +2,12 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:testing/Models/entry_model.dart';
 
-// Table for the entries
+// Table names declaration
 final String tableEntries = 'entries';
 
-// Creating a entries database class
+/*
+
+ */
 class MicromeDatabase {
   // Creating an instance of the entries database
   static final MicromeDatabase instance = MicromeDatabase._init();
@@ -54,7 +56,6 @@ CREATE TABLE $tableEntries (
   )
 ''');
   }
-
 
   // Function to create an entry object in the database
   Future<Entry> create(Entry entry) async {
