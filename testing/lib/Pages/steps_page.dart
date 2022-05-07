@@ -82,7 +82,16 @@ class _StepsPageState extends State<StepsPage> {
             Text(
               'You walked $_miles miles',
               style: const TextStyle(fontSize: 30),
-            )
+            ),
+              TextButton(
+                    child: const Text(
+                        'steps reset',
+                        style: TextStyle(fontSize: 30),
+              ),
+                    onPressed: () async {
+                      _steps = '0';
+                    },
+              )
           ],
         ),
       )
