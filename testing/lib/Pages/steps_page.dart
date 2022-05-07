@@ -15,6 +15,7 @@
 */
 import 'package:flutter/material.dart';
 import 'package:pedometer/pedometer.dart';
+import 'water_page.dart';
 
 class StepsPage extends StatefulWidget {
   const StepsPage({Key? key}) : super(key: key);
@@ -24,15 +25,18 @@ class StepsPage extends StatefulWidget {
 }
 class _StepsPageState extends State<StepsPage> {
   // This line connects to the package for steps //
+  late TextEditingController controller;
   late Stream<StepCount> _stepCountStream;
   String _steps = '?';
   double miles = 0;
   String _miles = '?';
+  String goalVal = '0';
   @override
   //Will initiate the state of the application (Wrapper function)//
   void initState() {
     super.initState();
     initPlatformState();
+    controller = TextEditingController();
   }
   //Function below updates step counter whenever a 'event' occurs //
   void onStepCount(StepCount event) {
@@ -56,9 +60,15 @@ class _StepsPageState extends State<StepsPage> {
   void initPlatformState() {
     _stepCountStream = Pedometer.stepCountStream;
     _stepCountStream.listen(onStepCount).onError(onStepCountError);
-
+    controller = TextEditingController();
     if(!mounted) return;
   }
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,6 +83,23 @@ class _StepsPageState extends State<StepsPage> {
             Text(
               _steps,
               style: const TextStyle(fontSize: 30),
+            ),
+            Text(
+              'Goal: $goalVal',
+               style: const TextStyle(fontSize: 30),
+            ),
+            TextButton(
+              child: const Text(
+                'change goal',
+                 style: TextStyle(fontSize: 25)
+              ),
+                onPressed: () async {
+                  final goal = await openDialog();
+                  if (goal == null || goal.isEmpty) return; // TODO: Toss out invalid values
+                  setState(
+                      () => goalVal = goal
+                  );
+                }
             ),
             const Divider(
               height: 100,
@@ -96,5 +123,26 @@ class _StepsPageState extends State<StepsPage> {
         ),
       )
     );
+  }
+   // This code was adapted from 'Water_page.dart'
+    Future<String?> openDialog() => showDialog<String>(
+    context: context, builder: (context) => AlertDialog(
+    title: const Text('# of steps '),
+    content: TextField(
+    autofocus: true,                                              // keeps the keyboard open
+    decoration: const InputDecoration(hintText: '1000'),
+    controller: controller,
+    ), // Text Pop Up
+    actions: [
+    TextButton(
+    child: const Text('SUBMIT'),
+    onPressed: submit,
+    ),
+    ]
+    ) // AlertDialog
+    );
+  // Closes the input pop up and passes controller.text back to body //
+  void submit () {
+    Navigator.of(context).pop(controller.text);
   }
 }

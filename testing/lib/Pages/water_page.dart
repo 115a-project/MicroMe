@@ -105,7 +105,8 @@ class _WaterPageState extends State<WaterPage> {
                   chartType: ChartType.ring,
                   ringStrokeWidth: 24,
                   animationDuration: Duration(seconds: 2),
-                  centerText: total + " / " + goal + " ml",
+                  centerText: total + " / "
+                      + goal + " ml",
                   chartValuesOptions: ChartValuesOptions( showChartValues: false ),
                   legendOptions: LegendOptions( showLegends: false,),
                 ), 
