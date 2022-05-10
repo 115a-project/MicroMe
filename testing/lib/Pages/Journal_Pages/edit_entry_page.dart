@@ -105,6 +105,6 @@ class _AddEditEntryPageState extends State<AddEditEntryPage> {
       createdTime: DateTime.now(),
     );
 
-    await MicromeDatabase.instance.create(entry);
+    await MicromeDatabase.instance.createEntry(entry);
   }
 }

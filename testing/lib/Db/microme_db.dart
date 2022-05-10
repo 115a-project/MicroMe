@@ -2,20 +2,23 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:testing/Models/entry_model.dart';
 
-// Table names declaration
-final String tableEntries = 'entries';
+// Table names declarations
+const String tableEntries = 'entries';
 
 /*
-
+  Class MicromeDatabase
+  Instantiates the database named Microme and is the interface for all database
+  functions. This includes the CRUD methods, opening and closing the database,
+  and advanced queries. The Microme database uses all async functions.
  */
 class MicromeDatabase {
-  // Creating an instance of the entries database
+  // Creating an instance of the Microme database
   static final MicromeDatabase instance = MicromeDatabase._init();
 
   // Field for the database
   static Database? _database;
 
-  // Constructor for entries database
+  // Constructor for Microme database
   MicromeDatabase._init();
 
   Future<Database> get database async {
@@ -40,10 +43,10 @@ class MicromeDatabase {
 
   // Creates the database within the system
   Future _createDB(Database db, int version) async {
-    final idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
-    final textType = 'TEXT NOT NULL';
-    final boolType = 'BOOLEAN NOT NULL';
-    final integerType = 'INTEGER NOT NULL';
+    const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
+    const textType = 'TEXT NOT NULL';
+    const boolType = 'BOOLEAN NOT NULL';
+    const integerType = 'INTEGER NOT NULL';
 
     await db.execute('''
 CREATE TABLE $tableEntries ( 
@@ -58,12 +61,11 @@ CREATE TABLE $tableEntries (
   }
 
   // Function to create an entry object in the database
-  Future<Entry> create(Entry entry) async {
+  Future<Entry> createEntry(Entry entry) async {
     final db = await instance.database;
     final id = await db.insert(tableEntries, entry.toJson());
     return entry.copy(id: id);
   }
-
 
   // Function to read an entry object from the database
   Future<Entry> readEntry(int id) async {
@@ -83,7 +85,7 @@ CREATE TABLE $tableEntries (
     }
   }
 
-  // Returns all the entries in the database by descending order
+  // Returns all the entries objects in the database in descending order
   Future<List<Entry>> readAllEntries() async {
     final db = await instance.database;
     final orderBy = '${EntryFields.time} DESC';
@@ -91,7 +93,7 @@ CREATE TABLE $tableEntries (
     return result.map((json) => Entry.fromJson(json)).toList();
   }
 
-  // Updates an entry that exists within the database
+  // Updates an entry object that exists within the database
   Future<int> update(Entry entry) async {
     final db = await instance.database;
     return db.update(
@@ -102,9 +104,8 @@ CREATE TABLE $tableEntries (
     );
   }
 
-
-  // Function to delete an entry from the database
-  Future<int> delete(int id) async {
+  // Function to delete an entry object from the database
+  Future<int> deleteEntry(int id) async {
     final db = await instance.database;
 
     return await db.delete(
@@ -114,7 +115,7 @@ CREATE TABLE $tableEntries (
     );
   }
 
-  // Function for closing our database
+  // Function for closing database
   // Fix for database closed error when switching pages
   // https://stackoverflow.com/questions/63812832/error-database-closed-when-using-flutters-sqflite
   Future close() async {
