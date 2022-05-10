@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+/*
+  Class - EntryFormWidget
+  This class utilizes material dart to create  a widget that
+ */
+
 class EntryFormWidget extends StatelessWidget {
   final bool? isImportant;
   final int? number;
@@ -10,6 +15,9 @@ class EntryFormWidget extends StatelessWidget {
   final ValueChanged<String> onChangedTitle;
   final ValueChanged<String> onChangedDescription;
 
+  /*
+
+   */
   const EntryFormWidget({
     Key? key,
     this.isImportant = false,
