@@ -4,6 +4,13 @@ import 'package:testing/Db/microme_db.dart';
 import 'package:testing/Models/entry_model.dart';
 import 'package:testing/Pages/Journal_Pages/edit_entry_page.dart';
 
+/*
+  Class - EntryDetailPage
+  Purpose: This creates a stateful page that is used to edit an entry in the
+  journal. It has an integer variable that holds the entry ID. It also allows
+  for an entry to be edited or deleted.
+ */
+
 class EntryDetailPage extends StatefulWidget {
   final int entryId;
 
@@ -16,6 +23,12 @@ class EntryDetailPage extends StatefulWidget {
   _EntryDetailPageState createState() => _EntryDetailPageState();
 }
 
+/*
+  Class - _EntryDetailPageState
+  Purpose: This serves as the state for the entry detail page.
+  Crucially, it includes an entry variable to hold info for an entry.
+ */
+
 class _EntryDetailPageState extends State<EntryDetailPage> {
   late Entry entry;
   bool isLoading = false;
@@ -26,6 +39,11 @@ class _EntryDetailPageState extends State<EntryDetailPage> {
 
     refreshEntry();
   }
+
+  /*
+  Function - refreshEntry
+  This function queries the data base to get an entry with the provided id.
+   */
 
   Future refreshEntry() async {
     setState(() => isLoading = true);
@@ -70,6 +88,13 @@ class _EntryDetailPageState extends State<EntryDetailPage> {
     ),
   );
 
+  /*
+  Widget - editButton
+  This widget creates the button to be pressed when editing a note. It navigates
+  to the add/edit entry page and outsources the work to that page. In the end,
+  it refreshes the entry to ensure that it reflects the new changes.
+   */
+
   Widget editButton() => IconButton(
       icon: const Icon(Icons.edit_outlined),
       onPressed: () async {
@@ -81,6 +106,12 @@ class _EntryDetailPageState extends State<EntryDetailPage> {
 
         refreshEntry();
       });
+
+  /*
+  Widget - deleteButton
+  Implements the button that is used to delete entries from the journal database.
+  It is basically a wrapper around the delete function for the journal database.
+   */
 
   Widget deleteButton() => IconButton(
     icon: const Icon(Icons.delete),
