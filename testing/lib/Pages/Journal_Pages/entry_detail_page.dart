@@ -54,39 +54,41 @@ class _EntryDetailPageState extends State<EntryDetailPage> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      actions: [editButton(), deleteButton()],
-    ),
-    body: isLoading
-        ? const Center(child: CircularProgressIndicator())
-        : Padding(
-      padding: const EdgeInsets.all(12),
-      child: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        children: [
-          Text(
-            entry.title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            DateFormat.yMMMd().format(entry.createdTime),
-            style: const TextStyle(color: Colors.white38),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            entry.description,
-            style: const TextStyle(color: Colors.white70, fontSize: 18),
-          )
-        ],
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        actions: [editButton(), deleteButton()],
       ),
-    ),
-  );
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Padding(
+        padding: const EdgeInsets.all(12),
+        child: ListView(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          children: [
+            Text(
+              entry.title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              DateFormat.yMMMd().format(entry.createdTime),
+              style: const TextStyle(color: Colors.white38),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              entry.description,
+              style: const TextStyle(color: Colors.white70, fontSize: 18),
+            )
+          ],
+        ),
+      ),
+    );
+  }
 
   /*
   Widget - editButton
@@ -95,17 +97,19 @@ class _EntryDetailPageState extends State<EntryDetailPage> {
   it refreshes the entry to ensure that it reflects the new changes.
    */
 
-  Widget editButton() => IconButton(
-      icon: const Icon(Icons.edit_outlined),
-      onPressed: () async {
-        if (isLoading) return;
+  Widget editButton() {
+    return IconButton(
+        icon: const Icon(Icons.edit_outlined),
+        onPressed: () async {
+          if (isLoading) return;
 
-        await Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => AddEditEntryPage(entry: entry),
-        ));
+          await Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => AddEditEntryPage(entry: entry),
+          ));
 
-        refreshEntry();
-      });
+          refreshEntry();
+        });
+  }
 
   /*
   Widget - deleteButton
@@ -113,12 +117,14 @@ class _EntryDetailPageState extends State<EntryDetailPage> {
   It is basically a wrapper around the delete function for the journal database.
    */
 
-  Widget deleteButton() => IconButton(
-    icon: const Icon(Icons.delete),
-    onPressed: () async {
-      await MicromeDatabase.instance.deleteEntry(widget.entryId);
+  Widget deleteButton() {
+    return IconButton(
+      icon: const Icon(Icons.delete),
+      onPressed: () async {
+        await MicromeDatabase.instance.deleteEntry(widget.entryId);
 
-      Navigator.of(context).pop();
-    },
-  );
+        Navigator.of(context).pop();
+      },
+    );
+  }
 }
