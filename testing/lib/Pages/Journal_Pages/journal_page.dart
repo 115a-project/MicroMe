@@ -106,7 +106,9 @@ class _EntriesPageState extends State<EntriesPage> {
     The item builder creates each tile and naviagtes to the respective entry
     when tapped. The crossAxisCount is how many entries will be present in
     the cross axis. Finally, the staggeredTileBuilder does the actual work
-    for staggering the tiles in the grid on the page.
+    for staggering the tiles in the grid on the page. The gesture detector used
+    in the staggeredGridView helps to actually navigate to the entry that is
+    being tapped.
    */
 
   Widget buildEntries() {
