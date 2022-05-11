@@ -64,7 +64,7 @@ class _EntriesPageState extends State<EntriesPage> {
   }
 
   /*
-  The build of the journal page
+  Widget - build
     Utilizes the scaffold property to build the page for displaying the entries
     It then checks if the list of entries and empty. If the list is not empty
     it utilizes the buildEntries function to pull the list of entries from the
@@ -98,6 +98,14 @@ class _EntriesPageState extends State<EntriesPage> {
     );
   }
 
+  /*
+  Widget - buildEntries
+    This widget utilizes a StaggeredGridView countBuilder counstructor to create
+    the display of all the entries. There are three required arguments for
+    the constructor: itemBuilder, crossAxisCount, and staggeredTileBuilder.
+
+   */
+
   Widget buildEntries() {
     return StaggeredGridView.countBuilder(
       padding: EdgeInsets.all(8),
@@ -108,7 +116,6 @@ class _EntriesPageState extends State<EntriesPage> {
       crossAxisSpacing: 4,
       itemBuilder: (context, index) {
         final entry = entriesList[index];
-
         return GestureDetector(
           onTap: () async {
             await Navigator.of(context).push(MaterialPageRoute(
