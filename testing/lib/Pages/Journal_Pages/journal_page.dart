@@ -103,7 +103,10 @@ class _EntriesPageState extends State<EntriesPage> {
     This widget utilizes a StaggeredGridView countBuilder counstructor to create
     the display of all the entries. There are three required arguments for
     the constructor: itemBuilder, crossAxisCount, and staggeredTileBuilder.
-
+    The item builder creates each tile and naviagtes to the respective entry
+    when tapped. The crossAxisCount is how many entries will be present in
+    the cross axis. Finally, the staggeredTileBuilder does the actual work
+    for staggering the tiles in the grid on the page.
    */
 
   Widget buildEntries() {
