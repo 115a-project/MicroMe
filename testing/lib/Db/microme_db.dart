@@ -95,16 +95,16 @@ CREATE TABLE $tableWater (
     }
   }
 
-  // Returns all the entries objects in the database in descending order
+  // Returns all the entries objects in the journal table in descending order
   Future<List<Entry>> readAllEntries() async {
     final db = await instance.database;
-    final orderBy = '${EntryFields.time} DESC';
+    const orderBy = '${EntryFields.time} DESC';
     final result = await db.query(tableJournal, orderBy: orderBy);
     return result.map((json) => Entry.fromJson(json)).toList();
   }
 
-  // Updates an entry object that exists within the database
-  Future<int> update(Entry entry) async {
+  // Updates an entry object that exists within the journal table
+  Future<int> updateEntry(Entry entry) async {
     final db = await instance.database;
     return db.update(
       tableJournal,
@@ -114,7 +114,7 @@ CREATE TABLE $tableWater (
     );
   }
 
-  // Function to delete an entry object from the database
+  // Function to delete an entry object from the journal table
   Future<int> deleteEntry(int id) async {
     final db = await instance.database;
 
@@ -125,13 +125,60 @@ CREATE TABLE $tableWater (
     );
   }
 
-  // Function to create an water object in the database
+  // Function to create an water object in the water table
   Future<Water> createWater(Water water) async {
     final db = await instance.database;
     final id = await db.insert(tableJournal, water.toJson());
     return water.copy(id: id);
   }
 
+  // Function to read a water object from the water table
+  Future<Water> readWater(int id) async {
+    final db = await instance.database;
+    final maps = await db.query(
+      tableWater,
+      columns: WaterFields.values,
+      // Secure against SQL injections
+      where: '${WaterFields.id} = ?',
+      whereArgs: [id],
+    );
+    // Successful query
+    if (maps.isNotEmpty) {
+      return Water.fromJson(maps.first);
+    } else {
+      throw Exception('ID $id not found');
+    }
+  }
+
+  // Returns all the water objects in the water table in ascending order
+  Future<List<Water>> readAllWater() async {
+    final db = await instance.database;
+    const orderBy = '${WaterFields.time} ASC';
+    final result = await db.query(tableWater, orderBy: orderBy);
+    return result.map((json) => Water.fromJson(json)).toList();
+  }
+
+  // Updates a water object that exists within the water table
+  Future<int> updateWater(Water water) async {
+    final db = await instance.database;
+    return db.update(
+      tableWater,
+      water.toJson(),
+      where: '${WaterFields.id} = ?',
+      whereArgs: [water.id],
+    );
+  }
+
+  // Function to delete a water object from the water table
+  Future<int> deleteWater(int id) async {
+    final db = await instance.database;
+
+    return await db.delete(
+      tableWater,
+      where: '${WaterFields.id} = ?',
+      whereArgs: [id],
+    );
+  }
 
   // Function for closing database
   // Fix for database closed error when switching pages

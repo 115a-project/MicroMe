@@ -93,7 +93,7 @@ class _AddEditEntryPageState extends State<AddEditEntryPage> {
       description: description,
     );
 
-    await MicromeDatabase.instance.update(entry);
+    await MicromeDatabase.instance.updateEntry(entry);
   }
 
   Future addEntry() async {
