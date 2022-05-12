@@ -2,10 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:testing/Pages/steps_page.dart';
 import 'package:testing/Pages/Journal_Pages/journal_page.dart';
-import 'package:testing/Pages/water_page.dart';
+import 'package:testing/Pages/Water_Pages/water_page.dart';
 import 'package:testing/Pages/homepage_page.dart';
 import 'package:testing/Pages/settings.dart';
-import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
 
@@ -38,7 +37,7 @@ class _HomePageState extends State<HomePage> {
     const Home(),
     const WaterPage(),
     const StepsPage(),
-    EntriesPage(),
+    const EntriesPage(),
   ];
 
   // Allows tapping functionality

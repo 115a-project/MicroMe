@@ -14,6 +14,8 @@ import 'package:testing/Widgets/entry_card_widget.dart';
  */
 
 class EntriesPage extends StatefulWidget {
+  const EntriesPage({Key? key}) : super(key: key);
+
   @override
   _EntriesPageState createState() => _EntriesPageState();
 }
@@ -68,9 +70,9 @@ class _EntriesPageState extends State<EntriesPage> {
   Widget build(BuildContext context) => Scaffold(
     body: Center(
       child: isLoading
-          ? CircularProgressIndicator()
+          ? const CircularProgressIndicator()
           : entriesList.isEmpty
-          ? Text(
+          ? const Text(
         'No Entries',
         style: TextStyle(color: Colors.white, fontSize: 24),
       )
@@ -78,10 +80,10 @@ class _EntriesPageState extends State<EntriesPage> {
     ),
     floatingActionButton: FloatingActionButton(
       backgroundColor: Colors.black,
-      child: Icon(Icons.add),
+      child: const Icon(Icons.add),
       onPressed: () async {
         await Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => AddEditEntryPage()),
+          MaterialPageRoute(builder: (context) => const AddEditEntryPage()),
         );
 
         refreshEntries();
@@ -90,9 +92,9 @@ class _EntriesPageState extends State<EntriesPage> {
   );
 
   Widget buildEntries() => StaggeredGridView.countBuilder(
-    padding: EdgeInsets.all(8),
+    padding: const EdgeInsets.all(8),
     itemCount: entriesList.length,
-    staggeredTileBuilder: (index) => StaggeredTile.fit(2),
+    staggeredTileBuilder: (index) => const StaggeredTile.fit(2),
     crossAxisCount: 4,
     mainAxisSpacing: 4,
     crossAxisSpacing: 4,

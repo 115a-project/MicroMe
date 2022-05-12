@@ -7,12 +7,12 @@ class EntryFields {
     id, isImportant, number, title, description, time
   ];
 
-  static final String id = '_id';
-  static final String isImportant = 'isImportant';
-  static final String number = 'number';
-  static final String title = 'title';
-  static final String description = 'description';
-  static final String time = 'time';
+  static const String id = '_id';
+  static const String isImportant = 'isImportant';
+  static const String number = 'number';
+  static const String title = 'title';
+  static const String description = 'description';
+  static const String time = 'time';
 }
 
 // Class for the entries with all its fields

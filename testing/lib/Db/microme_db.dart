@@ -3,7 +3,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:testing/Models/entry_model.dart';
 
 // Table for the entries
-final String tableEntries = 'entries';
+const String tableEntries = 'entries';
 
 // Creating a entries database class
 class MicromeDatabase {
@@ -38,10 +38,10 @@ class MicromeDatabase {
 
   // Creates the database within the system
   Future _createDB(Database db, int version) async {
-    final idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
-    final textType = 'TEXT NOT NULL';
-    final boolType = 'BOOLEAN NOT NULL';
-    final integerType = 'INTEGER NOT NULL';
+    const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
+    const textType = 'TEXT NOT NULL';
+    const boolType = 'BOOLEAN NOT NULL';
+    const integerType = 'INTEGER NOT NULL';
 
     await db.execute('''
 CREATE TABLE $tableEntries ( 
@@ -85,7 +85,7 @@ CREATE TABLE $tableEntries (
   // Returns all the entries in the database by descending order
   Future<List<Entry>> readAllEntries() async {
     final db = await instance.database;
-    final orderBy = '${EntryFields.time} DESC';
+    const orderBy = '${EntryFields.time} DESC';
     final result = await db.query(tableEntries, orderBy: orderBy);
     return result.map((json) => Entry.fromJson(json)).toList();
   }
