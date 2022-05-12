@@ -1,9 +1,11 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:testing/Models/entry_model.dart';
+import 'package:testing/Models/water_model.dart';
 
 // Table names declarations
-const String tableEntries = 'entries';
+const String tableJournal = 'entries';
+const String tableWater = 'water';
 
 /*
   Class MicromeDatabase
@@ -49,7 +51,7 @@ class MicromeDatabase {
     const integerType = 'INTEGER NOT NULL';
 
     await db.execute('''
-CREATE TABLE $tableEntries ( 
+CREATE TABLE $tableJournal ( 
   ${EntryFields.id} $idType,
   ${EntryFields.isImportant} $boolType,
   ${EntryFields.number} $integerType,
@@ -58,20 +60,28 @@ CREATE TABLE $tableEntries (
   ${EntryFields.time} $textType
   )
 ''');
+
+    await db.execute('''
+CREATE TABLE $tableWater (
+  ${WaterFields.id} $idType,
+  ${WaterFields.amount} $integerType,
+  ${WaterFields.time} $textType
+  )    
+''');
   }
 
-  // Function to create an entry object in the database
+  // Function to create an entry object in the journal table
   Future<Entry> createEntry(Entry entry) async {
     final db = await instance.database;
-    final id = await db.insert(tableEntries, entry.toJson());
+    final id = await db.insert(tableJournal, entry.toJson());
     return entry.copy(id: id);
   }
 
-  // Function to read an entry object from the database
+  // Function to read an entry object from the journal table
   Future<Entry> readEntry(int id) async {
     final db = await instance.database;
     final maps = await db.query(
-      tableEntries,
+      tableJournal,
       columns: EntryFields.values,
       // Secure against SQL injections
       where: '${EntryFields.id} = ?',
@@ -89,7 +99,7 @@ CREATE TABLE $tableEntries (
   Future<List<Entry>> readAllEntries() async {
     final db = await instance.database;
     final orderBy = '${EntryFields.time} DESC';
-    final result = await db.query(tableEntries, orderBy: orderBy);
+    final result = await db.query(tableJournal, orderBy: orderBy);
     return result.map((json) => Entry.fromJson(json)).toList();
   }
 
@@ -97,7 +107,7 @@ CREATE TABLE $tableEntries (
   Future<int> update(Entry entry) async {
     final db = await instance.database;
     return db.update(
-      tableEntries,
+      tableJournal,
       entry.toJson(),
       where: '${EntryFields.id} = ?',
       whereArgs: [entry.id],
@@ -109,11 +119,19 @@ CREATE TABLE $tableEntries (
     final db = await instance.database;
 
     return await db.delete(
-      tableEntries,
+      tableJournal,
       where: '${EntryFields.id} = ?',
       whereArgs: [id],
     );
   }
+
+  // Function to create an water object in the database
+  Future<Water> createWater(Water water) async {
+    final db = await instance.database;
+    final id = await db.insert(tableJournal, water.toJson());
+    return water.copy(id: id);
+  }
+
 
   // Function for closing database
   // Fix for database closed error when switching pages
