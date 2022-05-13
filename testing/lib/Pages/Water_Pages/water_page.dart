@@ -162,6 +162,7 @@ class _WaterPageState extends State<WaterPage> {
         autofocus: true,                                              // keeps the keyboard open
         decoration: const InputDecoration(hintText: '200 ml'),
         controller: controller,
+        keyboardType: TextInputType.number,
       ), // Text Pop Up
       actions: [
         TextButton(
