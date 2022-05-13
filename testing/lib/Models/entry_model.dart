@@ -8,10 +8,7 @@ class EntryFields {
     id, isImportant, number, title, description, time
   ];
 
-<<<<<<< HEAD
   // Column names
-=======
->>>>>>> S3-Niko
   static const String id = '_id';
   static const String isImportant = 'isImportant';
   static const String number = 'number';

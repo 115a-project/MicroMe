@@ -117,12 +117,13 @@ class _EntryDetailPageState extends State<EntryDetailPage> {
   It is basically a wrapper around the delete function for the journal database.
    */
 
-  Widget deleteButton() => IconButton(
-    icon: const Icon(Icons.delete),
-    onPressed: () async {
-      await MicromeDatabase.instance.delete(widget.entryId);
-
-      Navigator.of(context).pop();
-    },
-  );
+  Widget deleteButton() {
+    return IconButton(
+      icon: const Icon(Icons.delete),
+      onPressed: () async {
+        await MicromeDatabase.instance.deleteEntry(widget.entryId);
+        Navigator.of(context).pop();
+      },
+    );
+  }
 }

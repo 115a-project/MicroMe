@@ -74,27 +74,6 @@ class _EntriesPageState extends State<EntriesPage> {
    */
 
   @override
-<<<<<<< HEAD
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: isLoading
-            ? CircularProgressIndicator()
-            : entriesList.isEmpty
-            ? Text(
-          'No Entries',
-          style: TextStyle(color: Colors.white, fontSize: 24),
-        )
-            : buildEntries(),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
-        child: Icon(Icons.add),
-        onPressed: () async {
-          await Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => AddEditEntryPage()),
-          );
-=======
   Widget build(BuildContext context) => Scaffold(
     body: Center(
       child: isLoading
@@ -119,29 +98,6 @@ class _EntriesPageState extends State<EntriesPage> {
     ),
   );
 
-  Widget buildEntries() => StaggeredGridView.countBuilder(
-    padding: const EdgeInsets.all(8),
-    itemCount: entriesList.length,
-    staggeredTileBuilder: (index) => const StaggeredTile.fit(2),
-    crossAxisCount: 4,
-    mainAxisSpacing: 4,
-    crossAxisSpacing: 4,
-    itemBuilder: (context, index) {
-      final entry = entriesList[index];
-
-      return GestureDetector(
-        onTap: () async {
-          await Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => EntryDetailPage(entryId: entry.id!),
-          ));
->>>>>>> S3-Niko
-
-          refreshEntries();
-        },
-      ),
-    );
-  }
-
   /*
   Widget - buildEntries
     This widget utilizes a StaggeredGridView countBuilder counstructor to create
@@ -157,9 +113,9 @@ class _EntriesPageState extends State<EntriesPage> {
 
   Widget buildEntries() {
     return StaggeredGridView.countBuilder(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       itemCount: entriesList.length,
-      staggeredTileBuilder: (index) => StaggeredTile.fit(2),
+      staggeredTileBuilder: (index) => const StaggeredTile.fit(2),
       crossAxisCount: 4,
       mainAxisSpacing: 4,
       crossAxisSpacing: 4,
