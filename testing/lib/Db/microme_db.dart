@@ -12,6 +12,41 @@ const String tableWater = 'water';
   Instantiates the database named Microme and is the interface for all database
   functions. This includes the CRUD methods, opening and closing the database,
   and advanced queries. The Microme database uses all async functions.
+
+  Database queries are built by calling a database function ex: db.delete() and
+  adding the necessary parameters needed for that function. SQLite stores the
+  database as a text file in the local system so there has to be constant
+  conversion of JSON to string and vice versa. This is done using ${object} to
+  interpolate the object type into a string in which queries can be done. Each
+  model also posses a fromJson() and toJson() function which is required to
+  convert from String to Json to use in a Map or Json to String to access a
+  single object in the map.
+
+  Example of a read query on tableExample:
+    Future<Example> readExample(int id) async {
+      // Wait for the instance of the database
+      final db = await instance.database;
+
+      // Create a database query with protection from SQL injections by breaking
+      // up the id into a where condition and a whereArgs to enforce a required
+      // input type
+      final maps = await db.query(
+        tableExample, // The table to query from
+        columns: ExampleFields.values, // What column(s) selected
+        where: '${ExampleFields.id} = ?', // The condition
+        whereArgs: [id],
+      );
+
+      // Check if the query is successful. If the map is empty that means that
+      // the query was either poorly written or there was nothing found
+      // matching the conditions of the query
+      if (maps.isNotEmpty) {
+        return Example.fromJson(maps.first);
+      } else {
+        throw Exception('ID $id not found');
+      }
+    }// Returns a singular Example object
+
  */
 class MicromeDatabase {
   // Creating an instance of the Microme database
@@ -50,24 +85,22 @@ class MicromeDatabase {
     const boolType = 'BOOLEAN NOT NULL';
     const integerType = 'INTEGER NOT NULL';
 
-    await db.execute('''
-CREATE TABLE $tableJournal ( 
-  ${EntryFields.id} $idType,
-  ${EntryFields.isImportant} $boolType,
-  ${EntryFields.number} $integerType,
-  ${EntryFields.title} $textType,
-  ${EntryFields.description} $textType,
-  ${EntryFields.time} $textType
-  )
-''');
+    await db.execute('''CREATE TABLE $tableJournal ( 
+      ${EntryFields.id} $idType,
+      ${EntryFields.isImportant} $boolType,
+      ${EntryFields.number} $integerType,
+      ${EntryFields.title} $textType,
+      ${EntryFields.description} $textType,
+      ${EntryFields.time} $textType
+      )
+    ''');
 
-    await db.execute('''
-CREATE TABLE $tableWater (
-  ${WaterFields.id} $idType,
-  ${WaterFields.amount} $integerType,
-  ${WaterFields.time} $textType
-  )    
-''');
+    await db.execute('''CREATE TABLE $tableWater (
+      ${WaterFields.id} $idType,
+      ${WaterFields.amount} $integerType,
+      ${WaterFields.time} $textType
+      )    
+    ''');
   }
 
   // Function to create an entry object in the journal table
@@ -117,7 +150,6 @@ CREATE TABLE $tableWater (
   // Function to delete an entry object from the journal table
   Future<int> deleteEntry(int id) async {
     final db = await instance.database;
-
     return await db.delete(
       tableJournal,
       where: '${EntryFields.id} = ?',
@@ -172,7 +204,6 @@ CREATE TABLE $tableWater (
   // Function to delete a water object from the water table
   Future<int> deleteWater(int id) async {
     final db = await instance.database;
-
     return await db.delete(
       tableWater,
       where: '${WaterFields.id} = ?',
