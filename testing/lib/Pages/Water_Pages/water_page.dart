@@ -164,7 +164,7 @@ class _WaterPageState extends State<WaterPage> {
         decoration: const InputDecoration(hintText: '200 ml'),
         controller: controller,
         keyboardType: TextInputType.number, // Set keyboard to number keypad
-        inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly], // Only integers allowed
+        inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.allow(RegExp(r"[0-9.]"))], // Only integers allowed
       ), // Text Pop Up
       actions: [
         TextButton(
