@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';   // in pubspec.yaml dependencies  pie_chart: ^5.1.0 //
+import 'package:flutter/services.dart';
 
 // ****************** Structure *************************
 // 
@@ -162,7 +163,8 @@ class _WaterPageState extends State<WaterPage> {
         autofocus: true,                                              // keeps the keyboard open
         decoration: const InputDecoration(hintText: '200 ml'),
         controller: controller,
-        keyboardType: TextInputType.number,
+        keyboardType: TextInputType.number, // Set keyboard to number keypad
+        inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly], // Only integers allowed
       ), // Text Pop Up
       actions: [
         TextButton(
