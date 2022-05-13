@@ -125,7 +125,7 @@ CREATE TABLE $tableWater (
     );
   }
 
-  // Function to create an water object in the water table
+  // Function to create a water object in the water table
   Future<Water> createWater(Water water) async {
     final db = await instance.database;
     final id = await db.insert(tableJournal, water.toJson());
