@@ -14,6 +14,8 @@ import 'package:testing/Widgets/entry_card_widget.dart';
  */
 
 class EntriesPage extends StatefulWidget {
+  const EntriesPage({Key? key}) : super(key: key);
+
   @override
   _EntriesPageState createState() => _EntriesPageState();
 }
@@ -72,6 +74,7 @@ class _EntriesPageState extends State<EntriesPage> {
    */
 
   @override
+<<<<<<< HEAD
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
@@ -91,6 +94,47 @@ class _EntriesPageState extends State<EntriesPage> {
           await Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => AddEditEntryPage()),
           );
+=======
+  Widget build(BuildContext context) => Scaffold(
+    body: Center(
+      child: isLoading
+          ? const CircularProgressIndicator()
+          : entriesList.isEmpty
+          ? const Text(
+        'No Entries',
+        style: TextStyle(color: Colors.white, fontSize: 24),
+      )
+          : buildEntries(),
+    ),
+    floatingActionButton: FloatingActionButton(
+      backgroundColor: Colors.black,
+      child: const Icon(Icons.add),
+      onPressed: () async {
+        await Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const AddEditEntryPage()),
+        );
+
+        refreshEntries();
+      },
+    ),
+  );
+
+  Widget buildEntries() => StaggeredGridView.countBuilder(
+    padding: const EdgeInsets.all(8),
+    itemCount: entriesList.length,
+    staggeredTileBuilder: (index) => const StaggeredTile.fit(2),
+    crossAxisCount: 4,
+    mainAxisSpacing: 4,
+    crossAxisSpacing: 4,
+    itemBuilder: (context, index) {
+      final entry = entriesList[index];
+
+      return GestureDetector(
+        onTap: () async {
+          await Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => EntryDetailPage(entryId: entry.id!),
+          ));
+>>>>>>> S3-Niko
 
           refreshEntries();
         },

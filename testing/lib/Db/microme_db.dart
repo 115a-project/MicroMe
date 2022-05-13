@@ -3,9 +3,14 @@ import 'package:sqflite/sqflite.dart';
 import 'package:testing/Models/entry_model.dart';
 import 'package:testing/Models/water_model.dart';
 
+<<<<<<< HEAD
 // Table names declarations
 const String tableJournal = 'entries';
 const String tableWater = 'water';
+=======
+// Table for the entries
+const String tableEntries = 'entries';
+>>>>>>> S3-Niko
 
 /*
   Class MicromeDatabase
@@ -132,7 +137,11 @@ class MicromeDatabase {
   Future<List<Entry>> readAllEntries() async {
     final db = await instance.database;
     const orderBy = '${EntryFields.time} DESC';
+<<<<<<< HEAD
     final result = await db.query(tableJournal, orderBy: orderBy);
+=======
+    final result = await db.query(tableEntries, orderBy: orderBy);
+>>>>>>> S3-Niko
     return result.map((json) => Entry.fromJson(json)).toList();
   }
 

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:testing/Utils/notificationservice.dart';
 import 'package:testing/homepage.dart';
 import 'package:testing/Utils/themes.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 /*
   main function

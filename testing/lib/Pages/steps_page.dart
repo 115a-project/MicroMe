@@ -36,7 +36,6 @@ class _StepsPageState extends State<StepsPage> {
   }
   //Function below updates step counter whenever a 'event' occurs //
   void onStepCount(StepCount event) {
-      print(event);
       setState(() {
         _steps = event.steps.toString();
         miles = event.steps / 2000;
@@ -47,7 +46,6 @@ class _StepsPageState extends State<StepsPage> {
   }
   // Error checking if an event passed into onStepCount is invalid //
   void onStepCountError(error) {
-    print('onStepCountError: $error ');
     setState(() {
       _steps = 'Error with Steps';
     });
