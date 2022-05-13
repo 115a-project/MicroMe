@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class Data {
   final int id;
   final String name;
-  final double y;
+  double y;
   final Color color;
 
-  const Data(
+  Data(
     {
       required this.id,
       required this.name,
