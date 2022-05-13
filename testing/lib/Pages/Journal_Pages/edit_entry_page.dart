@@ -57,14 +57,14 @@ class _AddEditEntryPageState extends State<AddEditEntryPage> {
     final isFormValid = title.isNotEmpty && description.isNotEmpty;
 
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           onPrimary: Colors.white,
           primary: isFormValid ? null : Colors.grey.shade700,
         ),
         onPressed: addOrUpdateEntry,
-        child: Text('Save'),
+        child: const Text('Save'),
       ),
     );
   }
@@ -93,7 +93,7 @@ class _AddEditEntryPageState extends State<AddEditEntryPage> {
       description: description,
     );
 
-    await MicromeDatabase.instance.update(entry);
+    await MicromeDatabase.instance.updateEntry(entry);
   }
 
   Future addEntry() async {
@@ -105,6 +105,6 @@ class _AddEditEntryPageState extends State<AddEditEntryPage> {
       createdTime: DateTime.now(),
     );
 
-    await MicromeDatabase.instance.create(entry);
+    await MicromeDatabase.instance.createEntry(entry);
   }
 }

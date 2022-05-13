@@ -58,57 +58,80 @@ class _EntriesPageState extends State<EntriesPage> {
   Future refreshEntries() async {
     setState(() => isLoading = true);
 
-    // Could possibly remove the 'this' here
     this.entriesList = await MicromeDatabase.instance.readAllEntries();
 
     setState(() => isLoading = false);
   }
 
+  /*
+  Widget - build
+    Utilizes the scaffold property to build the page for displaying the entries
+    It then checks if the list of entries and empty. If the list is not empty
+    it utilizes the buildEntries function to pull the list of entries from the
+    database.
+   */
+
   @override
-  Widget build(BuildContext context) => Scaffold(
-    body: Center(
-      child: isLoading
-          ? CircularProgressIndicator()
-          : entriesList.isEmpty
-          ? Text(
-        'No Entries',
-        style: TextStyle(color: Colors.white, fontSize: 24),
-      )
-          : buildEntries(),
-    ),
-    floatingActionButton: FloatingActionButton(
-      backgroundColor: Colors.black,
-      child: Icon(Icons.add),
-      onPressed: () async {
-        await Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => AddEditEntryPage()),
-        );
-
-        refreshEntries();
-      },
-    ),
-  );
-
-  Widget buildEntries() => StaggeredGridView.countBuilder(
-    padding: EdgeInsets.all(8),
-    itemCount: entriesList.length,
-    staggeredTileBuilder: (index) => StaggeredTile.fit(2),
-    crossAxisCount: 4,
-    mainAxisSpacing: 4,
-    crossAxisSpacing: 4,
-    itemBuilder: (context, index) {
-      final entry = entriesList[index];
-
-      return GestureDetector(
-        onTap: () async {
-          await Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => EntryDetailPage(entryId: entry.id!),
-          ));
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: isLoading
+            ? CircularProgressIndicator()
+            : entriesList.isEmpty
+            ? Text(
+          'No Entries',
+          style: TextStyle(color: Colors.white, fontSize: 24),
+        )
+            : buildEntries(),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.black,
+        child: Icon(Icons.add),
+        onPressed: () async {
+          await Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => AddEditEntryPage()),
+          );
 
           refreshEntries();
         },
-        child: EntryCardWidget(entry: entry, index: index),
-      );
-    },
-  );
+      ),
+    );
+  }
+
+  /*
+  Widget - buildEntries
+    This widget utilizes a StaggeredGridView countBuilder counstructor to create
+    the display of all the entries. There are three required arguments for
+    the constructor: itemBuilder, crossAxisCount, and staggeredTileBuilder.
+    The item builder creates each tile and naviagtes to the respective entry
+    when tapped. The crossAxisCount is how many entries will be present in
+    the cross axis. Finally, the staggeredTileBuilder does the actual work
+    for staggering the tiles in the grid on the page. The gesture detector used
+    in the staggeredGridView helps to actually navigate to the entry that is
+    being tapped.
+   */
+
+  Widget buildEntries() {
+    return StaggeredGridView.countBuilder(
+      padding: EdgeInsets.all(8),
+      itemCount: entriesList.length,
+      staggeredTileBuilder: (index) => StaggeredTile.fit(2),
+      crossAxisCount: 4,
+      mainAxisSpacing: 4,
+      crossAxisSpacing: 4,
+      itemBuilder: (context, index) {
+        final entry = entriesList[index];
+        return GestureDetector(
+          onTap: () async {
+            await Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => EntryDetailPage(entryId: entry.id!),
+            ));
+
+            refreshEntries();
+          },
+          child: EntryCardWidget(entry: entry, index: index),
+        );
+      },
+    );
+  }
 }

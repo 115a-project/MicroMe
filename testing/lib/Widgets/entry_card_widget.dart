@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:testing/Models/entry_model.dart';
 
+/*
+  The colors used in the cards that show off the entries in the journal
+ */
 final _lightColors = [
   Colors.amber.shade300,
   Colors.lightGreen.shade300,
@@ -10,6 +13,15 @@ final _lightColors = [
   Colors.pinkAccent.shade100,
   Colors.tealAccent.shade100
 ];
+
+/*
+  Class - EntryCardWidget
+  Purpose: This widget is used to actually create and display the card for
+  an entry in the journal. It utilizes the Card class from Material Design.
+  https://api.flutter.dev/flutter/material/Card-class.html
+  All the relevant info for the class below can be found in the link.
+  This function is used in the journal page class.
+ */
 
 class EntryCardWidget extends StatelessWidget {
   EntryCardWidget({
