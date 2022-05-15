@@ -21,6 +21,12 @@ class AddEditEntryPage extends StatefulWidget {
   _AddEditEntryPageState createState() => _AddEditEntryPageState();
 }
 
+/*
+  Class - _AddEditEntryPageState
+    This class actually implements all the functions for the page. It contains
+    all the functions and variables that are used.
+ */
+
 class _AddEditEntryPageState extends State<AddEditEntryPage> {
   final _formKey = GlobalKey<FormState>();
   late bool isImportant;
@@ -37,6 +43,19 @@ class _AddEditEntryPageState extends State<AddEditEntryPage> {
     title = widget.entry?.title ?? '';
     description = widget.entry?.description ?? '';
   }
+
+  /*
+    Function - build
+      This function uses the scaffold class from material design as well as
+      classes from the entry_form_widget file. This scaffold displays the text
+      fields for both the title and the body of the entry. These two forms are
+      enveloped in the Form flutter class which allows for multiple form fields
+      (like text) to be grouped together.
+      https://api.flutter.dev/flutter/widgets/Form-class.html
+      The function utilizes an EntryFormWidget which will be used to actually
+      input and save the changes to a journal entry.
+
+   */
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +81,13 @@ class _AddEditEntryPageState extends State<AddEditEntryPage> {
     );
   }
 
+  /*
+    Widget - buildButton
+      The buildButton widget creates a save button that utilizes the
+      addOrUpdateEntry function created below to actually save an entry after
+      it's been changed.
+   */
+
   Widget buildButton() {
     final isFormValid = title.isNotEmpty && description.isNotEmpty;
 
@@ -77,6 +103,10 @@ class _AddEditEntryPageState extends State<AddEditEntryPage> {
       ),
     );
   }
+
+  /*
+    Function - addOrUpdateEntry
+   */
 
   void addOrUpdateEntry() async {
     final isValid = _formKey.currentState!.validate();

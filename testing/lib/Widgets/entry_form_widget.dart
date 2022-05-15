@@ -39,7 +39,7 @@ class EntryFormWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -61,9 +61,9 @@ class EntryFormWidget extends StatelessWidget {
               ],
             ),
             buildTitle(),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             buildDescription(),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
           ],
         ),
       ),
@@ -80,12 +80,12 @@ class EntryFormWidget extends StatelessWidget {
       return TextFormField(
         maxLines: 1,
         initialValue: title,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.white70,
           fontWeight: FontWeight.bold,
           fontSize: 24,
         ),
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           border: InputBorder.none,
           hintText: 'Title',
           hintStyle: TextStyle(color: Colors.white70),
@@ -107,11 +107,11 @@ class EntryFormWidget extends StatelessWidget {
       return TextFormField(
         maxLines: 20,
         initialValue: description,
-        style: TextStyle(color: Colors.white60, fontSize: 18),
-        decoration: InputDecoration(
+        style: const TextStyle(color: Colors.white60, fontSize: 18),
+        decoration: const InputDecoration(
           border: InputBorder.none,
           hintText: 'Type something...',
-          hintStyle: TextStyle(color: Colors.white60),
+          hintStyle: const TextStyle(color: Colors.white60),
         ),
         validator: (title) =>
         title != null && title.isEmpty
