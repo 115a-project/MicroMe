@@ -3,6 +3,13 @@ import 'package:testing/Db/microme_db.dart';
 import 'package:testing/Models/entry_model.dart';
 import 'package:testing/Widgets/entry_form_widget.dart';
 
+/*
+  Class - AddEditEntryPage
+  This page is the one that implements the ability to create or edit an
+  entry within the journal. Adding a new entry and editing an existing entry
+  share the same page because they practically do the same thing.
+ */
+
 class AddEditEntryPage extends StatefulWidget {
   final Entry? entry;
 
@@ -32,26 +39,28 @@ class _AddEditEntryPageState extends State<AddEditEntryPage> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      actions: [buildButton()],
-    ),
-    body: Form(
-      key: _formKey,
-      child: EntryFormWidget(
-        isImportant: isImportant,
-        number: number,
-        title: title,
-        description: description,
-        onChangedImportant: (isImportant) =>
-            setState(() => this.isImportant = isImportant),
-        onChangedNumber: (number) => setState(() => this.number = number),
-        onChangedTitle: (title) => setState(() => this.title = title),
-        onChangedDescription: (description) =>
-            setState(() => this.description = description),
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        actions: [buildButton()],
       ),
-    ),
-  );
+      body: Form(
+        key: _formKey,
+        child: EntryFormWidget(
+          isImportant: isImportant,
+          number: number,
+          title: title,
+          description: description,
+          onChangedImportant: (isImportant) =>
+              setState(() => this.isImportant = isImportant),
+          onChangedNumber: (number) => setState(() => this.number = number),
+          onChangedTitle: (title) => setState(() => this.title = title),
+          onChangedDescription: (description) =>
+              setState(() => this.description = description),
+        ),
+      ),
+    );
+  }
 
   Widget buildButton() {
     final isFormValid = title.isNotEmpty && description.isNotEmpty;
@@ -85,6 +94,13 @@ class _AddEditEntryPageState extends State<AddEditEntryPage> {
     }
   }
 
+  /*
+  Function - updateEntry
+    This function creates an entry of an already existing entry in the journal
+    and updates the journal table with the new info provided in the copied
+    version of the entry.
+   */
+
   Future updateEntry() async {
     final entry = widget.entry!.copy(
       isImportant: isImportant,
@@ -95,6 +111,14 @@ class _AddEditEntryPageState extends State<AddEditEntryPage> {
 
     await MicromeDatabase.instance.update(entry);
   }
+
+  /*
+  Function - addEntry
+    This function works similarly to updateEntry but instead of creating a copy
+    of an existing entry, it creates an entirely new entry object. It then uses
+    the createEntry function created in the microme_db file to create a new
+    entry inside of the journal table.
+   */
 
   Future addEntry() async {
     final entry = Entry(

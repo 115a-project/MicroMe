@@ -88,7 +88,7 @@ CREATE TABLE $tableEntries (
   // Returns all the entries objects in the database in descending order
   Future<List<Entry>> readAllEntries() async {
     final db = await instance.database;
-    final orderBy = '${EntryFields.time} DESC';
+    const orderBy = '${EntryFields.time} DESC';
     final result = await db.query(tableEntries, orderBy: orderBy);
     return result.map((json) => Entry.fromJson(json)).toList();
   }
