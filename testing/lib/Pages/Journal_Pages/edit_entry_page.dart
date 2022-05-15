@@ -106,6 +106,8 @@ class _AddEditEntryPageState extends State<AddEditEntryPage> {
 
   /*
     Function - addOrUpdateEntry
+      This function checks to see if there are any errors before either updating
+      an entry or saving a new entry entirely.
    */
 
   void addOrUpdateEntry() async {

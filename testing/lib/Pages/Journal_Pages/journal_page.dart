@@ -85,7 +85,6 @@ class _EntriesPageState extends State<EntriesPage> {
             : buildEntries(),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
         child: Icon(Icons.add),
         onPressed: () async {
           await Navigator.of(context).push(
@@ -121,6 +120,8 @@ class _EntriesPageState extends State<EntriesPage> {
       crossAxisSpacing: 4,
       itemBuilder: (context, index) {
         final entry = entriesList[index];
+        // A GestureDetector is a class that provides the functionality for
+        // detecting when something is tapped.
         return GestureDetector(
           onTap: () async {
             await Navigator.of(context).push(MaterialPageRoute(
