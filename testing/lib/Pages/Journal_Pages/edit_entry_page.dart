@@ -59,9 +59,9 @@ class _AddEditEntryPageState extends State<AddEditEntryPage> {
 
   @override
   Widget build(BuildContext context) {
+    bool keyboardIsOpen = MediaQuery.of(context).viewInsets.bottom != 0;
     return Scaffold(
       appBar: AppBar(
-        actions: [buildButton()],
       ),
       body: Form(
         key: _formKey,
@@ -78,29 +78,14 @@ class _AddEditEntryPageState extends State<AddEditEntryPage> {
               setState(() => this.description = description),
         ),
       ),
-    );
-  }
-
-  /*
-    Widget - buildButton
-      The buildButton widget creates a save button that utilizes the
-      addOrUpdateEntry function created below to actually save an entry after
-      it's been changed.
-   */
-
-  Widget buildButton() {
-    final isFormValid = title.isNotEmpty && description.isNotEmpty;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          onPrimary: Colors.white,
-          primary: isFormValid ? null : Colors.grey.shade700,
-        ),
-        onPressed: addOrUpdateEntry,
-        child: const Text('Save'),
-      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Visibility(
+        visible: !keyboardIsOpen,
+        child: FloatingActionButton.extended (
+          onPressed: addOrUpdateEntry,
+          label: const Text('Save'),
+        )
+      )
     );
   }
 

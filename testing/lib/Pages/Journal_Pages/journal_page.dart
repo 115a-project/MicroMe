@@ -5,6 +5,7 @@ import 'package:testing/Models/entry_model.dart';
 import 'package:testing/Pages/Journal_Pages/edit_entry_page.dart';
 import 'package:testing/Pages/Journal_Pages/entry_detail_page.dart';
 import 'package:testing/Widgets/entry_card_widget.dart';
+import 'package:page_transition/page_transition.dart';
 
 /*
   EntriesPage Class
@@ -88,7 +89,10 @@ class _EntriesPageState extends State<EntriesPage> {
         child: Icon(Icons.add),
         onPressed: () async {
           await Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => AddEditEntryPage()),
+            PageTransition(
+              type: PageTransitionType.rightToLeft,
+              child: AddEditEntryPage()
+            ),
           );
 
           refreshEntries();
@@ -124,8 +128,9 @@ class _EntriesPageState extends State<EntriesPage> {
         // detecting when something is tapped.
         return GestureDetector(
           onTap: () async {
-            await Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => EntryDetailPage(entryId: entry.id!),
+            await Navigator.of(context).push(PageTransition(
+              type: PageTransitionType.rightToLeft,
+              child: EntryDetailPage(entryId: entry.id!),
             ));
 
             refreshEntries();
