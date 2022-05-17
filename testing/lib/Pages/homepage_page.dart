@@ -11,46 +11,46 @@ class Home extends StatefulWidget {
 }
 class _HomeState extends State<Home> {
   @override
+  void initState() {
+    super.initState();
+    fetchAllQuotes();
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
-          child:
-          FutureBuilder(
-              future: fetchQuote(),
-              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  return ListTile(
-                    title: Text(
-                      snapshot.data[1].author,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(snapshot.data[1].text),
-                  );
-                }
-                else {
-                  return const Center(
-                    child: CircularProgressIndicator(color: Colors.amber),
-                  );
-                }
-              }
-          ),
-        )
+      body: FutureBuilder(
+        future: fetchAllQuotes(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return ListTile(
+              title: Text(
+                snapshot.data.author,
+                style:  const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text(snapshot.data.text),
+            );
+          } else {
+            return const Center(
+                child: CircularProgressIndicator(
+                  color: Color(0xffFF8C32),
+                ));
+          }
+        },
+      ),
     );
   }
 }
 
-Future fetchQuote() async {
-  final response = await http.get(Uri.parse('https://favqs.com/api/qotd'));
+Future fetchAllQuotes() async {
+  final response = await http.get(Uri.parse('https://type.fit/api/quotes'));
   if (response.statusCode == 200) {
-    var jsonData = json.decode(response.body);
-    var quotes = [];
+    var jsonData = jsonDecode(response.body);
     for (var aQuote in jsonData) {
-      Quote quote = Quote(
-          text: aQuote['text'], author: aQuote['author'] ?? "unknown");
-      quotes.add(quote);
+      Quote quote =
+      Quote(text: aQuote['text'], author: aQuote['author'] ?? "unknown");
+      return quote;
     }
-    return quotes;
   } else {
-    throw Exception('Failed to load Quote');
+    throw Exception('Failed to fetch posts');
   }
 }
