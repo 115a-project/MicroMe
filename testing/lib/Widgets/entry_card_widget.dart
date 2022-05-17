@@ -69,7 +69,7 @@ class EntryCardWidget extends StatelessWidget {
             Text(
               entry.description,
               style: TextStyle(
-                color: Colors.grey.shade700,
+                color: Colors.black,
                 fontSize: 10,
                 fontWeight: FontWeight.bold,
               ),
