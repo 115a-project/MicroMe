@@ -24,10 +24,10 @@ class _HomeState extends State<Home> {
           if (snapshot.connectionState == ConnectionState.done) {
             return ListTile(
               title: Text(
-                snapshot.data.author,
+                snapshot.data[1].author,
                 style:  const TextStyle(fontWeight: FontWeight.bold),
               ),
-              subtitle: Text(snapshot.data.text),
+              subtitle: Text(snapshot.data[1].text),
             );
           } else {
             return const Center(
@@ -45,11 +45,13 @@ Future fetchAllQuotes() async {
   final response = await http.get(Uri.parse('https://type.fit/api/quotes'));
   if (response.statusCode == 200) {
     var jsonData = jsonDecode(response.body);
+    var quotes = [];
     for (var aQuote in jsonData) {
       Quote quote =
       Quote(text: aQuote['text'], author: aQuote['author'] ?? "unknown");
-      return quote;
+      quotes.add(quote);
     }
+    return quotes;
   } else {
     throw Exception('Failed to fetch posts');
   }
