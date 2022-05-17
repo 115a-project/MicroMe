@@ -78,6 +78,7 @@ class _AddEditEntryPageState extends State<AddEditEntryPage> {
               setState(() => this.description = description),
         ),
       ),
+      // This floating action button handles the saving of the entries
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Visibility(
         visible: !keyboardIsOpen,
