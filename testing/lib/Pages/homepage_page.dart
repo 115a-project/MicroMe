@@ -1,8 +1,13 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:testing/Utils/quote.dart';
+
+Random random = Random();
+int randomNumber = random.nextInt(1643);
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -10,24 +15,30 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 class _HomeState extends State<Home> {
+
   @override
   void initState() {
     super.initState();
-    fetchAllQuotes();
+    fetchAllQuotes(); // Populates the quote list upon initialization
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      /*
+      FutureBuilder will build depending on the latest interaction with a
+      snapshot from a future. In our case, this snapshot is the list returned
+      from the fetchAllQuotes() method.
+      */
       body: FutureBuilder(
-        future: fetchAllQuotes(),
+        future: fetchAllQuotes(), // Tells what asynchronous computation to connect
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return ListTile(
+          if (snapshot.connectionState == ConnectionState.done) { // If future finishes
+            return ListTile( // Creates a list tile with the index
               title: Text(
-                snapshot.data[1].author,
+                snapshot.data[randomNumber].author,
                 style:  const TextStyle(fontWeight: FontWeight.bold),
               ),
-              subtitle: Text(snapshot.data[1].text),
+              subtitle: Text(snapshot.data[randomNumber].text),
             );
           } else {
             return const Center(
