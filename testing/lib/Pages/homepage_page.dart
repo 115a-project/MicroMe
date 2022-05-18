@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:testing/Utils/quote.dart';
 
+
 Random random = Random();
-int randomNumber = random.nextInt(1643);
+int randomNumber = random.nextInt(1642);
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -51,6 +52,7 @@ class _HomeState extends State<Home> {
     );
   }
 }
+
 
 Future fetchAllQuotes() async {
   final response = await http.get(Uri.parse('https://type.fit/api/quotes'));
