@@ -49,15 +49,6 @@ class EntryFormWidget extends StatelessWidget {
                   value: isImportant ?? false,
                   onChanged: onChangedImportant,
                 ),
-                Expanded(
-                  child: Slider(
-                    value: (number ?? 0).toDouble(),
-                    min: 0,
-                    max: 5,
-                    divisions: 5,
-                    onChanged: (number) => onChangedNumber(number.toInt()),
-                  ),
-                )
               ],
             ),
             buildTitle(),
@@ -81,7 +72,6 @@ class EntryFormWidget extends StatelessWidget {
         maxLines: 1,
         initialValue: title,
         style: const TextStyle(
-          color: Colors.white70,
           fontWeight: FontWeight.bold,
           fontSize: 24,
         ),
@@ -107,11 +97,13 @@ class EntryFormWidget extends StatelessWidget {
       return TextFormField(
         maxLines: 20,
         initialValue: description,
-        style: TextStyle(color: Colors.white60, fontSize: 18),
+        style: const TextStyle(
+            fontSize: 18
+        ),
+
         decoration: const InputDecoration(
           border: InputBorder.none,
           hintText: 'Type something...',
-          hintStyle: TextStyle(color: Colors.white60),
         ),
         validator: (title) =>
         title != null && title.isEmpty
