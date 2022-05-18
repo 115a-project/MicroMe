@@ -29,7 +29,7 @@ class Water {
     required this.createdTime,
   });
 
-  // Makes a copy of an Water object to avoid modifying the original Water created
+  // Makes a copy of a Water object to avoid modifying the original Water created
   Water copy({
     int? id,
     int? amount,
