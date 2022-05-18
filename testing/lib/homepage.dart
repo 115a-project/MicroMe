@@ -45,6 +45,7 @@ class _HomePageState extends State<HomePage> {
   void onTappedBar(int index) {
     setState(() {
       _currentIndex = index;
+      // Change title variable depending on NavBar index
       switch(index) {
         case 0: { _title = 'Home'; }
         break;
@@ -76,7 +77,7 @@ class _HomePageState extends State<HomePage> {
         Leading - Leading Icon Button at top-left
         */
         appBar: AppBar(
-            title: Text(_title),
+            title: Text(_title), // Change title depending on Bottom Nav Bar
             actions: <Widget> [
               IconButton(
                 icon: const ImageIcon(

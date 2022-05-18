@@ -7,6 +7,7 @@ class Quote {
     required this.author,
   });
 
+  // Populates instance of quote class with json data
   factory Quote.fromJson(Map<String, dynamic> json) {
     return Quote(
       text: json['text'],
