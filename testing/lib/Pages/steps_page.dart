@@ -13,6 +13,7 @@
                        |             |             |
 
 */
+// sources: https://pub.dev/packages/pedometer/example
 import 'package:flutter/material.dart';
 import 'package:pedometer/pedometer.dart';
 import 'water_page.dart';
