@@ -122,7 +122,6 @@ class _EntryDetailPageState extends State<EntryDetailPage> {
       icon: const Icon(Icons.delete),
       onPressed: () async {
         await MicromeDatabase.instance.deleteEntry(widget.entryId);
-
         Navigator.of(context).pop();
       },
     );

@@ -15,6 +15,8 @@ import 'package:page_transition/page_transition.dart';
  */
 
 class EntriesPage extends StatefulWidget {
+  const EntriesPage({Key? key}) : super(key: key);
+
   @override
   _EntriesPageState createState() => _EntriesPageState();
 }
@@ -116,9 +118,9 @@ class _EntriesPageState extends State<EntriesPage> {
 
   Widget buildEntries() {
     return StaggeredGridView.countBuilder(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       itemCount: entriesList.length,
-      staggeredTileBuilder: (index) => StaggeredTile.fit(2),
+      staggeredTileBuilder: (index) => const StaggeredTile.fit(2),
       crossAxisCount: 4,
       mainAxisSpacing: 4,
       crossAxisSpacing: 4,

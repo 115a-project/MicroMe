@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ChartContainer extends StatelessWidget {
@@ -19,7 +18,7 @@ class ChartContainer extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width * 0.95,
         height: MediaQuery.of(context).size.width * 0.95 * 0.65,
-        padding: EdgeInsets.fromLTRB(0, 10, 20, 10),
+        padding: const EdgeInsets.fromLTRB(0, 10, 20, 10),
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(20),
@@ -29,14 +28,14 @@ class ChartContainer extends StatelessWidget {
           children: <Widget>[
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
                   fontWeight: FontWeight.bold),
             ),
             Expanded(
                 child: Container(
-                  padding: EdgeInsets.only(top: 10),
+                  padding: const EdgeInsets.only(top: 10),
                   child: chart,
             ))
           ],

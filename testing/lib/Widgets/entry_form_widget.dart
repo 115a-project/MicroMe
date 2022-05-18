@@ -100,6 +100,7 @@ class EntryFormWidget extends StatelessWidget {
         style: const TextStyle(
             fontSize: 18
         ),
+
         decoration: const InputDecoration(
           border: InputBorder.none,
           hintText: 'Type something...',

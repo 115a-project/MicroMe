@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:pie_chart/pie_chart.dart';   // in pubspec.yaml dependecies  pie_chart: ^5.1.0 //
+import 'package:pie_chart/pie_chart.dart';   // in pubspec.yaml dependencies  pie_chart: ^5.1.0 //
+import 'package:flutter/services.dart';
 
 // ****************** Structure *************************
 // 
@@ -9,7 +10,7 @@ import 'package:pie_chart/pie_chart.dart';   // in pubspec.yaml dependecies  pie
 //             |  WATER PAGE                                    |
 //             |------------------------------------------------|
 //             |                Title                           |
-//             |             PIECHART                           |  @https://www.youtube.com/watch?v=NvTQAzGCh5U
+//             |             PIE-CHART                           |  @https://www.youtube.com/watch?v=NvTQAzGCh5U
 //             | Change Goal option
 //             | History: 
 //             |     (trash) List Tile 1                        |  @https://www.youtube.com/watch?v=XBeYlgjZbms
@@ -37,16 +38,16 @@ class _WaterPageState extends State<WaterPage> {
 
   double percentageDrank = 0;
 
-  // Piechart set to UI displaying amount drank //
+  // Pie chart set to UI displaying amount drank //
   Map<String, double> dataMap = {
     "left to drink " : 100,
     "drank "         : 0,
   };
 
-  // Color list to control color of our piechart //
+  // Color list to control color of our pie chart //
   List<Color> pieChartColorList = [
-    Color.fromARGB(60, 104, 104, 176),
-    Color.fromARGB(255, 91, 121, 192),
+    const Color.fromARGB(60, 104, 104, 176),
+    const Color.fromARGB(255, 91, 121, 192),
     
   ];
 
@@ -64,39 +65,38 @@ class _WaterPageState extends State<WaterPage> {
     super.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children:<Widget> [
           Container(
-            margin: EdgeInsets.all(30),
-            child: Text('Daily Water Intake',
+            margin: const EdgeInsets.all(30),
+            child: const Text('Daily Water Intake',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 35),
                     ),
           ),
           // Goal Setting Container, Allows user to change their goal //
-          Container(
-            child: FlatButton(  
-              child: Text('Change Goal', style: TextStyle(fontSize: 15.0),),  
-              onPressed: () async {
-                final goal = await openDialog();
-                if ( goal == null || goal.isEmpty ) return;    // TODO: Toss out invalid values
-                setState(
-                  () => this.goal = goal 
-                ); 
-                var percentageDrank = double.parse(total) / double.parse(goal);
-                var remainder = 100 - (percentageDrank*100);
+          FlatButton(
+            child: const Text('Change Goal', style: TextStyle(fontSize: 15.0),),
+            onPressed: () async {
+              final goal = await openDialog();
+              if ( goal == null || goal.isEmpty ) return;    // TODO: Toss out invalid values
+              setState(
+                () => this.goal = goal
+              );
+              var percentageDrank = double.parse(total) / double.parse(goal);
+              var remainder = 100 - (percentageDrank*100);
 
-                dataMap.update("left to drink ", (value) => remainder);
-                dataMap.update("drank ", (value) => percentageDrank*100);
-              } // on pressed for goal amounts
-            ),
+              dataMap.update("left to drink ", (value) => remainder);
+              dataMap.update("drank ", (value) => percentageDrank*100);
+            } // on pressed for goal amounts
           ),
           // Pie Chart UI Container //
           Container(
-            margin: EdgeInsets.all(30),
+            margin: const EdgeInsets.all(30),
             alignment: Alignment.center,
             child: PieChart(
                   dataMap: dataMap,
@@ -104,21 +104,19 @@ class _WaterPageState extends State<WaterPage> {
                   chartRadius: MediaQuery.of(context).size.width / 2,
                   chartType: ChartType.ring,
                   ringStrokeWidth: 24,
-                  animationDuration: Duration(seconds: 2),
+                  animationDuration: const Duration(seconds: 2),
                   centerText: total + " / " + goal + " ml",
-                  chartValuesOptions: ChartValuesOptions( showChartValues: false ),
-                  legendOptions: LegendOptions( showLegends: false,),
+                  chartValuesOptions: const ChartValuesOptions( showChartValues: false ),
+                  legendOptions: const LegendOptions( showLegends: false,),
                 ), 
           ),
           // Past Entry List View, Allows User to delete mistake entries and view history log for water //
           SingleChildScrollView(
-            child: Container(
-              child: Column(
-                children:<Widget> [ 
-                  const Text("Past Entries: "),
-                  Text("Added " + amount + 'ml ' + " at " + time.toString()),
-                ],
-              ),
+            child: Column(
+              children:<Widget> [
+                const Text("Past Entries: "),
+                Text("Added " + amount + 'ml ' + " at " + time.toString()),
+              ],
             ),
           ),
         ]
@@ -131,7 +129,7 @@ class _WaterPageState extends State<WaterPage> {
   //Button to control adding more water
   //Expected: opens a text entry where user submits a new value that changes the pi chart
   Widget buildNavigateButton() => FloatingActionButton(
-    child:Text("+",
+    child:const Text("+",
       style: TextStyle(
         fontSize: 20,
        ),
@@ -148,7 +146,7 @@ class _WaterPageState extends State<WaterPage> {
       var percentageDrank = double.parse(total) / double.parse(goal);
       var remainder = 100 - (percentageDrank*100);
 
-      // Update values for pichart so it changes //
+      // Update values for pie chart so it changes //
       dataMap.update("left to drink ", (value) => remainder);
       dataMap.update("drank ", (value) => percentageDrank*100);
     }
@@ -160,15 +158,17 @@ class _WaterPageState extends State<WaterPage> {
   // https://www.youtube.com/watch?v=D6icsXS8NeA
   Future<String?> openDialog() => showDialog<String>(
   context: context, builder: (context) => AlertDialog(
-      title: Text('Enter Amount Drank: '),
+      title: const Text('Enter Amount Drank: '),
       content: TextField(
         autofocus: true,                                              // keeps the keyboard open
-        decoration: InputDecoration(hintText: '200 ml'),
+        decoration: const InputDecoration(hintText: '200 ml'),
         controller: controller,
+        keyboardType: TextInputType.number, // Set keyboard to number keypad
+        inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.allow(RegExp(r"[0-9.]"))], // Only integers allowed
       ), // Text Pop Up
       actions: [
         TextButton(
-          child: Text('SUBMIT'),
+          child: const Text('SUBMIT'),
           onPressed: submit,
         ),
       ]
