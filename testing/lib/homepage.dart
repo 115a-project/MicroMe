@@ -24,11 +24,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
+  String _title = "MicroMe";
   @override
   void initState() {
     super.initState();
     tz.initializeTimeZones();
+    _title = 'MicroMe';
   }
   int _currentIndex = 0; // Indicates the starting index upon calling homepage
   // List of classes with respective files to populate body
@@ -44,6 +45,17 @@ class _HomePageState extends State<HomePage> {
   void onTappedBar(int index) {
     setState(() {
       _currentIndex = index;
+      // Change title variable depending on NavBar index
+      switch(index) {
+        case 0: { _title = 'Home'; }
+        break;
+        case 1: { _title = 'Water Tracking'; }
+        break;
+        case 2: { _title = 'Step Count'; }
+        break;
+        case 3: { _title = 'Personal Journal'; }
+        break;
+      }
     });
   }
 
@@ -65,7 +77,7 @@ class _HomePageState extends State<HomePage> {
         Leading - Leading Icon Button at top-left
         */
         appBar: AppBar(
-            title: const Text('Welcome to the Homepage'),
+            title: Text(_title), // Change title depending on Bottom Nav Bar
             actions: <Widget> [
               IconButton(
                 icon: const ImageIcon(

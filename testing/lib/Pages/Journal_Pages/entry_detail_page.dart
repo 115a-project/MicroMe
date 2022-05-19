@@ -36,7 +36,6 @@ class _EntryDetailPageState extends State<EntryDetailPage> {
   @override
   void initState() {
     super.initState();
-
     refreshEntry();
   }
 
