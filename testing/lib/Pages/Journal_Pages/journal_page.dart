@@ -5,6 +5,7 @@ import 'package:testing/Models/entry_model.dart';
 import 'package:testing/Pages/Journal_Pages/edit_entry_page.dart';
 import 'package:testing/Pages/Journal_Pages/entry_detail_page.dart';
 import 'package:testing/Widgets/entry_card_widget.dart';
+import 'package:page_transition/page_transition.dart';
 
 /*
   EntriesPage Class
@@ -74,29 +75,33 @@ class _EntriesPageState extends State<EntriesPage> {
    */
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    body: Center(
-      child: isLoading
-          ? const CircularProgressIndicator()
-          : entriesList.isEmpty
-          ? const Text(
-        'No Entries',
-        style: TextStyle(color: Colors.white, fontSize: 24),
-      )
-          : buildEntries(),
-    ),
-    floatingActionButton: FloatingActionButton(
-      backgroundColor: Colors.black,
-      child: const Icon(Icons.add),
-      onPressed: () async {
-        await Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const AddEditEntryPage()),
-        );
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: isLoading
+            ? CircularProgressIndicator()
+            : entriesList.isEmpty
+            ? Text(
+          'No Entries',
+          style: TextStyle(color: Colors.white, fontSize: 24),
+        )
+            : buildEntries(),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () async {
+          await Navigator.of(context).push(
+            PageTransition(
+              type: PageTransitionType.rightToLeft,
+              child: AddEditEntryPage()
+            ),
+          );
 
-        refreshEntries();
-      },
-    ),
-  );
+          refreshEntries();
+        },
+      ),
+    );
+  }
 
   /*
   Widget - buildEntries
@@ -121,10 +126,13 @@ class _EntriesPageState extends State<EntriesPage> {
       crossAxisSpacing: 4,
       itemBuilder: (context, index) {
         final entry = entriesList[index];
+        // A GestureDetector is a class that provides the functionality for
+        // detecting when something is tapped.
         return GestureDetector(
           onTap: () async {
-            await Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => EntryDetailPage(entryId: entry.id!),
+            await Navigator.of(context).push(PageTransition(
+              type: PageTransitionType.rightToLeft,
+              child: EntryDetailPage(entryId: entry.id!),
             ));
 
             refreshEntries();

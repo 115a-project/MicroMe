@@ -39,6 +39,10 @@ class EntryCardWidget extends StatelessWidget {
     final color = _lightColors[index % _lightColors.length];
     final time = DateFormat.yMMMd().format(entry.createdTime);
     final minHeight = getMinHeight(index);
+    int displayLines = 2;
+    if (minHeight == 150) {
+      displayLines = 6;
+    }
 
     return Card(
       color: color,
@@ -62,6 +66,15 @@ class EntryCardWidget extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
+            Text(
+              entry.description,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+              ),
+              maxLines: displayLines,
+            )
           ],
         ),
       ),

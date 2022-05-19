@@ -68,7 +68,6 @@ class _EntryDetailPageState extends State<EntryDetailPage> {
             Text(
               entry.title,
               style: const TextStyle(
-                color: Colors.white,
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
               ),
@@ -76,12 +75,13 @@ class _EntryDetailPageState extends State<EntryDetailPage> {
             const SizedBox(height: 8),
             Text(
               DateFormat.yMMMd().format(entry.createdTime),
-              style: const TextStyle(color: Colors.white38),
             ),
             const SizedBox(height: 8),
             Text(
               entry.description,
-              style: const TextStyle(color: Colors.white70, fontSize: 18),
+              style: const TextStyle(
+                  fontSize: 18
+              ),
             )
           ],
         ),
