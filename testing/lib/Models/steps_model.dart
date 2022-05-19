@@ -1,6 +1,6 @@
 /*
   Class StepFields
-  Instantiates column names in the entries database.
+  Instantiates column names in the step database.
  */
 class StepFields {
   // A list of all the values in the table
@@ -42,7 +42,7 @@ class Step {
     );
   }
 
-  // Converting back from json to our entries type
+  // Converting back from json to our step type
   // createdTime and isImportant are two special cases as their types
   // are not natively supported by json and must be converted
   static Step fromJson(Map<String, Object?> json) {
