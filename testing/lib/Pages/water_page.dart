@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:pie_chart/pie_chart.dart';   // in pubspec.yaml dependecies  pie_chart: ^5.1.0 //
+import 'package:pie_chart/pie_chart.dart' as pie_chart;   // in pubspec.yaml dependecies  pie_chart: ^5.1.0 //
 
 // ****************** Structure *************************
 // 
@@ -98,16 +98,16 @@ class _WaterPageState extends State<WaterPage> {
           Container(
             margin: EdgeInsets.all(30),
             alignment: Alignment.center,
-            child: PieChart(
+            child: pie_chart.PieChart(
                   dataMap: dataMap,
                   colorList: pieChartColorList,
                   chartRadius: MediaQuery.of(context).size.width / 2,
-                  chartType: ChartType.ring,
+                  chartType: pie_chart.ChartType.ring,
                   ringStrokeWidth: 24,
                   animationDuration: Duration(seconds: 2),
                   centerText: total + " / " + goal + " ml",
-                  chartValuesOptions: ChartValuesOptions( showChartValues: false ),
-                  legendOptions: LegendOptions( showLegends: false,),
+                  chartValuesOptions: pie_chart.ChartValuesOptions( showChartValues: false ),
+                  legendOptions: pie_chart.LegendOptions( showLegends: false,),
                 ), 
           ),
           // Past Entry List View, Allows User to delete mistake entries and view history log for water //

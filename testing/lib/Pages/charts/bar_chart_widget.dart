@@ -1,5 +1,5 @@
 
-import 'package:fl_chart/fl_chart.dart';      // fl_chart: ^0.50.5
+import 'package:fl_chart/fl_chart.dart' as bar_chart;      // fl_chart: ^0.50.5
 import 'package:flutter/material.dart';
 import 'package:testing/Pages/charts/water_data.dart';
 import 'package:testing/Pages/charts/data.dart';
@@ -12,40 +12,18 @@ class BarChartWidget extends StatelessWidget {
   const BarChartWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => BarChart(
-        BarChartData(
-          alignment: BarChartAlignment.center,
+  Widget build(BuildContext context) => bar_chart.BarChart(
+        bar_chart.BarChartData(
+          alignment: bar_chart.BarChartAlignment.center,
           maxY: 100,
           minY: 0,
           groupsSpace: 12,
-          barTouchData: BarTouchData(enabled: true),
-          // titlesData: FlTitlesData(
-          //   topTitles: BarTitles.getTopBottomTitles(),
-          //   bottomTitles: BarTitles.getTopBottomTitles(),
-          //   leftTitles: BarTitles.getSideTitles(),
-          //   rightTitles: BarTitles.getSideTitles(),
-          // ),
-          // gridData: FlGridData(
-          //   checkToShowHorizontalLine: (value) => value % BarData.interval == 0,
-          //   getDrawingHorizontalLine: (value) {
-          //     if (value == 0) {
-          //       return FlLine(
-          //         color: const Color(0xff363753),
-          //         strokeWidth: 3,
-          //       );
-          //     } else {
-          //       return FlLine(
-          //         color: const Color(0xff2a2747),
-          //         strokeWidth: 0.8,
-          //       );
-          //     }
-          //   },
-          // ),
+          barTouchData: bar_chart.BarTouchData(enabled: true),
           barGroups: BarData.barData.map(
-            (data) => BarChartGroupData(
+            (data) => bar_chart.BarChartGroupData(
               x: data.id,
               barRods: [
-                BarChartRodData(
+                bar_chart.BarChartRodData(
                   toY: data.y,
                   width: barWidth,
                   color: data.color,
