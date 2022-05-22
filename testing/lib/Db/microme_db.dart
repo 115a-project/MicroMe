@@ -2,10 +2,12 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:testing/Models/entry_model.dart';
 import 'package:testing/Models/water_model.dart';
+import 'package:testing/Models/steps_model.dart';
 
 // Table names declarations
 const String tableJournal = 'entries';
 const String tableWater = 'water';
+const String tableSteps = 'steps';
 
 /*
   Class MicromeDatabase
@@ -101,6 +103,13 @@ class MicromeDatabase {
       ${WaterFields.time} $textType
       )    
     ''');
+
+    await db.execute('''CREATE TABLE $tableSteps (
+      ${StepFields.id} $idType,
+      ${StepFields.steps} $integerType,
+      ${StepFields.time} $textType
+      )    
+    ''');
   }
 
   // Function to create an entry object in the journal table
@@ -160,7 +169,7 @@ class MicromeDatabase {
   // Function to create a water object in the water table
   Future<Water> createWater(Water water) async {
     final db = await instance.database;
-    final id = await db.insert(tableJournal, water.toJson());
+    final id = await db.insert(tableWater, water.toJson());
     return water.copy(id: id);
   }
 
@@ -207,6 +216,52 @@ class MicromeDatabase {
     return await db.delete(
       tableWater,
       where: '${WaterFields.id} = ?',
+      whereArgs: [id],
+    );
+  }
+
+  // Function to create a Step object in the Step table
+  Future<Step> createStep(Step step) async {
+    final db = await instance.database;
+    final id = await db.insert(tableWater, step.toJson());
+    return step.copy(id: id);
+  }
+
+  // Function to read a Step object from the Step table
+  Future<Step> readStep(int id) async {
+    final db = await instance.database;
+    final maps = await db.query(
+      tableSteps,
+      columns: StepFields.values,
+      // Secure against SQL injections
+      where: '${StepFields.id} = ?',
+      whereArgs: [id],
+    );
+    // Successful query
+    if (maps.isNotEmpty) {
+      return Step.fromJson(maps.first);
+    } else {
+      throw Exception('ID $id not found');
+    }
+  }
+
+  // Updates a Step object that exists within the Step table
+  Future<int> updateStep(Step step) async {
+    final db = await instance.database;
+    return db.update(
+      tableSteps,
+      step.toJson(),
+      where: '${StepFields.id} = ?',
+      whereArgs: [step.id],
+    );
+  }
+
+  // Function to delete a Step object from the Step table
+  Future<int> deleteStep(int id) async {
+    final db = await instance.database;
+    return await db.delete(
+      tableSteps,
+      where: '${StepFields.id} = ?',
       whereArgs: [id],
     );
   }

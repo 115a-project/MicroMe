@@ -1,6 +1,6 @@
 /*
   Class WaterFields
-  Instantiates column names in the entries database.
+  Instantiates column names in the water database.
  */
 class WaterFields {
   // A list of all the values in the table
@@ -29,7 +29,7 @@ class Water {
     required this.createdTime,
   });
 
-  // Makes a copy of an Water object to avoid modifying the original Water created
+  // Makes a copy of a Water object to avoid modifying the original Water created
   Water copy({
     int? id,
     int? amount,
@@ -42,7 +42,7 @@ class Water {
     );
   }
 
-  // Converting back from json to our entries type
+  // Converting back from json to our water type
   // createdTime and isImportant are two special cases as their types
   // are not natively supported by json and must be converted
   static Water fromJson(Map<String, Object?> json) {
