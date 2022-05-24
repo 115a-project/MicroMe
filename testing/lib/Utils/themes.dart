@@ -4,7 +4,13 @@ class Themes {
   static ThemeData darkMode() {
     return ThemeData(
       brightness: Brightness.dark,
-      primaryColor: Colors.red,
+      primaryColor: Colors.redAccent,
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: Colors.black38,
+        selectedItemColor: Colors.redAccent,
+        selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+        showUnselectedLabels: false,
+      ),
     );
   }
 
@@ -16,7 +22,7 @@ class Themes {
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: Colors.white,
-        selectedItemColor: Colors.deepPurpleAccent,
+        selectedItemColor: Colors.blueGrey,
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
         showUnselectedLabels: false,
       ),
