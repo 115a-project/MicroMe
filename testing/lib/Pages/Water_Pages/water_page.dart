@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:pie_chart/pie_chart.dart';   // in pubspec.yaml dependencies  pie_chart: ^5.1.0 //
+import 'package:pie_chart/pie_chart.dart' as pie_chart;   // in pubspec.yaml dependencies  pie_chart: "5.1.0" //
 import 'package:flutter/services.dart';
 
 // ****************** Structure *************************
@@ -33,7 +33,7 @@ class _WaterPageState extends State<WaterPage> {
   late TextEditingController controller;
   String amount = '0';                        // amount user has drank
   String total = '0';                         // total amount user has drank
-  String goal = '2500';                       // user's set goal
+  String goal = '100';                       // user's set goal
   TimeOfDay time = TimeOfDay.now();           // Time user has added new water entry
 
   double percentageDrank = 0;
@@ -68,59 +68,61 @@ class _WaterPageState extends State<WaterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children:<Widget> [
-          Container(
-            margin: const EdgeInsets.all(30),
-            child: const Text('Daily Water Intake',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 35),
-                    ),
-          ),
-          // Goal Setting Container, Allows user to change their goal //
-          FlatButton(
-            child: const Text('Change Goal', style: TextStyle(fontSize: 15.0),),
-            onPressed: () async {
-              final goal = await openDialog();
-              if ( goal == null || goal.isEmpty ) return;    // TODO: Toss out invalid values
-              setState(
-                () => this.goal = goal
-              );
-              var percentageDrank = double.parse(total) / double.parse(goal);
-              var remainder = 100 - (percentageDrank*100);
-
-              dataMap.update("left to drink ", (value) => remainder);
-              dataMap.update("drank ", (value) => percentageDrank*100);
-            } // on pressed for goal amounts
-          ),
-          // Pie Chart UI Container //
-          Container(
-            margin: const EdgeInsets.all(30),
-            alignment: Alignment.center,
-            child: PieChart(
-                  dataMap: dataMap,
-                  colorList: pieChartColorList,
-                  chartRadius: MediaQuery.of(context).size.width / 2,
-                  chartType: ChartType.ring,
-                  ringStrokeWidth: 24,
-                  animationDuration: const Duration(seconds: 2),
-                  centerText: total + " / " + goal + " ml",
-                  chartValuesOptions: const ChartValuesOptions( showChartValues: false ),
-                  legendOptions: const LegendOptions( showLegends: false,),
-                ), 
-          ),
-          // Past Entry List View, Allows User to delete mistake entries and view history log for water //
-          SingleChildScrollView(
-            child: Column(
-              children:<Widget> [
-                const Text("Past Entries: "),
-                Text("Added " + amount + 'ml ' + " at " + time.toString()),
-              ],
+      body: SingleChildScrollView (
+        child: Column(
+          children:<Widget> [
+            Container(
+              margin: const EdgeInsets.all(30),
+              child: const Text('Daily Water Intake',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 35),
+                      ),
             ),
-          ),
-        ]
-      ),
+            // Goal Setting Container, Allows user to change their goal //
+            TextButton(
+              child: const Text('Change Goal', style: TextStyle(fontSize: 15.0),),
+              onPressed: () async {
+                final goal = await openDialog();
+                if ( goal == null || goal.isEmpty ) return;    // TODO: Toss out invalid values
+                setState(
+                  () => this.goal = goal
+                );
+                var percentageDrank = double.parse(total) / double.parse(goal);
+                var remainder = 100 - (percentageDrank*100);
+
+                dataMap.update("left to drink ", (value) => remainder);
+                dataMap.update("drank ", (value) => percentageDrank*100);
+              } // on pressed for goal amounts
+            ),
+            // Pie Chart UI Container //
+            Container(
+              margin: const EdgeInsets.all(30),
+              alignment: Alignment.center,
+              child: pie_chart.PieChart(
+                    dataMap: dataMap,
+                    colorList: pieChartColorList,
+                    chartRadius: MediaQuery.of(context).size.width / 2,
+                    chartType: pie_chart.ChartType.ring,
+                    ringStrokeWidth: 24,
+                    animationDuration: const Duration(seconds: 2),
+                    centerText: total + " / " + goal + " oz",
+                    chartValuesOptions: const pie_chart.ChartValuesOptions( showChartValues: false ),
+                    legendOptions: const pie_chart.LegendOptions( showLegends: false,),
+                  ), 
+            ),
+            // Past Entry List View, Allows User to delete mistake entries and view history log for water //
+            SingleChildScrollView(
+              child: Column(
+                children:<Widget> [
+                  const Text("Past Entries: "),
+                  Text("Added " + amount + 'oz ' + " at " + time.toString()),
+                ],
+              ),
+            ),
+          ]
+        ),
+      ), 
       // Allows user to add new water //
       floatingActionButton: buildNavigateButton(),
     );
@@ -161,7 +163,7 @@ class _WaterPageState extends State<WaterPage> {
       title: const Text('Enter Amount Drank: '),
       content: TextField(
         autofocus: true,                                              // keeps the keyboard open
-        decoration: const InputDecoration(hintText: '200 ml'),
+        decoration: const InputDecoration(hintText: '32 oz'),
         controller: controller,
         keyboardType: TextInputType.number, // Set keyboard to number keypad
         inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.allow(RegExp(r"[0-9.]"))], // Only integers allowed

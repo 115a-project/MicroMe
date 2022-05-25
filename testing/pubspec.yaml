@@ -38,12 +38,13 @@ dependencies:
   pedometer: ^3.0.0
   flutter_local_notifications: ^9.4.1
   timezone: ^0.8.0
-  pie_chart: ^5.3.0
+  pie_chart: "5.3.0"
   sqflite: ^2.0.2+1
   intl: ^0.17.0
   flutter_staggered_grid_view: ^0.4.0
   http: ^0.13.4
   page_transition: ^2.0.5
+  fl_chart: ^0.50.5
 
 dev_dependencies:
   flutter_test:
