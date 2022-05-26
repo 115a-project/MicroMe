@@ -38,11 +38,14 @@ class _StepsPageState extends State<StepsPage> {
     initPlatformState();
     controller = TextEditingController();
   }
+
   //Function below updates step counter whenever a 'event' occurs //
   void onStepCount(StepCount event) {
       setState(() {
-        _steps = event.steps.toString();
-        miles = event.steps / 2000;
+        int trueSteps = event.steps - 5000;
+        _steps = trueSteps.toString();
+        miles = trueSteps / 2000;
+        print("event.steps is $event.steps");
         // This function truncates the double 'miles' to two decimal places
         // while also turning it into a string
         _miles = miles.toStringAsFixed(2);
@@ -114,7 +117,7 @@ class _StepsPageState extends State<StepsPage> {
                         style: TextStyle(fontSize: 30),
               ),
                     onPressed: () async {
-
+                      print("TRIED TO RESET");
                     },
               )
           ],

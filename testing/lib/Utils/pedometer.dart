@@ -60,6 +60,7 @@ class Pedometer {
     return _androidPedestrianController.stream;
   }
 
+
   /// Returns the steps taken since last system boot.
   /// Events may come with a delay.
   static Stream<StepCount> get stepCountStream => _stepCountChannel
@@ -81,9 +82,6 @@ class StepCount {
    return _steps;
   }
 
-  void set steps (int count) {
-    _steps = count;
-  }
 
   DateTime get timeStamp => _timeStamp;
 
