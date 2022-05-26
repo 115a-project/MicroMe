@@ -37,12 +37,12 @@ class _WaterPageState extends State<WaterPage> {
   // Controllers for goal and added amounts //
   late TextEditingController controller;
   String amount = '0';                        // amount user has drank
-  String total = '0';                         // total amount user has drank
+  int? total = 0;                         // total amount user has drank
   String goal = '100';                       // user's set goal
   TimeOfDay time = TimeOfDay.now();           // Time user has added new water entry
   //late int number;                            // used in db 
 
-  double percentageDrank = 0;
+  double? percentageDrank = 0;
 
   // Pie chart set to UI displaying amount drank //
   Map<String, double> dataMap = {
@@ -95,10 +95,10 @@ class _WaterPageState extends State<WaterPage> {
                 setState(
                   () => this.goal = goal
                 );
-                var percentageDrank = double.parse(total) / double.parse(goal);
-                var remainder = 100 - (percentageDrank*100);
+                var percentageDrank = find_percent_drank(total);
+                //var remainder = 100 - (percentageDrank*100);
 
-                dataMap.update("left to drink ", (value) => remainder);
+                dataMap.update("left to drink ", (value) => 100 - (int.parse(percentageDrank)*100));
                 dataMap.update("drank ", (value) => percentageDrank*100);
               } // on pressed for goal amounts
             ),
@@ -113,7 +113,7 @@ class _WaterPageState extends State<WaterPage> {
                     chartType: pie_chart.ChartType.ring,
                     ringStrokeWidth: 24,
                     animationDuration: const Duration(seconds: 2),
-                    centerText: total + " / " + goal + " oz",
+                    centerText: total.toString() + " / " + goal + " oz",
                     chartValuesOptions: const pie_chart.ChartValuesOptions( showChartValues: false ),
                     legendOptions: const pie_chart.LegendOptions( showLegends: false,),
                   ), 
@@ -151,24 +151,24 @@ class _WaterPageState extends State<WaterPage> {
       if ( amount == null || amount.isEmpty ) return;        // Toss out invalid values, TODO: make sure it is an int
       setState(
         () => this.amount = amount,
-      ); 
-
-      var amountDouble = double.parse(amount) + double.parse(total);
-      
-      total = amountDouble.toString();
-      var percentageDrank = double.parse(total) / double.parse(goal);
-      var remainder = 100 - (percentageDrank*100);
-
-      // Update values for pie chart so it changes //
-      dataMap.update("left to drink ", (value) => remainder);
-      dataMap.update("drank ", (value) => percentageDrank*100);
+      );
 
       final water = Water(
           amount : int.parse(amount),
           createdTime: DateFormat('yyyy-MM-dd').format(DateTime.now())
       );
-      await MicromeDatabase.instance.createWater(water);
 
+      await MicromeDatabase.instance.createWater(water);
+      // var amountDouble = double.parse(amount) + total;
+
+      total = await MicromeDatabase.instance.returnTodaySum();
+
+      var percentageDrank = find_percent_drank(total);
+      //var remainder = 100 - (percentageDrank*100);
+
+      // Update values for pie chart so it changes //
+      dataMap.update("left to drink ", (value) => 100 - (int.parse(percentageDrank)*100));
+      dataMap.update("drank ", (value) => percentageDrank*100);
     }
   );
 
@@ -198,6 +198,15 @@ class _WaterPageState extends State<WaterPage> {
   // Closes the input pop up and passes controller.text back to body //
   void submit () {
     Navigator.of(context).pop(controller.text);
+  }
+
+  find_percent_drank(total) {
+    if (total == null) {
+      return 0;
+    }
+    else {
+      return total/double.parse(goal);
+    }
   }
 
   // WATER DB angela ily

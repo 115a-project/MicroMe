@@ -199,6 +199,16 @@ class MicromeDatabase {
     return result.map((json) => Water.fromJson(json)).toList();
   }
 
+  Future<int?> returnTotalSum() async {
+    final db = await instance.database;
+    return Sqflite.firstIntValue(await db.rawQuery('SELECT SUM(createTime) FROM water'));
+  }
+
+  Future<int?> returnTodaySum() async {
+    final db = await instance.database;
+    return Sqflite.firstIntValue(await db.rawQuery('SELECT SUM(amount) FROM water'));
+  }
+  
   // Updates a water object that exists within the water table
   Future<int> updateWater(Water water) async {
     final db = await instance.database;
