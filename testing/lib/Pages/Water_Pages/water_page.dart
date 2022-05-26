@@ -152,13 +152,6 @@ class _WaterPageState extends State<WaterPage> {
         () => this.amount = amount,
       ); 
 
-      final water = Water(
-        amount : int.parse(amount),
-        createdTime: DateTime.now()
-      );
-      await MicromeDatabase.instance.createWater(water);
-      // print(water.amount.toString());
-
       var amountDouble = double.parse(amount) + double.parse(total);
       
       total = amountDouble.toString();
@@ -168,6 +161,15 @@ class _WaterPageState extends State<WaterPage> {
       // Update values for pie chart so it changes //
       dataMap.update("left to drink ", (value) => remainder);
       dataMap.update("drank ", (value) => percentageDrank*100);
+
+      final water = Water(
+        amount : int.parse(amount),
+        createdTime: DateTime.now()
+      );
+      await MicromeDatabase.instance.createWater(water);
+      
+
+      
     }
   );
 
