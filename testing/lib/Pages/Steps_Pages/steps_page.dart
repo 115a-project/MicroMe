@@ -114,7 +114,7 @@ class _StepsPageState extends State<StepsPage> {
                         style: TextStyle(fontSize: 30),
               ),
                     onPressed: () async {
-                      _steps = '0';
+
                     },
               )
           ],

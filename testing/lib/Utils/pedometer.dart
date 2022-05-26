@@ -81,6 +81,10 @@ class StepCount {
    return _steps;
   }
 
+  void set steps (int count) {
+    _steps = count;
+  }
+
   DateTime get timeStamp => _timeStamp;
 
   @override
