@@ -201,7 +201,7 @@ class MicromeDatabase {
 
   Future<int?> returnTotalSum() async {
     final db = await instance.database;
-    return Sqflite.firstIntValue(await db.rawQuery('SELECT SUM(createTime) FROM water'));
+    return Sqflite.firstIntValue(await db.rawQuery('SELECT SUM(amount) FROM water'));
   }
 
   Future<int?> returnTodaySum() async {
