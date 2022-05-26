@@ -34,27 +34,27 @@ class _SettingsState extends State<Settings> {
       ),
       children: <Widget>[
         MarkdownPageListTile(
-          filename: 'CHANGELOG.md',
+          filename: 'Markdown_Files/PURPOSE.md',
           title: Text('Purpose'),
           icon: Icon(Icons.view_list),
         ),
         MarkdownPageListTile(
-          filename: 'LICENSE.md',
+          filename: 'Markdown_Files/TUTORIAL.md',
           title: Text('App Tutorial'),
           icon: Icon(Icons.description),
         ),
         MarkdownPageListTile(
-          filename: 'CONTRIBUTING.md',
+          filename: 'Markdown_Files/CONTRIBUTING.md',
           title: Text('Contributors'),
           icon: Icon(Icons.share),
         ),
         MarkdownPageListTile(
-          filename: 'CODE_OF_CONDUCT.md',
+          filename: 'Markdown_Files/ACKNOWLEDGEMENT.md',
           title: Text('Acknowledgements'),
           icon: Icon(Icons.sentiment_satisfied),
         ),
         MarkdownPageListTile(
-          filename: 'README.md',
+          filename: 'Markdown_Files/README.md',
           title: Text('View Readme'),
           icon: Icon(Icons.all_inclusive),
         ),
