@@ -165,7 +165,7 @@ class _WaterPageState extends State<WaterPage> {
 
       final water = Water(
           amount : int.parse(amount),
-          createdTime: DateFormat.yMd().format(DateTime.now())
+          createdTime: DateFormat('yyyy-MM-dd').format(DateTime.now())
       );
       await MicromeDatabase.instance.createWater(water);
 
