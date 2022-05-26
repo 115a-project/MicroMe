@@ -25,7 +25,8 @@ class StepsPage extends StatefulWidget {
   _StepsPageState createState() => _StepsPageState();
 }
 class _StepsPageState extends State<StepsPage> {
-  // This line connects to the package for steps //\
+  // This line connects to the package for steps //
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late TextEditingController controller;
   late Stream<StepCount> _stepCountStream;
   String _steps = '?';
@@ -33,17 +34,37 @@ class _StepsPageState extends State<StepsPage> {
   String _miles = '?';
   String goalVal = '0';
   int extSteps = 0;
-  int subSteps = 0;
+  late Future<int> _store;
   @override
   //Will initiate the state of the application (Wrapper function)//
   void initState() {
     super.initState();
     initPlatformState();
     controller = TextEditingController();
-    startPrefs();
   }
 
-  void setDisplay(int trueSteps) {
+  /*
+    Function - storeStepsBeforeReset
+      This function uses the shared preferences package to store the step count
+      that is passed in via the steps parameter. From there, the value in the
+      steps parameter is stored using the shared preferences method "setInt."
+      It is set with the key 'subSteps' which is later used to refer back to
+      this value.
+   */
+  Future<void> storeStepsBeforeReset(int steps) async {
+    final SharedPreferences prefs = await _prefs;
+    setState(() {
+      _store = prefs.setInt('subSteps', steps).then((bool success) {
+        return steps;
+      });
+    });
+  }
+
+
+  void setDisplay(int trueSteps) async {
+    final SharedPreferences prefs = await _prefs;
+    int subSteps = prefs.getInt('subSteps') ?? 0;
+    trueSteps = trueSteps - subSteps;
     _steps = trueSteps.toString();
     miles = trueSteps / 2000;
     // This function truncates the double 'miles' to two decimal places
@@ -55,9 +76,8 @@ class _StepsPageState extends State<StepsPage> {
   void onStepCount(StepCount event) {
       setState(() {
         extSteps = event.steps;
-        int trueSteps = event.steps - subSteps;
+        int trueSteps = event.steps;
         setDisplay(trueSteps);
-        print("event.steps is $event.steps");
       });
   }
   // Error checking if an event passed into onStepCount is invalid //
@@ -126,17 +146,13 @@ class _StepsPageState extends State<StepsPage> {
                         style: TextStyle(fontSize: 30),
               ),
                     onPressed: () async {
-
+                      storeStepsBeforeReset(extSteps);
                     },
               )
           ],
         ),
       )
     );
-  }
-
-  startPrefs() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
   }
 
 
