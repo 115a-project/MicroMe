@@ -220,6 +220,8 @@ class MicromeDatabase {
     );
   }
 
+  // Function to get the total amount of water
+
   // Function to create a Step object in the Step table
   Future<Step> createStep(Step step) async {
     final db = await instance.database;

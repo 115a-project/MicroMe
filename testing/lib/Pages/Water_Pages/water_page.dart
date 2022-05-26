@@ -4,6 +4,7 @@ import 'package:pie_chart/pie_chart.dart' as pie_chart;   // in pubspec.yaml dep
 import 'package:flutter/services.dart';
 import 'package:testing/Db/microme_db.dart';
 import 'package:testing/Models/water_model.dart';
+import 'package:intl/intl.dart';
 
 // ****************** Structure *************************
 // 
@@ -163,13 +164,11 @@ class _WaterPageState extends State<WaterPage> {
       dataMap.update("drank ", (value) => percentageDrank*100);
 
       final water = Water(
-        amount : int.parse(amount),
-        createdTime: DateTime.now()
+          amount : int.parse(amount),
+          createdTime: DateFormat.yMd().format(DateTime.now())
       );
       await MicromeDatabase.instance.createWater(water);
-      
 
-      
     }
   );
 
