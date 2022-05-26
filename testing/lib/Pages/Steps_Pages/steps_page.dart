@@ -15,6 +15,7 @@
 */
 // sources: https://pub.dev/packages/pedometer/example
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:testing/Utils/pedometer.dart';
 
 class StepsPage extends StatefulWidget {
@@ -24,31 +25,39 @@ class StepsPage extends StatefulWidget {
   _StepsPageState createState() => _StepsPageState();
 }
 class _StepsPageState extends State<StepsPage> {
-  // This line connects to the package for steps //
+  // This line connects to the package for steps //\
   late TextEditingController controller;
   late Stream<StepCount> _stepCountStream;
   String _steps = '?';
   double miles = 0;
   String _miles = '?';
   String goalVal = '0';
+  int extSteps = 0;
+  int subSteps = 0;
   @override
   //Will initiate the state of the application (Wrapper function)//
   void initState() {
     super.initState();
     initPlatformState();
     controller = TextEditingController();
+    startPrefs();
+  }
+
+  void setDisplay(int trueSteps) {
+    _steps = trueSteps.toString();
+    miles = trueSteps / 2000;
+    // This function truncates the double 'miles' to two decimal places
+    // while also turning it into a string
+    _miles = miles.toStringAsFixed(2);
   }
 
   //Function below updates step counter whenever a 'event' occurs //
   void onStepCount(StepCount event) {
       setState(() {
-        int trueSteps = event.steps - 5000;
-        _steps = trueSteps.toString();
-        miles = trueSteps / 2000;
+        extSteps = event.steps;
+        int trueSteps = event.steps - subSteps;
+        setDisplay(trueSteps);
         print("event.steps is $event.steps");
-        // This function truncates the double 'miles' to two decimal places
-        // while also turning it into a string
-        _miles = miles.toStringAsFixed(2);
       });
   }
   // Error checking if an event passed into onStepCount is invalid //
@@ -117,7 +126,7 @@ class _StepsPageState extends State<StepsPage> {
                         style: TextStyle(fontSize: 30),
               ),
                     onPressed: () async {
-                      print("TRIED TO RESET");
+
                     },
               )
           ],
@@ -125,6 +134,12 @@ class _StepsPageState extends State<StepsPage> {
       )
     );
   }
+
+  startPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+  }
+
+
    // This code was adapted from 'Water_page.dart'
     Future<String?> openDialog() => showDialog<String>(
     context: context, builder: (context) => AlertDialog(
