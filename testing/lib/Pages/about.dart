@@ -57,6 +57,7 @@ class _SettingsState extends State<Settings> {
           filename: 'Markdown_Files/README.md',
           title: Text('View Readme'),
           icon: Icon(Icons.all_inclusive),
+          selectable: true,
         ),
       ],
     );
