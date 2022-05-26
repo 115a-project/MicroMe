@@ -39,7 +39,7 @@ class _WaterPageState extends State<WaterPage> {
   String total = '0';                         // total amount user has drank
   String goal = '100';                       // user's set goal
   TimeOfDay time = TimeOfDay.now();           // Time user has added new water entry
-  late int number;                            // used in db 
+  //late int number;                            // used in db 
 
   double percentageDrank = 0;
 
@@ -145,12 +145,19 @@ class _WaterPageState extends State<WaterPage> {
     // When pressed updates the (dataMap) map for pie chart to allow values to change // 
     onPressed: () async {
       final amount = await openDialog();
-      late int number;  
-      final Water? water;
+      // late int number;  
+      // final Water? water;
       if ( amount == null || amount.isEmpty ) return;        // Toss out invalid values, TODO: make sure it is an int
       setState(
         () => this.amount = amount,
       ); 
+
+      final water = Water(
+        amount : int.parse(amount),
+        createdTime: DateTime.now()
+      );
+      await MicromeDatabase.instance.createWater(water);
+      // print(water.amount.toString());
 
       var amountDouble = double.parse(amount) + double.parse(total);
       
@@ -193,14 +200,14 @@ class _WaterPageState extends State<WaterPage> {
   }
 
   // WATER DB angela ily
-  Future addWater() async {
-    final water = Water (
-      amount: number,
-      createdTime: DateTime.now(),
-    );
+  // Future addWater() async {
+  //   final water = Water (
+  //     amount: number,
+  //     createdTime: DateTime.now(),
+  //   );
     
-    await MicromeDatabase.instance.createWater(water);
-  }
+  //   await MicromeDatabase.instance.createWater(water);
+  // }
 
 } // water
 

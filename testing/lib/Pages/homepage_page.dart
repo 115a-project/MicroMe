@@ -24,6 +24,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   String water_total_amount = "100";
+  int step_total_amount = 500000;
   Color water_color = Color(0xff19bfff);
 
   // Generate dummy data to feed the chart
@@ -75,7 +76,10 @@ class _HomeState extends State<Home> {
                 // Statistics entries //
                 /* Statistics for Water */
                 Container( 
-                  margin: const EdgeInsets.all(30),
+                  margin: const EdgeInsets.all(10),
+                ),
+                Container( 
+                  margin: const EdgeInsets.all(5),
                   child: const Text("Water Statistics "),
                 ),
                 Padding(
@@ -115,22 +119,52 @@ class _HomeState extends State<Home> {
                 ),
                 /* Statistics for steps */
                 Container( 
-                  margin: const EdgeInsets.all(30),
+                  margin: const EdgeInsets.all(20),
                   child: const Text("Step Statistics "),
                 ),
+
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  child: const Text(" Total Lifetime Statistics "),
+                ),
                 Container( 
-                  margin: const EdgeInsets.all(30),
-                  child: Card( 
-                    elevation: 0.9,
-                    child: Column(
-                      children: <Widget> [ 
-                        Container(
-                          child: const Text(" Lifetime Total "),
+                  margin: const EdgeInsets.all(5),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 150,
+                    child: Card( 
+                      elevation: 0.9,
+                      child: GridView(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
                         ),
-                        Container(
-                          child: Text( water_total_amount + "oz", style: TextStyle(fontWeight: FontWeight.bold),),
-                        )
-                      ],
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget> [  
+                              Container(
+                                margin: const EdgeInsets.all(5),
+                                child: const Text(" Water Drank ",textAlign: TextAlign.center),
+                              ),
+                              Container(
+                                child: Text( water_total_amount + "oz", style: TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.center, ),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget> [  
+                              Container(
+                                margin: const EdgeInsets.all(5),
+                                child: const Text(" Steps Taken ",textAlign: TextAlign.center),
+                              ),
+                              Container(
+                                child: Text( step_total_amount.toString() + " steps", style: TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.center, ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

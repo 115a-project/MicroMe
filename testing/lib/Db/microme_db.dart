@@ -65,7 +65,7 @@ class MicromeDatabase {
     if (_database != null) return _database!;
 
     // Initializes the database if it does not exist and returns it
-    _database = await _initDB('entries.db');
+    _database = await _initDB('Microme.db');
     return _database!;
   }
 
