@@ -4,8 +4,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:testing/Utils/quote.dart';
+import 'package:fl_chart/fl_chart.dart';
 
-import 'package:testing/Pages/charts/bar_chart_widget.dart';  // imports for statistics 
+// import 'package:testing/Pages/charts/bar_chart_widget.dart';  // imports for statistics
+import 'package:testing/Pages/charts/data.dart' ;
 
 // Generate a random index into list of quotes to display
 Random random = Random();
@@ -14,12 +16,23 @@ int randomNumber = random.nextInt(1642);
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
+
   @override
   _HomeState createState() => _HomeState();
 }
+
+
 class _HomeState extends State<Home> {
-  // List<charts.Series<Data, String>> _seriesData;
   String water_total_amount = "100";
+  Color water_color = Color(0xff19bfff);
+
+  // Generate dummy data to feed the chart
+  final List<Data> waterData = List.generate(
+      30,
+      (index) => Data(
+            x: index,
+            y1: Random().nextInt(40) + Random().nextDouble(),
+          ));
 
   @override
   void initState() {
@@ -71,8 +84,32 @@ class _HomeState extends State<Home> {
                     elevation: 0.9,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
                     child: SizedBox(
-                      height: 200,
-                      child: BarChartWidget(),
+                            height: 250,
+                            child: BarChart(BarChartData(
+                              alignment: BarChartAlignment.spaceAround,
+                              maxY: 100,
+                              groupsSpace: MediaQuery.of(context).size.width * 0.05,
+                              gridData: FlGridData(show: false),
+                              borderData: FlBorderData(
+                                  border: const Border(
+                                top: BorderSide.none,
+                                right: BorderSide.none,
+                                left: BorderSide(width: 1),
+                                bottom: BorderSide(width: 1),
+                              )),
+                              barGroups: waterData
+                              .map((data) =>
+                              BarChartGroupData(x: data.x, barRods: [
+                                BarChartRodData(
+                                    toY: data.y1,
+                                    width: 5,
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(6),
+                                      topRight: Radius.circular(6),
+                                    ),
+                                    ),
+                              ]))
+                          .toList())),
                     ),
                   ),
                 ),
@@ -84,6 +121,7 @@ class _HomeState extends State<Home> {
                 Container( 
                   margin: const EdgeInsets.all(30),
                   child: Card( 
+                    elevation: 0.9,
                     child: Column(
                       children: <Widget> [ 
                         Container(

@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart' as pie_chart;   // in pubspec.yaml dependencies  pie_chart: "5.1.0" //
 import 'package:flutter/services.dart';
+import 'package:testing/Db/microme_db.dart';
+import 'package:testing/Models/water_model.dart';
 
 // ****************** Structure *************************
 // 
@@ -23,7 +25,9 @@ import 'package:flutter/services.dart';
 
 //******************* Water Class *******************
 class WaterPage extends StatefulWidget {
+  // final Water? water;
   const WaterPage({Key? key}) : super(key: key);
+  
 
   @override
   _WaterPageState createState() => _WaterPageState();
@@ -35,6 +39,7 @@ class _WaterPageState extends State<WaterPage> {
   String total = '0';                         // total amount user has drank
   String goal = '100';                       // user's set goal
   TimeOfDay time = TimeOfDay.now();           // Time user has added new water entry
+  late int number;                            // used in db 
 
   double percentageDrank = 0;
 
@@ -56,6 +61,7 @@ class _WaterPageState extends State<WaterPage> {
   void initState() {
     super.initState();
     controller = TextEditingController();
+    // number = widget.water?.number ?? 0;
   }
   
   // clean up the controller after updating entries //
@@ -80,7 +86,7 @@ class _WaterPageState extends State<WaterPage> {
                       ),
             ),
             // Goal Setting Container, Allows user to change their goal //
-            TextButton(
+            RaisedButton(
               child: const Text('Change Goal', style: TextStyle(fontSize: 15.0),),
               onPressed: () async {
                 final goal = await openDialog();
@@ -139,11 +145,15 @@ class _WaterPageState extends State<WaterPage> {
     // When pressed updates the (dataMap) map for pie chart to allow values to change // 
     onPressed: () async {
       final amount = await openDialog();
+      late int number;  
+      final Water? water;
       if ( amount == null || amount.isEmpty ) return;        // Toss out invalid values, TODO: make sure it is an int
       setState(
-        () => this.amount = amount ,
+        () => this.amount = amount,
       ); 
+
       var amountDouble = double.parse(amount) + double.parse(total);
+      
       total = amountDouble.toString();
       var percentageDrank = double.parse(total) / double.parse(goal);
       var remainder = 100 - (percentageDrank*100);
@@ -180,6 +190,16 @@ class _WaterPageState extends State<WaterPage> {
   // Closes the input pop up and passes controller.text back to body //
   void submit () {
     Navigator.of(context).pop(controller.text);
+  }
+
+  // WATER DB angela ily
+  Future addWater() async {
+    final water = Water (
+      amount: number,
+      createdTime: DateTime.now(),
+    );
+    
+    await MicromeDatabase.instance.createWater(water);
   }
 
 } // water
