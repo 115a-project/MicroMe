@@ -42,7 +42,7 @@ class _WaterPageState extends State<WaterPage> {
   TimeOfDay time = TimeOfDay.now();           // Time user has added new water entry
   //late int number;                            // used in db 
 
-  double? percentageDrank = 0;
+  double percentageDrank = 0;
 
   // Pie chart set to UI displaying amount drank //
   Map<String, double> dataMap = {
@@ -99,7 +99,7 @@ class _WaterPageState extends State<WaterPage> {
                 //var remainder = 100 - (percentageDrank*100);
 
                 dataMap.update("left to drink ", (value) => 100 - (int.parse(percentageDrank)*100));
-                dataMap.update("drank ", (value) => percentageDrank*100);
+                dataMap.update("drank ", (value) => int.parse(percentageDrank)*100);
               } // on pressed for goal amounts
             ),
             // Pie Chart UI Container //
@@ -168,7 +168,7 @@ class _WaterPageState extends State<WaterPage> {
 
       // Update values for pie chart so it changes //
       dataMap.update("left to drink ", (value) => 100 - (int.parse(percentageDrank)*100));
-      dataMap.update("drank ", (value) => percentageDrank*100);
+      dataMap.update("drank ", (value) => int.parse(percentageDrank)*100);
     }
   );
 
@@ -205,7 +205,7 @@ class _WaterPageState extends State<WaterPage> {
       return 0;
     }
     else {
-      return total/double.parse(goal);
+      return int.parse(total/double.parse(goal));
     }
   }
 
