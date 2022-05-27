@@ -22,8 +22,6 @@ import 'package:intl/intl.dart';
 //             __________________________________________________
 
 
-
-
 //******************* Water Class *******************
 class WaterPage extends StatefulWidget {
   // final Water? water;
@@ -93,9 +91,12 @@ class _WaterPageState extends State<WaterPage> {
                   () => this.goal = goal
                 );
                 var percentageDrank = find_percent_drank(total);
+                var double_pd = double.parse(percentageDrank);
+                // print('$double_pd');
+                // print('$total');
                 //var remainder = 100 - (percentageDrank*100);
 
-                dataMap.update("left to drink ", (value) => 100 - (double.parse(percentageDrank)*100));
+                dataMap.update("left to drink ", (value) => 100 - (double_pd*100));
                 dataMap.update("drank ", (value) => double.parse(percentageDrank)*100);
               } // on pressed for goal amounts
             ),
@@ -160,12 +161,19 @@ class _WaterPageState extends State<WaterPage> {
 
       total = await MicromeDatabase.instance.returnTodaySum();
 
+      // insertWater();
+      // updateTotal();
       var percentageDrank = find_percent_drank(total);
+      print('$percentageDrank');
+      print('$total');
+
+      var double_pd = double.parse(percentageDrank);
+      print('$double_pd');
       //var remainder = 100 - (percentageDrank*100);
 
       // Update values for pie chart so it changes
-      dataMap.update("left to drink ", (value) => (100 - (double.parse(percentageDrank)*100)));
-      dataMap.update("drank ", (value) => double.parse(percentageDrank)*100);
+      dataMap.update("left to drink ", (value) => (100 - (double_pd*100)));
+      dataMap.update("drank ", (value) => double_pd);
     }
   );
 
@@ -206,14 +214,18 @@ class _WaterPageState extends State<WaterPage> {
     }
   }
 
-  // WATER DB angela ily
-  // Future addWater() async {
-  //   final water = Water (
-  //     amount: number,
-  //     createdTime: DateTime.now(),
+  // void insertWater() async {
+  //   final water = Water(
+  //       amount : int.parse(amount),
+  //       createdTime: DateFormat('yyyy-MM-dd').format(DateTime.now())
   //   );
-    
+  //
   //   await MicromeDatabase.instance.createWater(water);
+  //   // var amountDouble = double.parse(amount) + total;
+  // }
+  //
+  // void updateTotal() async {
+  //   total = await MicromeDatabase.instance.returnTodaySum();
   // }
 
 } // water
