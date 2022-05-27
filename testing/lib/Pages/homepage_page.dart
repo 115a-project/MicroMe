@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:testing/Utils/quote.dart';
 // Generate a random index into list of quotes to display
 Random random = Random();
 int randomNumber = random.nextInt(1642);
+bool _isConnectionSuccessful = true;
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -20,8 +22,24 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    _tryConnection();
     fetchAllQuotes(); // Populates the quote list upon initialization
   }
+
+  Future<void> _tryConnection() async {
+    try {
+      final response = await InternetAddress.lookup('www.woolha2.com');
+
+      setState(() {
+        _isConnectionSuccessful = response.isNotEmpty;
+      });
+    } on SocketException catch (e) {
+      setState(() {
+        _isConnectionSuccessful = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,14 +52,27 @@ class _HomeState extends State<Home> {
         future: fetchAllQuotes(), // Tells what asynchronous computation to connect
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) { // If future finishes
-            return ListTile( // Creates a list tile with the index
-              title: Text(
-                snapshot.data[randomNumber].author, // Takes author of quote as title
-                style:  const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              // Obtain quote text from snapshot to use as the text
-              subtitle: Text(snapshot.data[randomNumber].text),
-            );
+            if (_isConnectionSuccessful) {
+              return ListTile( // Creates a list tile with the index
+                title: Text(
+                  snapshot.data[randomNumber].author,
+                  // Takes author of quote as title
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                // Obtain quote text from snapshot to use as the text
+                subtitle: Text(snapshot.data[randomNumber].text),
+              );
+            } else {
+              return ListTile( // Creates a list tile with the index
+                title: Text(
+                  snapshot.data.author,
+                  // Takes author of quote as title
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                // Obtain quote text from snapshot to use as the text
+                subtitle: Text(snapshot.data.text),
+              );
+            }
           } else {
             return const Center(
               // Indicate loading with a progress indicator
@@ -53,6 +84,7 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
 }
 
 /*
@@ -61,6 +93,10 @@ The data is decoded. For each quote in the data, an instance of the quote class
 is made and added to a returned list of quotes.
  */
 Future fetchAllQuotes() async {
+  if (!_isConnectionSuccessful){
+    Quote quote = Quote(text: "Wise people choose to connect to the internet", author: "FSB");
+    return quote;
+  }
   final response = await http.get(Uri.parse('https://type.fit/api/quotes'));
   if (response.statusCode == 200) {
     var jsonData = jsonDecode(response.body); // Parses string to obtain json data

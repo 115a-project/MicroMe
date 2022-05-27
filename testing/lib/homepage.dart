@@ -4,7 +4,7 @@ import 'package:testing/Pages/steps_page.dart';
 import 'package:testing/Pages/Journal_Pages/journal_page.dart';
 import 'package:testing/Pages/Water_Pages/water_page.dart';
 import 'package:testing/Pages/homepage_page.dart';
-import 'package:testing/Pages/settings.dart';
+import 'package:testing/Pages/about.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 
