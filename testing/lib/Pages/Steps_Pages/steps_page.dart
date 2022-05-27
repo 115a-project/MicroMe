@@ -17,6 +17,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:testing/Utils/pedometer.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class StepsPage extends StatefulWidget {
   const StepsPage({Key? key}) : super(key: key);
@@ -113,6 +114,16 @@ class _StepsPageState extends State<StepsPage> {
             Text(
               _steps,
               style: const TextStyle(fontSize: 30),
+            ),
+            LinearPercentIndicator(
+              width: MediaQuery.of(context).size.width - 50,
+              animation: true,
+              lineHeight: 20.0,
+              animationDuration: 2500,
+              percent: 0.5,
+              center: const Text("80.0 %"),
+              linearStrokeCap: LinearStrokeCap.roundAll,
+              progressColor: Colors.purple,
             ),
             Text(
               'Goal: $goalVal',
