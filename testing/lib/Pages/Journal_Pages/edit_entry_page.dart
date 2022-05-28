@@ -85,6 +85,7 @@ class _AddEditEntryPageState extends State<AddEditEntryPage> {
         child: FloatingActionButton.extended (
           onPressed: addOrUpdateEntry,
           label: const Text('Save'),
+          icon: const ImageIcon(AssetImage('assets/Save.png'),)
         )
       )
     );

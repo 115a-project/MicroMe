@@ -45,6 +45,9 @@ dependencies:
   http: ^0.13.4
   page_transition: ^2.0.5
   fl_chart: "0.50.5"
+  shared_preferences: ^2.0.15
+  percent_indicator: ^4.2.1
+  about: ^2.1.1
 
 dev_dependencies:
   flutter_test:
@@ -93,6 +96,17 @@ flutter:
     - assets/steps.png
     - assets/water.png
     - assets/journal.png
+    - Markdown_Files/README.md
+    - Markdown_Files/TUTORIAL.md
+    - Markdown_Files/PURPOSE.md
+    - Markdown_Files/CONTRIBUTING.md
+    - Markdown_Files/ACKNOWLEDGEMENT.md
+    - assets/Trash.png
+    - assets/Save.png
+    - assets/Edit.png
+    - assets/Back.png
+    - assets/QTZ.png
+    - assets/QTZtransparent.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

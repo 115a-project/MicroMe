@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 import 'dart:io';
 
@@ -49,6 +50,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    _tryConnection();
     fetchAllQuotes(); // Populates the quote list upon initialization
     getAllWater().then((value) { if(value == null) {waterTotalAmount = 0;} else{waterTotalAmount = value;} });
     countAllEntries().then((value) {journalTotalEntries = value; });
@@ -77,6 +79,7 @@ class _HomeState extends State<Home> {
 
   //   setState(() => isLoading = false);
   // }
+
   Future<void> _tryConnection() async {
     try {
       final response = await InternetAddress.lookup('www.woolha2.com');
@@ -91,7 +94,6 @@ class _HomeState extends State<Home> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,6 +102,7 @@ class _HomeState extends State<Home> {
       snapshot from a future. In our case, this snapshot is the list returned
       from the fetchAllQuotes() method.
       */
+
       body: SingleChildScrollView(
         child:  Column(
               children: <Widget> [
