@@ -30,15 +30,16 @@ class _StepsPageState extends State<StepsPage> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late TextEditingController controller;
   late Stream<StepCount> _stepCountStream;
-  String _steps = '?';
-  double miles = 0;
-  String _miles = '?';
-  String goalVal = '0';
-  int goalInt = 0;
-  int extSteps = 0;
-  double percentVal = 0;
-  String percentString = '?';
   late Future<int> _store;
+  String _steps = '?';
+  String _miles = '?';
+  String goalVal = '1000';
+  String percentString = '?';
+  int goalInt = 1000;
+  int extSteps = 0;
+  int trueStepsGlobal = 0;
+  double miles = 0;
+  double percentVal = 0;
   @override
   //Will initiate the state of the application (Wrapper function)//
   void initState() {
@@ -64,11 +65,25 @@ class _StepsPageState extends State<StepsPage> {
     });
   }
 
+  double percentCalculation(int ts, int goal) {
+    double store = ts / goal;
+    if(store >= 1.0) {
+      return 1.0;
+    }
+    else {
+      return store;
+    }
+  }
+
+  String percentToString(double percent) {
+    return percent.toString();
+  }
 
   void setDisplay(int trueSteps) async {
     final SharedPreferences prefs = await _prefs;
     int subSteps = prefs.getInt('subSteps') ?? 0;
     trueSteps = trueSteps - subSteps;
+    trueStepsGlobal = trueSteps;
     _steps = trueSteps.toString();
     miles = trueSteps / 2000;
     // This function truncates the double 'miles' to two decimal places
@@ -123,8 +138,8 @@ class _StepsPageState extends State<StepsPage> {
               animation: true,
               lineHeight: 30.0,
               animationDuration: 1000,
-              percent: extSteps / goalInt,
-              center: Text('$percentString%'),
+              percent: percentCalculation(trueStepsGlobal, goalInt),
+              center: Text(percentToString(percentCalculation(trueStepsGlobal, goalInt)) + '%'),
               barRadius: const Radius.circular(16),
               progressColor: Colors.purple,
             ),
@@ -144,8 +159,8 @@ class _StepsPageState extends State<StepsPage> {
                       () => goalVal = goal
                   );
                   goalInt = int.parse(goalVal);
-                  percentVal = extSteps / goalInt;
-                  percentString = percentVal.toString();
+                  // percentVal = extSteps / goalInt;
+                  // percentString = percentVal.toString();
 
                 }
             ),
