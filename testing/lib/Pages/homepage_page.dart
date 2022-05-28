@@ -18,6 +18,7 @@ Random random = Random();
 int randomNumber = random.nextInt(1642);
 dynamic waterTotalAmount;
 dynamic journalTotalEntries;
+dynamic stepTotalAmount;
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -28,7 +29,6 @@ class Home extends StatefulWidget {
 
 
 class _HomeState extends State<Home> {
-  int stepTotalAmount = 500000;
   Color waterColor = const Color(0xff19bfff);
 
   // data base entries
@@ -47,8 +47,9 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     fetchAllQuotes(); // Populates the quote list upon initialization
-    getAllWater().then((value){ if(value == null) {waterTotalAmount = 0;} else{waterTotalAmount = value;} });
+    getAllWater().then((value) { if(value == null) {waterTotalAmount = 0;} else{waterTotalAmount = value;} });
     countAllEntries().then((value) {journalTotalEntries = value; });
+    getAllSteps().then((value) {stepTotalAmount = value; });
   }
 
   /*
@@ -190,7 +191,7 @@ class _HomeState extends State<Home> {
                                 child: const Text(" Water Drank ",style: TextStyle(fontSize:11, fontWeight: FontWeight.bold, color: Colors.blue ),textAlign: TextAlign.center),
                               ),
                               Container(
-                                child: Text( waterTotalAmount.toString() + " oz", style: const TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.center, ),
+                                child: Text( validOutputChecker(waterTotalAmount) + " oz", style: const TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.center, ),
                               ),
                             ],
                           ),
@@ -202,7 +203,7 @@ class _HomeState extends State<Home> {
                                 child: const Text(" Steps Taken ",style: TextStyle(fontSize:11, fontWeight: FontWeight.bold, color: Colors.blue ), textAlign: TextAlign.center),
                               ),
                               Container(
-                                child: Text( stepTotalAmount.toString() + " steps", style: const TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.center, ),
+                                child: Text( validOutputChecker(stepTotalAmount) + " steps", style: const TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.center, ),
                               ),
                             ],
                           ),
@@ -214,7 +215,7 @@ class _HomeState extends State<Home> {
                                 child: const Text(" Entries Created ",style: TextStyle(fontSize:11, fontWeight: FontWeight.bold, color: Colors.blue ),textAlign: TextAlign.center),
                               ),
                               Container(
-                                child: Text( journalTotalEntries.toString() + " entries", style: const TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.center, )
+                                child: Text( validOutputChecker(journalTotalEntries) + " entries", style: const TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.center, )
                               ),
                             ],
                           ),
@@ -254,22 +255,35 @@ class _HomeState extends State<Home> {
   }
 
   /*
-    Helper function that grabs all water from the database
+    Helper function  called in initState() that grabs all water from the database
    */
   Future getAllWater() async {
-    
-    // waterTotalAmount = 
-    // print("$waterTotalAmount");
-    return await MicromeDatabase.instance.returnTotalSum();
+    return await MicromeDatabase.instance.returnTotalSumWater();
   }
 
   /*
-    Helper function that counts all journal entries from the database
+    Helper function  called in initState() that counts all journal entries from the database
    */
   Future countAllEntries() async {
     journalTotalEntries = await MicromeDatabase.instance.countEntries();
-    print("Jounrla entries: $journalTotalEntries");
     return journalTotalEntries;
+  }
+
+  /*
+    Helper function called in initState() that grabs total step count from the database
+   */
+  Future getAllSteps() async {
+    return await MicromeDatabase.instance.returnTotalSumStep();
+  }
+
+  /*
+   * Helper used in displaying values from databse in case they come out null on initilization
+   */
+  String validOutputChecker(value) {
+    if (value.toString() == "null") {
+      return "0";
+    }
+    return value.toString();
   }
 }
 
