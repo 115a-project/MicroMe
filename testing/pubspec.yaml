@@ -103,6 +103,7 @@ flutter:
     - assets/Edit.png
     - assets/Back.png
     - assets/QTZ.png
+    - assets/QTZtransparent.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
