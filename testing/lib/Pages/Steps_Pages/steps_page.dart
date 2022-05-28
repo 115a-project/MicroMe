@@ -33,9 +33,9 @@ class _StepsPageState extends State<StepsPage> {
   late Future<int> _store;
   String _steps = '?';
   String _miles = '?';
-  String goalVal = '1000';
+  String goalVal = '1000'; // goal is set by default to be 1000 (fixes infinity err)
   String percentString = '?';
-  int goalInt = 1000;
+  int goalInt = 1000; // default: 1000
   int extSteps = 0;
   int trueStepsGlobal = 0;
   double miles = 0;
@@ -64,6 +64,12 @@ class _StepsPageState extends State<StepsPage> {
       });
     });
   }
+/*
+ Function - percentCalculation:
+ takes in TrueStepsGlobal and the goal and converts it into percentage
+ needed to pass into the percent param in the percentageIndicator funct
+ Ranges from 0.0 to 1.0. 1.0 x 100 = 100%. Cannot be above 100.
+ */
 
   double percentCalculation(int ts, int goal) {
     double store = ts / goal;
@@ -74,7 +80,14 @@ class _StepsPageState extends State<StepsPage> {
       return store;
     }
   }
+  /*
 
+   Function - percentToString
+   Wrapper function that takes in the double percent
+   and converts it into a string. Used for displaying
+   percentage on the Steps Page.
+
+  */
   String percentToString(double percent) {
     return percent.toString();
   }
