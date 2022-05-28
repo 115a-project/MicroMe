@@ -158,8 +158,8 @@ class _WaterPageState extends State<WaterPage> {
       await MicromeDatabase.instance.createWater(water);
       // var amountDouble = double.parse(amount) + total;
 
-      total = await MicromeDatabase.instance.returnTodaySum();
-      // await updateTotal().then(updatePieChart());
+      total = await MicromeDatabase.instance.returnTodaySumWater();
+
 
       // insertWater();
       // updateTotal();

@@ -166,6 +166,12 @@ class MicromeDatabase {
     );
   }
 
+  Future<int?> countEntries() async{
+    final db = await instance.database;
+    var value =  Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM entries;'));
+    return value;
+  }
+
   // Function to create a water object in the water table
   Future<Water> createWater(Water water) async {
     final db = await instance.database;
@@ -199,12 +205,13 @@ class MicromeDatabase {
     return result.map((json) => Water.fromJson(json)).toList();
   }
 
-  Future<int?> returnTotalSum() async {
+  Future<int?> returnTotalSumWater() async {
     final db = await instance.database;
-    return Sqflite.firstIntValue(await db.rawQuery('SELECT SUM(amount) FROM water'));
+    var value =  Sqflite.firstIntValue(await db.rawQuery('SELECT SUM(amount) FROM water'));
+    return value;
   }
 
-  Future<int?> returnTodaySum() async {
+  Future<int?> returnTodaySumWater() async {
     final db = await instance.database;
     return Sqflite.firstIntValue(await db.rawQuery('SELECT SUM(amount) FROM water WHERE CAST(time as date) = CAST (DATE(\'now\') as date)'));
   }
@@ -276,6 +283,13 @@ class MicromeDatabase {
       where: '${StepFields.id} = ?',
       whereArgs: [id],
     );
+  }
+
+  // counts all step values 
+  Future<int?> returnTotalSumStep() async {
+    final db = await instance.database;
+    var value =  Sqflite.firstIntValue(await db.rawQuery('SELECT SUM(amount) FROM steps'));
+    return value;
   }
 
   // Function for closing database
