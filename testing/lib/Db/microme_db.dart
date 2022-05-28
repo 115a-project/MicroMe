@@ -166,6 +166,12 @@ class MicromeDatabase {
     );
   }
 
+  Future<int?> countEntries() async{
+    final db = await instance.database;
+    var value =  Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM entries;'));
+    return value;
+  }
+
   // Function to create a water object in the water table
   Future<Water> createWater(Water water) async {
     final db = await instance.database;

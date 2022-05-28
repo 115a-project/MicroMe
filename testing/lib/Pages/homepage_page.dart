@@ -28,7 +28,6 @@ class Home extends StatefulWidget {
 
 
 class _HomeState extends State<Home> {
-  
   int stepTotalAmount = 500000;
   Color waterColor = const Color(0xff19bfff);
 
@@ -48,7 +47,8 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     fetchAllQuotes(); // Populates the quote list upon initialization
-    getAllWater();
+    getAllWater().then((value){ if(value == null) {waterTotalAmount = 0;} else{waterTotalAmount = value;} });
+    countAllEntries().then((value) {journalTotalEntries = value; });
   }
 
   /*
@@ -257,14 +257,19 @@ class _HomeState extends State<Home> {
     Helper function that grabs all water from the database
    */
   Future getAllWater() async {
-    return  await MicromeDatabase.instance.returnTotalSum();
+    
+    // waterTotalAmount = 
+    // print("$waterTotalAmount");
+    return await MicromeDatabase.instance.returnTotalSum();
   }
 
   /*
     Helper function that counts all journal entries from the database
    */
   Future countAllEntries() async {
-    return  await MicromeDatabase.instance.returnTotalSum();
+    journalTotalEntries = await MicromeDatabase.instance.countEntries();
+    print("Jounrla entries: $journalTotalEntries");
+    return journalTotalEntries;
   }
 }
 
