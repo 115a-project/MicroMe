@@ -6,16 +6,21 @@ import 'package:http/http.dart' as http;
 import 'package:testing/Utils/quote.dart';
 import 'package:fl_chart/fl_chart.dart';
 
-// import 'package:testing/Pages/charts/bar_chart_widget.dart';  // imports for statistics
+// imports for statistics
 import 'package:testing/Pages/charts/data.dart' ;
+
+// Database imports
+import 'package:testing/Db/microme_db.dart';
+import 'package:testing/Models/water_model.dart';
 
 // Generate a random index into list of quotes to display
 Random random = Random();
 int randomNumber = random.nextInt(1642);
+dynamic waterTotalAmount;
+dynamic journalTotalEntries;
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
-
 
   @override
   _HomeState createState() => _HomeState();
@@ -23,9 +28,13 @@ class Home extends StatefulWidget {
 
 
 class _HomeState extends State<Home> {
-  String water_total_amount = "100";
-  int step_total_amount = 500000;
-  Color water_color = Color(0xff19bfff);
+  
+  int stepTotalAmount = 500000;
+  Color waterColor = const Color(0xff19bfff);
+
+  // data base entries
+  late List<Water> waterList;
+  bool isLoading = false;
 
   // Generate dummy data to feed the chart
   final List<Data> waterData = List.generate(
@@ -39,7 +48,32 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     fetchAllQuotes(); // Populates the quote list upon initialization
+    getAllWater();
   }
+
+  /*
+    Collects all water entires to display on the stats page
+    Ensure the database is closed before doing this.
+   */
+  @override
+  void dispose() {
+    MicromeDatabase.instance.close();
+    super.dispose();
+  }
+
+  // /*
+  //   Collect all entries for water to allow statsitics to be created.
+  //  */
+  // Future refreshEntries() async {
+  //   setState(() => isLoading = true);
+
+  //   this.waterList = await MicromeDatabase.instance.readAllWater();
+  //   print(await MicromeDatabase.instance.readAllWater());
+
+  //   setState(() => isLoading = false);
+  // }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,14 +110,20 @@ class _HomeState extends State<Home> {
                 // Statistics entries //
                 /* Statistics for Water */
                 Container( 
+                  // This container is used for padding purposes
                   margin: const EdgeInsets.all(10),
                 ),
                 Container( 
                   margin: const EdgeInsets.all(5),
-                  child: const Text("Water Statistics "),
+                  child: const Text("Water Statistics ", style: TextStyle(color: Color.fromARGB(126, 1, 0, 0), fontWeight: FontWeight.bold, fontSize: 24),),
                 ),
+                /**
+                 * Dynamic chart to track steps of water 
+                 * counts the last 7 amount of water with data provided from waterData List
+                 * inspired source for dynamic portion: https://www.kindacode.com/article/how-to-make-bar-charts-with-fl_chart-in-flutter/
+                */
                 Padding(
-                  padding: EdgeInsets.fromLTRB(20,10,20,10),
+                  padding: const EdgeInsets.fromLTRB(20,10,20,10),
                   child: Card(
                     elevation: 0.9,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
@@ -117,26 +157,29 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ),
-                /* Statistics for steps */
+                /* Statistics for Steps */
                 Container( 
                   margin: const EdgeInsets.all(20),
-                  child: const Text("Step Statistics "),
+                  child: const Text("Step Statistics ", style: TextStyle(color: Color.fromARGB(126, 1, 0, 0), fontWeight: FontWeight.bold, fontSize: 24),),
                 ),
 
                 Container(
                   margin: const EdgeInsets.all(5),
-                  child: const Text(" Total Lifetime Statistics "),
+                  child: const Text(" Total Lifetime Statistics ", style: TextStyle(color: Color.fromARGB(126, 1, 0, 0), fontWeight: FontWeight.bold, fontSize: 24), ),
                 ),
+                /*
+                  Holds lifetime statistics 
+                 */
                 Container( 
                   margin: const EdgeInsets.all(5),
                   child: SizedBox(
                     width: double.infinity,
-                    height: 150,
+                    height: 120,
                     child: Card( 
                       elevation: 0.9,
                       child: GridView(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
                         ),
                         children: [
                           Column(
@@ -144,10 +187,10 @@ class _HomeState extends State<Home> {
                             children: <Widget> [  
                               Container(
                                 margin: const EdgeInsets.all(5),
-                                child: const Text(" Water Drank ",textAlign: TextAlign.center),
+                                child: const Text(" Water Drank ",style: TextStyle(fontSize:11, fontWeight: FontWeight.bold, color: Colors.blue ),textAlign: TextAlign.center),
                               ),
                               Container(
-                                child: Text( water_total_amount + "oz", style: TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.center, ),
+                                child: Text( waterTotalAmount.toString() + " oz", style: const TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.center, ),
                               ),
                             ],
                           ),
@@ -156,10 +199,22 @@ class _HomeState extends State<Home> {
                             children: <Widget> [  
                               Container(
                                 margin: const EdgeInsets.all(5),
-                                child: const Text(" Steps Taken ",textAlign: TextAlign.center),
+                                child: const Text(" Steps Taken ",style: TextStyle(fontSize:11, fontWeight: FontWeight.bold, color: Colors.blue ), textAlign: TextAlign.center),
                               ),
                               Container(
-                                child: Text( step_total_amount.toString() + " steps", style: TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.center, ),
+                                child: Text( stepTotalAmount.toString() + " steps", style: const TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.center, ),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget> [  
+                              Container(
+                                margin: const EdgeInsets.all(5),
+                                child: const Text(" Entries Created ",style: TextStyle(fontSize:11, fontWeight: FontWeight.bold, color: Colors.blue ),textAlign: TextAlign.center),
+                              ),
+                              Container(
+                                child: Text( journalTotalEntries.toString() + " entries", style: const TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.center, )
                               ),
                             ],
                           ),
@@ -196,6 +251,20 @@ class _HomeState extends State<Home> {
     } else {
       throw Exception('Failed to fetch posts');
     }
+  }
+
+  /*
+    Helper function that grabs all water from the database
+   */
+  Future getAllWater() async {
+    return  await MicromeDatabase.instance.returnTotalSum();
+  }
+
+  /*
+    Helper function that counts all journal entries from the database
+   */
+  Future countAllEntries() async {
+    return  await MicromeDatabase.instance.returnTotalSum();
   }
 }
 
