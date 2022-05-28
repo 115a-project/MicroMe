@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
             actions: <Widget> [
               IconButton(
                 icon: const ImageIcon(
-                  AssetImage('assets/settings.png'),
+                  AssetImage('assets/QTZ.png'),
                   size: 35,
                 ),
                 tooltip: 'Settings',
