@@ -4,7 +4,7 @@ import 'package:testing/Pages/Steps_Pages/steps_page.dart';
 import 'package:testing/Pages/Journal_Pages/journal_page.dart';
 import 'package:testing/Pages/Water_Pages/water_page.dart';
 import 'package:testing/Pages/homepage_page.dart';
-import 'package:testing/Pages/settings.dart';
+import 'package:testing/Pages/about.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 
@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
             actions: <Widget> [
               IconButton(
                 icon: const ImageIcon(
-                  AssetImage('assets/settings.png'),
+                  AssetImage('assets/QTZ.png'),
                   size: 35,
                 ),
                 tooltip: 'Settings',

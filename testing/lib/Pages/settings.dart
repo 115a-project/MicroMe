@@ -29,7 +29,7 @@ class _SettingsState extends State<Settings> {
       appBar: AppBar(
           title: const Text('Settings'),
           leading: IconButton(
-            icon: const Icon(Icons.redo),
+            icon: const ImageIcon(AssetImage('assets/Back.png'),),
             onPressed: () {
               Navigator.of(context).pop();
             },

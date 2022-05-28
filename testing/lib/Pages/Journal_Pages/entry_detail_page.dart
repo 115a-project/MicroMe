@@ -56,6 +56,12 @@ class _EntryDetailPageState extends State<EntryDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const ImageIcon(AssetImage('assets/Back.png')),
+          onPressed: () {
+            Navigator.of(context).pop();
+              },
+        ),
         actions: [editButton(), deleteButton()],
       ),
       body: isLoading
@@ -98,7 +104,7 @@ class _EntryDetailPageState extends State<EntryDetailPage> {
 
   Widget editButton() {
     return IconButton(
-        icon: const Icon(Icons.edit_outlined),
+        icon: const ImageIcon(AssetImage('assets/Edit.png'),),
         onPressed: () async {
           if (isLoading) return;
 
@@ -118,7 +124,7 @@ class _EntryDetailPageState extends State<EntryDetailPage> {
 
   Widget deleteButton() {
     return IconButton(
-      icon: const Icon(Icons.delete),
+      icon: const ImageIcon(AssetImage('assets/Trash.png'),),
       onPressed: () async {
         await MicromeDatabase.instance.deleteEntry(widget.entryId);
         Navigator.of(context).pop();
