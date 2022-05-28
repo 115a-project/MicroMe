@@ -232,7 +232,7 @@ class _WaterPageState extends State<WaterPage> {
   // }
   //
   Future<int?> updateTotal() async {
-    return total = await MicromeDatabase.instance.returnTodaySum();
+    return total = await MicromeDatabase.instance.returnTodaySumWater();
   }
 
 } // water

@@ -288,7 +288,7 @@ class MicromeDatabase {
   // counts all step values 
   Future<int?> returnTotalSumStep() async {
     final db = await instance.database;
-    var value =  Sqflite.firstIntValue(await db.rawQuery('SELECT SUM(amount) FROM steps'));
+    var value =  Sqflite.firstIntValue(await db.rawQuery('SELECT SUM(steps) FROM steps'));
     return value;
   }
 
