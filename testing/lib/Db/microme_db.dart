@@ -213,7 +213,7 @@ class MicromeDatabase {
 
   Future<int?> returnTodaySumWater() async {
     final db = await instance.database;
-    return Sqflite.firstIntValue(await db.rawQuery('SELECT SUM(amount) FROM water'));
+    return Sqflite.firstIntValue(await db.rawQuery('SELECT SUM(amount) FROM water WHERE CAST(time as date) = CAST (DATE(\'now\') as date)'));
   }
   
   // Updates a water object that exists within the water table
