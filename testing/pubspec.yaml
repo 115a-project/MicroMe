@@ -98,6 +98,11 @@ flutter:
     - Markdown_Files/PURPOSE.md
     - Markdown_Files/CONTRIBUTING.md
     - Markdown_Files/ACKNOWLEDGEMENT.md
+    - assets/Trash.png
+    - assets/Save.png
+    - assets/Edit.png
+    - assets/Back.png
+    - assets/QTZ.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
