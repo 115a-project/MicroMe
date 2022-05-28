@@ -22,8 +22,6 @@ import 'package:intl/intl.dart';
 //             __________________________________________________
 
 
-
-
 //******************* Water Class *******************
 class WaterPage extends StatefulWidget {
   // final Water? water;
@@ -40,8 +38,6 @@ class _WaterPageState extends State<WaterPage> {
   int? total = 0;                         // total amount user has drank
   String goal = '100';                       // user's set goal
   TimeOfDay time = TimeOfDay.now();           // Time user has added new water entry
-  //late int number;                            // used in db 
-
   double percentageDrank = 0;
 
   // Pie chart set to UI displaying amount drank //
@@ -54,7 +50,6 @@ class _WaterPageState extends State<WaterPage> {
   List<Color> pieChartColorList = [
     const Color.fromARGB(60, 104, 104, 176),
     const Color.fromARGB(255, 91, 121, 192),
-    
   ];
 
   // initiate controller to access submit entries for new water and new goal settings //
@@ -96,10 +91,13 @@ class _WaterPageState extends State<WaterPage> {
                   () => this.goal = goal
                 );
                 var percentageDrank = find_percent_drank(total);
+                var double_pd = double.parse(percentageDrank);
+                // print('$double_pd');
+                // print('$total');
                 //var remainder = 100 - (percentageDrank*100);
 
-                dataMap.update("left to drink ", (value) => 100 - (int.parse(percentageDrank)*100));
-                dataMap.update("drank ", (value) => int.parse(percentageDrank)*100);
+                dataMap.update("left to drink ", (value) => 100 - (double_pd*100));
+                dataMap.update("drank ", (value) => double.parse(percentageDrank)*100);
               } // on pressed for goal amounts
             ),
             // Pie Chart UI Container //
@@ -163,12 +161,19 @@ class _WaterPageState extends State<WaterPage> {
 
       total = await MicromeDatabase.instance.returnTodaySum();
 
+      // insertWater();
+      // updateTotal();
       var percentageDrank = find_percent_drank(total);
+      print('$percentageDrank');
+      print('$total');
+
+      var double_pd = double.parse(percentageDrank);
+      print('$double_pd');
       //var remainder = 100 - (percentageDrank*100);
 
-      // Update values for pie chart so it changes //
-      dataMap.update("left to drink ", (value) => 100 - (int.parse(percentageDrank)*100));
-      dataMap.update("drank ", (value) => int.parse(percentageDrank)*100);
+      // Update values for pie chart so it changes
+      dataMap.update("left to drink ", (value) => (100 - (double_pd*100)));
+      dataMap.update("drank ", (value) => double_pd);
     }
   );
 
@@ -200,23 +205,27 @@ class _WaterPageState extends State<WaterPage> {
     Navigator.of(context).pop(controller.text);
   }
 
-  find_percent_drank(total) {
+  String find_percent_drank(total) {
     if (total == null) {
-      return 0;
+      return "0";
     }
     else {
-      return int.parse(total/double.parse(goal));
+      return (total/double.parse(goal)).toString();
     }
   }
 
-  // WATER DB angela ily
-  // Future addWater() async {
-  //   final water = Water (
-  //     amount: number,
-  //     createdTime: DateTime.now(),
+  // void insertWater() async {
+  //   final water = Water(
+  //       amount : int.parse(amount),
+  //       createdTime: DateFormat('yyyy-MM-dd').format(DateTime.now())
   //   );
-    
+  //
   //   await MicromeDatabase.instance.createWater(water);
+  //   // var amountDouble = double.parse(amount) + total;
+  // }
+  //
+  // void updateTotal() async {
+  //   total = await MicromeDatabase.instance.returnTodaySum();
   // }
 
 } // water
