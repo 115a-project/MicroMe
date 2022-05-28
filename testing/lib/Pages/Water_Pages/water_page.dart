@@ -143,8 +143,6 @@ class _WaterPageState extends State<WaterPage> {
     // When pressed updates the (dataMap) map for pie chart to allow values to change // 
     onPressed: () async {
       final amount = await openDialog();
-      // late int number;  
-      // final Water? water;
       if ( amount == null || amount.isEmpty ) return;        // Toss out invalid values, TODO: make sure it is an int
       setState(
         () => this.amount = amount,
