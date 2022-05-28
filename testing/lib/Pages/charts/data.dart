@@ -13,17 +13,4 @@ class Data {
 //   String name;
 //   double y;
 //   Color color;
-
-//   Data( this.id,  this.name,  this.y,  this.color );
-
-//   // Data.fromMap(Map<String.dynamic> map)
-//   // :assert(map['id']!=null),
-//   //  assert(map['name']!=null),
-//   //  assert(map['y']!=null),
-//   //  assert(map['color']!=null),
-//   //   id=map['id'],
-//   //   name=map['name'],
-//   //   y=map['y'],
-//   //   color=map['color'];
-
 // }
