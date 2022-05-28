@@ -34,7 +34,10 @@ class _StepsPageState extends State<StepsPage> {
   double miles = 0;
   String _miles = '?';
   String goalVal = '0';
+  int goalInt = 0;
   int extSteps = 0;
+  double percentVal = 0;
+  String percentString = '?';
   late Future<int> _store;
   @override
   //Will initiate the state of the application (Wrapper function)//
@@ -116,13 +119,13 @@ class _StepsPageState extends State<StepsPage> {
               style: const TextStyle(fontSize: 30),
             ),
             LinearPercentIndicator(
-              width: MediaQuery.of(context).size.width - 50,
+              width: MediaQuery.of(context).size.width,
               animation: true,
-              lineHeight: 20.0,
-              animationDuration: 2500,
-              percent: 0.5,
-              center: const Text("80.0 %"),
-              linearStrokeCap: LinearStrokeCap.roundAll,
+              lineHeight: 30.0,
+              animationDuration: 1000,
+              percent: extSteps / goalInt,
+              center: Text('$percentString%'),
+              barRadius: const Radius.circular(16),
               progressColor: Colors.purple,
             ),
             Text(
@@ -140,12 +143,16 @@ class _StepsPageState extends State<StepsPage> {
                   setState(
                       () => goalVal = goal
                   );
+                  goalInt = int.parse(goalVal);
+                  percentVal = extSteps / goalInt;
+                  percentString = percentVal.toString();
+
                 }
             ),
             const Divider(
               height: 100,
               thickness: 0,
-              color: Colors.white,
+              //color: Colors.white,
             ),
             Text(
               'You walked $_miles miles',
