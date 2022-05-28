@@ -66,7 +66,7 @@ class _StepsPageState extends State<StepsPage> {
   }
 /*
  Function - percentCalculation:
- takes in TrueStepsGlobal and the goal and converts it into percentage
+  takes in TrueStepsGlobal and the goal and converts it into percentage
  needed to pass into the percent param in the percentageIndicator funct
  Ranges from 0.0 to 1.0. 1.0 x 100 = 100%. Cannot be above 100.
  */
@@ -74,21 +74,21 @@ class _StepsPageState extends State<StepsPage> {
   double percentCalculation(int ts, int goal) {
     double store = ts / goal;
     if(store >= 1.0) {
-      return 100;
+      return 1.0;
     }
     else {
       return store;
     }
   }
   /*
-
    Function - percentToString
-   Wrapper function that takes in the double percent
+    Wrapper function that takes in the double percent
    and converts it into a string. Used for displaying
    percentage on the Steps Page.
-
   */
   String percentToString(double percent) {
+    // This 100 is not a magic number, it's purely for calculations //
+    percent *= 100;
     return percent.toString();
   }
 
@@ -172,9 +172,6 @@ class _StepsPageState extends State<StepsPage> {
                       () => goalVal = goal
                   );
                   goalInt = int.parse(goalVal);
-                  // percentVal = extSteps / goalInt;
-                  // percentString = percentVal.toString();
-
                 }
             ),
             const Divider(
