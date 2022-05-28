@@ -2,7 +2,6 @@
 // create each bottom nav bar item as their own navigation route
 // when pushing new page we push to new navigator stack in main stack.
 /*
-
                                     MAIN
                                      |
                                      |
@@ -11,7 +10,6 @@
                        |             |             |
                       Water     ***Steps***      Journal
                        |             |             |
-
 */
 // sources: https://pub.dev/packages/pedometer/example
 import 'package:flutter/material.dart';
@@ -96,6 +94,13 @@ class _StepsPageState extends State<StepsPage> {
     final SharedPreferences prefs = await _prefs;
     int subSteps = prefs.getInt('subSteps') ?? 0;
     trueSteps = trueSteps - subSteps;
+    // This is a special case to ensure that the display number will not go negative
+    if(trueSteps < 0) {
+      trueSteps = 0;
+      //TODO: I think we need to flush the shared preferences of it's stored
+      // value if the phone is reset. Otherwise, the steps will always be displayed
+      // as zero until the reset button is pressed.
+    }
     trueStepsGlobal = trueSteps;
     _steps = trueSteps.toString();
     miles = trueSteps / 2000;
@@ -106,11 +111,11 @@ class _StepsPageState extends State<StepsPage> {
 
   //Function below updates step counter whenever a 'event' occurs //
   void onStepCount(StepCount event) {
-      setState(() {
-        extSteps = event.steps;
-        int trueSteps = event.steps;
-        setDisplay(trueSteps);
-      });
+    setState(() {
+      extSteps = event.steps;
+      int trueSteps = event.steps;
+      setDisplay(trueSteps);
+    });
   }
   // Error checking if an event passed into onStepCount is invalid //
   void onStepCountError(error) {
@@ -134,88 +139,88 @@ class _StepsPageState extends State<StepsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Steps Taken:',
-                  style: TextStyle(fontSize: 30),
-            ),
-            Text(
-              _steps,
-              style: const TextStyle(fontSize: 30),
-            ),
-            LinearPercentIndicator(
-              width: MediaQuery.of(context).size.width,
-              animation: true,
-              lineHeight: 30.0,
-              animationDuration: 1000,
-              percent: percentCalculation(trueStepsGlobal, goalInt),
-              center: Text(percentToString(percentCalculation(trueStepsGlobal, goalInt)) + '%'),
-              barRadius: const Radius.circular(16),
-              progressColor: Colors.purple,
-            ),
-            Text(
-              'Goal: $goalVal',
-               style: const TextStyle(fontSize: 30),
-            ),
-            TextButton(
-              child: const Text(
-                'change goal',
-                 style: TextStyle(fontSize: 25)
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text(
+                'Steps Taken:',
+                style: TextStyle(fontSize: 30),
               ),
-                onPressed: () async {
-                  final goal = await openDialog();
-                  if (goal == null || goal.isEmpty) return; // TODO: Toss out invalid values
-                  setState(
-                      () => goalVal = goal
-                  );
-                  goalInt = int.parse(goalVal);
-                }
-            ),
-            const Divider(
-              height: 100,
-              thickness: 0,
-              //color: Colors.white,
-            ),
-            Text(
-              'You walked $_miles miles',
-              style: const TextStyle(fontSize: 30),
-            ),
+              Text(
+                _steps,
+                style: const TextStyle(fontSize: 30),
+              ),
+              LinearPercentIndicator(
+                width: MediaQuery.of(context).size.width,
+                animation: true,
+                lineHeight: 30.0,
+                animationDuration: 1000,
+                percent: percentCalculation(trueStepsGlobal, goalInt),
+                center: Text(percentToString(percentCalculation(trueStepsGlobal, goalInt)) + '%'),
+                barRadius: const Radius.circular(16),
+                progressColor: Colors.purple,
+              ),
+              Text(
+                'Goal: $goalVal',
+                style: const TextStyle(fontSize: 30),
+              ),
               TextButton(
-                    child: const Text(
-                        'steps reset',
-                        style: TextStyle(fontSize: 30),
+                  child: const Text(
+                      'change goal',
+                      style: TextStyle(fontSize: 25)
+                  ),
+                  onPressed: () async {
+                    final goal = await openDialog();
+                    if (goal == null || goal.isEmpty) return; // TODO: Toss out invalid values
+                    setState(
+                            () => goalVal = goal
+                    );
+                    goalInt = int.parse(goalVal);
+                  }
               ),
-                    onPressed: () async {
-                      storeStepsBeforeReset(extSteps);
-                    },
+              const Divider(
+                height: 100,
+                thickness: 0,
+                //color: Colors.white,
+              ),
+              Text(
+                'You walked $_miles miles',
+                style: const TextStyle(fontSize: 30),
+              ),
+              TextButton(
+                child: const Text(
+                  'steps reset',
+                  style: TextStyle(fontSize: 30),
+                ),
+                onPressed: () async {
+                  storeStepsBeforeReset(extSteps);
+                },
               )
-          ],
-        ),
-      )
+            ],
+          ),
+        )
     );
   }
 
 
-   // This code was adapted from 'Water_page.dart'
-    Future<String?> openDialog() => showDialog<String>(
-    context: context, builder: (context) => AlertDialog(
-    title: const Text('# of steps '),
-    content: TextField(
-    autofocus: true,                                              // keeps the keyboard open
-    decoration: const InputDecoration(hintText: '1000'),
-    controller: controller,
-    ), // Text Pop Up
-    actions: [
-    TextButton(
-    child: const Text('SUBMIT'),
-    onPressed: submit,
-    ),
-    ]
-    ) // AlertDialog
-    );
+  // This code was adapted from 'Water_page.dart'
+  Future<String?> openDialog() => showDialog<String>(
+      context: context, builder: (context) => AlertDialog(
+      title: const Text('# of steps '),
+      content: TextField(
+        autofocus: true,                                              // keeps the keyboard open
+        decoration: const InputDecoration(hintText: '1000'),
+        controller: controller,
+      ), // Text Pop Up
+      actions: [
+        TextButton(
+          child: const Text('SUBMIT'),
+          onPressed: submit,
+        ),
+      ]
+  ) // AlertDialog
+  );
   // Closes the input pop up and passes controller.text back to body //
   void submit () {
     Navigator.of(context).pop(controller.text);
