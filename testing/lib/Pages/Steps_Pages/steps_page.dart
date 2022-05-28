@@ -74,7 +74,7 @@ class _StepsPageState extends State<StepsPage> {
   double percentCalculation(int ts, int goal) {
     double store = ts / goal;
     if(store >= 1.0) {
-      return 1.0;
+      return 100;
     }
     else {
       return store;
