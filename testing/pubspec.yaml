@@ -95,6 +95,7 @@ flutter:
     - assets/steps.png
     - assets/water.png
     - assets/journal.png
+    - assets/lil_guy.png
     - Markdown_Files/README.md
     - Markdown_Files/TUTORIAL.md
     - Markdown_Files/PURPOSE.md

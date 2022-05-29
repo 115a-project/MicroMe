@@ -29,8 +29,8 @@ class _SettingsState extends State<Settings> {
       applicationVersion: 'Version 1.0',
       applicationDescription: Text("MicroMe - Taking care of taking care of you"),
       applicationIcon: ImageIcon(
-        AssetImage('assets/journal.png'),
-        size: 100,
+        AssetImage('assets/lil_guy.png'),
+        size: 150,
       ),
       children: <Widget>[
         MarkdownPageListTile(

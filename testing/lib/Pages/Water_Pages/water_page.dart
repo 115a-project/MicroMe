@@ -129,11 +129,7 @@ class _WaterPageState extends State<WaterPage> {
   //Button to control adding more water
   //Expected: opens a text entry where user submits a new value that changes the pi chart
   Widget buildNavigateButton() => FloatingActionButton(
-    child:const Text("+",
-      style: TextStyle(
-        fontSize: 20,
-       ),
-    ),
+    child: Icon(Icons.add),
     // When pressed updates the (dataMap) map for pie chart to allow values to change // 
     onPressed: () async {
       final amount = await openDialog();
