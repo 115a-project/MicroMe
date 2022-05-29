@@ -10,6 +10,7 @@ class Settings extends StatefulWidget {
 }
 class _SettingsState extends State<Settings> {
 
+
   void goalMet(goal)  {
     if (!goal) {
       NotificationService().showNotification(1, "title", "body", 2);
@@ -21,6 +22,16 @@ class _SettingsState extends State<Settings> {
     final theme = Theme.of(context);
     final isIOS = theme.platform == TargetPlatform.iOS;
 
+    /*
+    AboutPage
+    - Uses the flutter "about" package to display an "About Us" Page
+    Properties:
+    ApplicationVersion: Displays the version of your app
+    ApplicationDescription: Small description of the app
+    ApplicationIcon: Icon to display at the top of the page
+    MarkdownPageListTile List: List of tiles to display markdown files, each
+    with their own icon and associated Markdown file
+     */
     return const AboutPage(
       // values: {
       //   'version': '1.0',
