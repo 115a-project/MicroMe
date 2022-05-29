@@ -214,11 +214,16 @@ class _WaterPageState extends State<WaterPage> {
   //   dataMap.update("drank ", (value) => double.parse(percentDrankVal));
   // }
 
-
+  /*
+   * Helper to update total and grab value from database
+   */
   Future updateTotal() async {
     return await MicromeDatabase.instance.returnTodaySumWater();
   }
 
+  /*
+   * Helper to update pieChart UI
+   */
   void updatePieChart() {
     // Update values for pie chart so it changes
     double percentageDrank = findPercentDrank(totalWater);
