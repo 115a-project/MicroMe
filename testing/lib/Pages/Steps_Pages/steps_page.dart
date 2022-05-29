@@ -40,20 +40,24 @@ class _StepsPageState extends State<StepsPage> {
   double percentVal = 0;
   @override
   //Will initiate the state of the application (Wrapper function)//
+  /*
+  Function - initState
+    Function that initiates the state of the app on first run.
+ */
   void initState() {
     super.initState();
     initPlatformState();
     controller = TextEditingController();
   }
 
-  /*
-    Function - storeStepsBeforeReset
-      This function uses the shared preferences package to store the step count
-      that is passed in via the steps parameter. From there, the value in the
-      steps parameter is stored using the shared preferences method "setInt."
-      It is set with the key 'subSteps' which is later used to refer back to
-      this value.
-   */
+/*
+Function - storeStepsBeforeReset
+ This function uses the shared preferences package to store the step count
+ that is passed in via the steps parameter. From there, the value in the
+ steps parameter is stored using the shared preferences method "setInt."
+ It is set with the key 'subSteps' which is later used to refer back to
+ this value.
+*/
   Future<void> storeStepsBeforeReset(int steps) async {
     final SharedPreferences prefs = await _prefs;
     setState(() {
@@ -62,13 +66,13 @@ class _StepsPageState extends State<StepsPage> {
       });
     });
   }
-/*
- Function - percentCalculation:
-  takes in TrueStepsGlobal and the goal and converts it into percentage
- needed to pass into the percent param in the percentageIndicator funct
- Ranges from 0.0 to 1.0. 1.0 x 100 = 100%. Cannot be above 100.
- */
 
+/*
+ Function - percentCalculation
+   takes in TrueStepsGlobal and the goal and converts it into percentage
+   needed to pass into the percent param in the percentageIndicator funct
+   Ranges from 0.0 to 1.0. 1.0 x 100 = 100%. Cannot be above 100.
+*/
   double percentCalculation(int ts, int goal) {
     double store = ts / goal;
     if(store >= 1.0) {
@@ -78,18 +82,24 @@ class _StepsPageState extends State<StepsPage> {
       return store;
     }
   }
-  /*
-   Function - percentToString
-    Wrapper function that takes in the double percent
-   and converts it into a string. Used for displaying
-   percentage on the Steps Page.
-  */
+
+/*
+Function - percentToString
+ Wrapper function that takes in the double percent
+ and converts it into a string. Used for displaying
+ percentage on the Steps Page.
+*/
   String percentToString(double percent) {
     // This 100 is not a magic number, it's purely for calculations //
     percent *= 100;
     return percent.toString();
   }
 
+/*
+Function - setDisplay
+ Function that takes in trueSteps,
+ calculates newSteps on reset then displays as string.
+*/
   void setDisplay(int trueSteps) async {
     final SharedPreferences prefs = await _prefs;
     int subSteps = prefs.getInt('subSteps') ?? 0;
@@ -109,7 +119,11 @@ class _StepsPageState extends State<StepsPage> {
     _miles = miles.toStringAsFixed(2);
   }
 
-  //Function below updates step counter whenever a 'event' occurs //
+/*
+Function - onStepCount
+ Function takes in a event which is triggered by the pedometer.
+ Starts to update the step counter and displays newly updated steps.
+*/
   void onStepCount(StepCount event) {
     setState(() {
       extSteps = event.steps;
@@ -117,13 +131,23 @@ class _StepsPageState extends State<StepsPage> {
       setDisplay(trueSteps);
     });
   }
-  // Error checking if an event passed into onStepCount is invalid //
+
+  /*
+Function - onStepCountError
+ Function that checks if an event that is passed
+ into onStepCount is an invalid type.
+*/
   void onStepCountError(error) {
     setState(() {
       _steps = 'Error with Steps';
     });
   }
-  //Will initiate the pedometer package //
+
+/*
+Function - initPlatformState
+ Function that initiates the streams and connects to the
+ pedometer package.
+*/
   void initPlatformState() {
     _stepCountStream = Pedometer.stepCountStream;
     _stepCountStream.listen(onStepCount).onError(onStepCountError);
@@ -131,6 +155,11 @@ class _StepsPageState extends State<StepsPage> {
     if(!mounted) return;
   }
   @override
+
+/*
+Function - dispose
+ Function that disposes of controllers when no longer needed.
+*/
   void dispose() {
     controller.dispose();
     super.dispose();
