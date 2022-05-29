@@ -149,7 +149,7 @@ class _HomeState extends State<Home> {
                 ),
                 Container( 
                   margin: const EdgeInsets.all(5),
-                  child: const Text("Water Statistics ", style: TextStyle(color: Color.fromARGB(126, 1, 0, 0), fontWeight: FontWeight.bold, fontSize: 24),),
+                  child: const Text("Water Statistics ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),),
                 ),
                 /**
                  * Dynamic chart to track steps of water 
@@ -194,12 +194,12 @@ class _HomeState extends State<Home> {
                 /* Statistics for Steps */
                 Container( 
                   margin: const EdgeInsets.all(20),
-                  child: const Text("Step Statistics ", style: TextStyle(color: Color.fromARGB(126, 1, 0, 0), fontWeight: FontWeight.bold, fontSize: 24),),
+                  child: const Text("Step Statistics ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),),
                 ),
 
                 Container(
                   margin: const EdgeInsets.all(5),
-                  child: const Text(" Total Lifetime Statistics ", style: TextStyle(color: Color.fromARGB(126, 1, 0, 0), fontWeight: FontWeight.bold, fontSize: 24), ),
+                  child: const Text(" Total Lifetime Statistics ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24), ),
                 ),
                 /*
                   Holds lifetime statistics 
@@ -221,7 +221,7 @@ class _HomeState extends State<Home> {
                             children: <Widget> [  
                               Container(
                                 margin: const EdgeInsets.all(5),
-                                child: const Text(" Water Drank ",style: TextStyle(fontSize:11, fontWeight: FontWeight.bold, color: Colors.blue ),textAlign: TextAlign.center),
+                                child: const Text(" Water Drank ",style: TextStyle(fontSize:11, fontWeight: FontWeight.bold),textAlign: TextAlign.center),
                               ),
                               Container(
                                 child: Text( validOutputChecker(waterTotalAmount) + " oz", style: const TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.center, ),
@@ -233,7 +233,7 @@ class _HomeState extends State<Home> {
                             children: <Widget> [  
                               Container(
                                 margin: const EdgeInsets.all(5),
-                                child: const Text(" Steps Taken ",style: TextStyle(fontSize:11, fontWeight: FontWeight.bold, color: Colors.blue ), textAlign: TextAlign.center),
+                                child: const Text(" Steps Taken ",style: TextStyle(fontSize:11, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
                               ),
                               Container(
                                 child: Text( validOutputChecker(stepTotalAmount) + " steps", style: const TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.center, ),
@@ -245,7 +245,7 @@ class _HomeState extends State<Home> {
                             children: <Widget> [  
                               Container(
                                 margin: const EdgeInsets.all(5),
-                                child: const Text(" Entries Created ",style: TextStyle(fontSize:11, fontWeight: FontWeight.bold, color: Colors.blue ),textAlign: TextAlign.center),
+                                child: const Text(" Entries Created ",style: TextStyle(fontSize:11, fontWeight: FontWeight.bold),textAlign: TextAlign.center),
                               ),
                               Container(
                                 child: Text( validOutputChecker(journalTotalEntries) + " entries", style: const TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.center, )
