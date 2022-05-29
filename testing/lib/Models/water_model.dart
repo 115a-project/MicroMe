@@ -21,7 +21,7 @@ class WaterFields {
 class Water {
   final int? id;
   final int amount;
-  final DateTime createdTime;
+  final String createdTime;
 
   const Water({
     this.id,
@@ -33,7 +33,7 @@ class Water {
   Water copy({
     int? id,
     int? amount,
-    DateTime? createdTime,
+    String? createdTime,
   }) {
     return Water(
       id: id ?? this.id,
@@ -49,7 +49,7 @@ class Water {
     return Water(
         id: json[WaterFields.id] as int?,
         amount: json[WaterFields.amount] as int,
-        createdTime: DateTime.parse(json[WaterFields.time] as String)
+        createdTime: json[WaterFields.time] as String
     );
   }
 
@@ -59,6 +59,6 @@ class Water {
     return {
       WaterFields.id: id,
       WaterFields.amount: amount,
-      WaterFields.time: createdTime.toIso8601String(),};
+      WaterFields.time: createdTime,};
   }
 }
