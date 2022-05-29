@@ -65,7 +65,7 @@ class MicromeDatabase {
     if (_database != null) return _database!;
 
     // Initializes the database if it does not exist and returns it
-    _database = await _initDB('entries.db');
+    _database = await _initDB('Microme.db');
     return _database!;
   }
 
@@ -166,6 +166,12 @@ class MicromeDatabase {
     );
   }
 
+  Future<int?> countEntries() async{
+    final db = await instance.database;
+    var value =  Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM entries;'));
+    return value;
+  }
+
   // Function to create a water object in the water table
   Future<Water> createWater(Water water) async {
     final db = await instance.database;
@@ -199,6 +205,17 @@ class MicromeDatabase {
     return result.map((json) => Water.fromJson(json)).toList();
   }
 
+  Future<int?> returnTotalSumWater() async {
+    final db = await instance.database;
+    var value =  Sqflite.firstIntValue(await db.rawQuery('SELECT SUM(amount) FROM water'));
+    return value;
+  }
+
+  Future<int?> returnTodaySumWater() async {
+    final db = await instance.database;
+    return Sqflite.firstIntValue(await db.rawQuery('SELECT SUM(amount) FROM water WHERE CAST(time as date) = CAST (DATE(\'now\') as date)'));
+  }
+  
   // Updates a water object that exists within the water table
   Future<int> updateWater(Water water) async {
     final db = await instance.database;
@@ -264,6 +281,13 @@ class MicromeDatabase {
       where: '${StepFields.id} = ?',
       whereArgs: [id],
     );
+  }
+
+  // counts all step values 
+  Future<int?> returnTotalSumStep() async {
+    final db = await instance.database;
+    var value =  Sqflite.firstIntValue(await db.rawQuery('SELECT SUM(steps) FROM steps'));
+    return value;
   }
 
   // Function for closing database
