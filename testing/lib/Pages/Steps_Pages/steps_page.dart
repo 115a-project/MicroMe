@@ -39,7 +39,7 @@ class _StepsPageState extends State<StepsPage> {
   double miles = 0;
   double percentVal = 0;
   @override
-  //Will initiate the state of the application (Wrapper function)//
+
   /*
   Function - initState
     Function that initiates the state of the app on first run.
