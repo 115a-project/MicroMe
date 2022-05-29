@@ -13,6 +13,7 @@
 */
 // sources: https://pub.dev/packages/pedometer/example
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:testing/Utils/pedometer.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -212,6 +213,8 @@ class _StepsPageState extends State<StepsPage> {
         autofocus: true,                                              // keeps the keyboard open
         decoration: const InputDecoration(hintText: '1000'),
         controller: controller,
+        keyboardType: TextInputType.number, // Set keyboard to number keypad
+        inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.allow(RegExp(r"[0-9.]"))], // Only integers allowed
       ), // Text Pop Up
       actions: [
         TextButton(

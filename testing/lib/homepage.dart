@@ -83,8 +83,9 @@ class _HomePageState extends State<HomePage> {
                 icon: const ImageIcon(
                   AssetImage('assets/QTZ.png'),
                   size: 35,
+                  color: Colors.white,
                 ),
-                tooltip: 'Settings',
+                tooltip: 'AboutUs',
                 onPressed: () {
                   // Navigates to settings page upon tap
                   Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const Settings()));

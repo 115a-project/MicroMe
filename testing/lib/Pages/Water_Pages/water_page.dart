@@ -81,7 +81,7 @@ class _WaterPageState extends State<WaterPage> {
                       ),
             ),
             // Goal Setting Container, Allows user to change their goal //
-            RaisedButton(
+            ElevatedButton(
               child: const Text('Change Goal', style: TextStyle(fontSize: 15.0),),
               onPressed: () async {
                 final goal = await openDialog();
@@ -135,11 +135,7 @@ class _WaterPageState extends State<WaterPage> {
   //Button to control adding more water
   //Expected: opens a text entry where user submits a new value that changes the pi chart
   Widget buildNavigateButton() => FloatingActionButton(
-    child:const Text("+",
-      style: TextStyle(
-        fontSize: 20,
-       ),
-    ),
+    child: Icon(Icons.add),
     // When pressed updates the (dataMap) map for pie chart to allow values to change // 
     onPressed: () async {
       final amount = await openDialog();

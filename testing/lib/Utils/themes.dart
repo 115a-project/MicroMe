@@ -4,12 +4,21 @@ class Themes {
   static ThemeData darkMode() {
     return ThemeData(
       brightness: Brightness.dark,
-      primaryColor: Colors.redAccent,
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.red,
+          brightness: Brightness.dark,
+        ),
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        backgroundColor: Colors.redAccent,
+      ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: Colors.black38,
         selectedItemColor: Colors.redAccent,
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
         showUnselectedLabels: false,
+      ),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Colors.black38,
       ),
     );
   }
@@ -22,7 +31,7 @@ class Themes {
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: Colors.white,
-        selectedItemColor: Colors.blueGrey,
+        selectedItemColor: Colors.purple,
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
         showUnselectedLabels: false,
       ),
