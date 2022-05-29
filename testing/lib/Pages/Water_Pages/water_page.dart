@@ -25,6 +25,10 @@ import 'package:intl/intl.dart';
 
 dynamic totalWater;
 dynamic goalWater;
+dynamic waterGoal = WaterGoal(
+                  goal : int.parse(goalWater),
+                  createdTime: DateFormat('yyyy-MM-dd').format(DateTime.now())
+                );
 
 //******************* Water Class *******************
 
@@ -60,7 +64,7 @@ class _WaterPageState extends State<WaterPage> {
   void initState() {
     super.initState();
     controller = TextEditingController();
-    updateGoal().then((value) {goalWater = value;});
+    updateGoal(waterGoal).then((value) {goalWater = value;});
     updateTotal().then((value) { totalWater = value; });
     updatePieChart();
   }
@@ -95,10 +99,7 @@ class _WaterPageState extends State<WaterPage> {
                 setState(
                   () => this.goal = goal
                 );
-                final waterGoal = WaterGoal(
-                  goal : int.parse(goal),
-                  createdTime: DateFormat('yyyy-MM-dd').format(DateTime.now())
-                );
+                
                 updateGoal(waterGoal);
                 updatePieChart();
               } // on pressed for goal amounts
@@ -209,7 +210,7 @@ class _WaterPageState extends State<WaterPage> {
    * Helper to update goal and grab value from database
    */
   Future updateGoal(waterGoal) async {
-    
+
     return null;
   }
 
@@ -217,8 +218,8 @@ class _WaterPageState extends State<WaterPage> {
    * Helper to update pieChart UI
    */
   void updatePieChart() {
-    // Update values for pie chart so it changes
     double percentageDrank = findPercentDrank(totalWater);
+    // Update values for pie chart so it changes
     dataMap.update( "left to drink ", (value) => (100 - (percentageDrank)*100));
     dataMap.update( "drank ", (value) => (percentageDrank*100));
   }
