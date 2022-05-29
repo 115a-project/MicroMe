@@ -43,14 +43,6 @@ class EntryFormWidget extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Row(
-              children: [
-                Switch(
-                  value: isImportant ?? false,
-                  onChanged: onChangedImportant,
-                ),
-              ],
-            ),
             buildTitle(),
             const SizedBox(height: 8),
             buildDescription(),
@@ -78,7 +70,6 @@ class EntryFormWidget extends StatelessWidget {
         decoration: const InputDecoration(
           border: InputBorder.none,
           hintText: 'Title',
-          hintStyle: TextStyle(color: Colors.white70),
         ),
         validator: (title) =>
         title != null && title.isEmpty ? 'The title cannot be empty' : null,
