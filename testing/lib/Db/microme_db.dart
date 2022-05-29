@@ -3,11 +3,13 @@ import 'package:sqflite/sqflite.dart';
 import 'package:testing/Models/entry_model.dart';
 import 'package:testing/Models/water_model.dart';
 import 'package:testing/Models/steps_model.dart';
+import 'package:testing/Models/water_goal_model.dart';
 
 // Table names declarations
 const String tableJournal = 'entries';
 const String tableWater = 'water';
 const String tableSteps = 'steps';
+const String tableWaterGoal = 'water_goal';
 
 /*
   Class MicromeDatabase
@@ -101,6 +103,13 @@ class MicromeDatabase {
       ${WaterFields.id} $idType,
       ${WaterFields.amount} $integerType,
       ${WaterFields.time} $textType
+      )    
+    ''');
+
+    await db.execute('''CREATE TABLE $tableWaterGoal (
+      ${WaterGoalFields.id} $idType,
+      ${WaterGoalFields.goal} $integerType,
+      ${WaterGoalFields.time} $textType
       )    
     ''');
 
@@ -205,12 +214,14 @@ class MicromeDatabase {
     return result.map((json) => Water.fromJson(json)).toList();
   }
 
+  // Returns the total sum of water in the water table
   Future<int?> returnTotalSumWater() async {
     final db = await instance.database;
     var value =  Sqflite.firstIntValue(await db.rawQuery('SELECT SUM(amount) FROM water'));
     return value;
   }
 
+  // Returns the total sum of water in the water on the current system date
   Future<int?> returnTodaySumWater() async {
     final db = await instance.database;
     return Sqflite.firstIntValue(await db.rawQuery('SELECT SUM(amount) FROM water WHERE CAST(time as date) = CAST (DATE(\'now\') as date)'));
@@ -233,6 +244,52 @@ class MicromeDatabase {
     return await db.delete(
       tableWater,
       where: '${WaterFields.id} = ?',
+      whereArgs: [id],
+    );
+  }
+
+  // Function to create a WaterGoal object in the water table
+  Future<WaterGoal> createWaterGoal(WaterGoal goal) async {
+    final db = await instance.database;
+    final id = await db.insert(tableWaterGoal, goal.toJson());
+    return goal.copy(id: id);
+  }
+
+  // Function to read a WaterGoal object from the water_goal table
+  Future<WaterGoal> readWaterGoal(int id) async {
+    final db = await instance.database;
+    final maps = await db.query(
+      tableWaterGoal,
+      columns: WaterGoalFields.values,
+      // Secure against SQL injections
+      where: '${WaterGoalFields.id} = ?',
+      whereArgs: [id],
+    );
+    // Successful query
+    if (maps.isNotEmpty) {
+      return WaterGoal.fromJson(maps.first);
+    } else {
+      throw Exception('ID $id not found');
+    }
+  }
+
+  // Updates a WaterGoal object that exists within the water_goal table
+  Future<int> updateWaterGoal(WaterGoal goal) async {
+    final db = await instance.database;
+    return db.update(
+      tableWaterGoal,
+      goal.toJson(),
+      where: '${WaterGoalFields.id} = ?',
+      whereArgs: [goal.id],
+    );
+  }
+
+  // Function to delete a WaterGoal object from the water_goal table
+  Future<int> deleteWaterGoal(int id) async {
+    final db = await instance.database;
+    return await db.delete(
+      tableWaterGoal,
+      where: '${WaterGoalFields.id} = ?',
       whereArgs: [id],
     );
   }
