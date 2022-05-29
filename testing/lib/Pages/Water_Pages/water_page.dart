@@ -81,7 +81,7 @@ class _WaterPageState extends State<WaterPage> {
                       ),
             ),
             // Goal Setting Container, Allows user to change their goal //
-            RaisedButton(
+            ElevatedButton(
               child: const Text('Change Goal', style: TextStyle(fontSize: 15.0),),
               onPressed: () async {
                 final goal = await openDialog();

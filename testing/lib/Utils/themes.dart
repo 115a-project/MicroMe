@@ -19,7 +19,7 @@ class Themes {
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.black38,
-      )
+      ),
     );
   }
 
