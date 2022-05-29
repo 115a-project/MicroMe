@@ -25,10 +25,6 @@ import 'package:intl/intl.dart';
 
 dynamic totalWater;
 dynamic goalWater;
-dynamic waterGoal = WaterGoal(
-                  goal : int.parse(goalWater),
-                  createdTime: DateFormat('yyyy-MM-dd').format(DateTime.now())
-                );
 
 //******************* Water Class *******************
 
@@ -64,7 +60,7 @@ class _WaterPageState extends State<WaterPage> {
   void initState() {
     super.initState();
     controller = TextEditingController();
-    updateGoal(waterGoal).then((value) {goalWater = value;});
+    updateGoal().then((value) {goalWater = value; createWaterGoal(value);});
     updateTotal().then((value) { totalWater = value; });
     updatePieChart();
   }
@@ -99,8 +95,8 @@ class _WaterPageState extends State<WaterPage> {
                 setState(
                   () => this.goal = goal
                 );
-                
-                updateGoal(waterGoal);
+                createWaterGoal(goalWater);
+                updateGoal();
                 updatePieChart();
               } // on pressed for goal amounts
             ),
@@ -194,7 +190,7 @@ class _WaterPageState extends State<WaterPage> {
       return 0;
     }
     else {
-      return (total/double.parse(goal));
+      return (total/goalWater);
     }
   }
 
@@ -209,9 +205,9 @@ class _WaterPageState extends State<WaterPage> {
   /*
    * Helper to update goal and grab value from database
    */
-  Future updateGoal(waterGoal) async {
-
-    return null;
+  Future updateGoal() async {
+    goalWater = 300;
+    return 200;
   }
 
   /*
@@ -222,6 +218,16 @@ class _WaterPageState extends State<WaterPage> {
     // Update values for pie chart so it changes
     dataMap.update( "left to drink ", (value) => (100 - (percentageDrank)*100));
     dataMap.update( "drank ", (value) => (percentageDrank*100));
+  }
+
+  Future createWaterGoal(goalVal) async {
+    print('$goalVal');
+    dynamic waterGoal = WaterGoal(
+        goal : goalVal,
+        createdTime: DateFormat('yyyy-MM-dd').format(DateTime.now())
+    );
+    await MicromeDatabase.instance.createWaterGoal(waterGoal);
+    return waterGoal;
   }
 
 
