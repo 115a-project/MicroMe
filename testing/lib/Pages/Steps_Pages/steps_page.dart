@@ -51,21 +51,26 @@ class _StepsPageState extends State<StepsPage> {
   }
 
 /*
-Function - storeStepsBeforeReset
- This function uses the shared preferences package to store the step count
- that is passed in via the steps parameter. From there, the value in the
- steps parameter is stored using the shared preferences method "setInt."
- It is set with the key 'subSteps' which is later used to refer back to
- this value.
+Function - storeSPint
+ This function uses the shared preferences package to map an int value to a
+ string key that is passed in via the steps parameter. From there, the value can
+ be accessed via the string key that was passed in and the getInt sharedPref method.
 */
-  Future<void> storeStepsBeforeReset(int steps) async {
+
+  Future<void> storeSPInt(String key, int val) async {
     final SharedPreferences prefs = await _prefs;
     setState(() {
-      _store = prefs.setInt('subSteps', steps).then((bool success) {
-        return steps;
+      prefs.setInt(key, val).then((bool success) {
+        return val;
       });
     });
   }
+
+  // Future<void> getSPInt(String key) async {
+  //   final SharedPreferences prefs = await _prefs;
+  //   int goalTest = prefs.getInt(key) ?? 0;
+  //   print("GOALTEST IS $goalTest");
+  // }
 
 /*
  Function - percentCalculation
@@ -107,9 +112,7 @@ Function - setDisplay
     // This is a special case to ensure that the display number will not go negative
     if(trueSteps < 0) {
       trueSteps = 0;
-      //TODO: I think we need to flush the shared preferences of it's stored
-      // value if the phone is reset. Otherwise, the steps will always be displayed
-      // as zero until the reset button is pressed.
+      storeSPInt('subSteps', 0);
     }
     trueStepsGlobal = trueSteps;
     _steps = trueSteps.toString();
@@ -202,10 +205,12 @@ Function - dispose
                   onPressed: () async {
                     final goal = await openDialog();
                     if (goal == null || goal.isEmpty) return; // TODO: Toss out invalid values
-                    setState(
-                            () => goalVal = goal
-                    );
+                    setState(() {
+                      goalVal = goal;
+                    });
                     goalInt = int.parse(goalVal);
+                    // storeSPInt('storedGoal', int.parse(goalVal));
+                    // getSPInt('storedGoal');
                   }
               ),
               const Divider(
@@ -223,7 +228,7 @@ Function - dispose
                   style: TextStyle(fontSize: 30),
                 ),
                 onPressed: () async {
-                  storeStepsBeforeReset(extSteps);
+                  storeSPInt('subSteps', extSteps);
                 },
               )
             ],
