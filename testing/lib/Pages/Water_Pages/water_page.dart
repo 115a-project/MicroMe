@@ -6,6 +6,7 @@ import 'package:testing/Db/microme_db.dart';
 import 'package:testing/Models/water_model.dart';
 import 'package:testing/Models/water_goal_model.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // ****************** Structure *************************
 // 
@@ -24,7 +25,7 @@ import 'package:intl/intl.dart';
 
 
 dynamic totalWater;
-dynamic goalWater;
+// dynamic goalWater;
 
 //******************* Water Class *******************
 
@@ -37,10 +38,12 @@ class WaterPage extends StatefulWidget {
   _WaterPageState createState() => _WaterPageState();
 }
 class _WaterPageState extends State<WaterPage> {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   // Controllers for goal and added amounts //
   late TextEditingController controller;
   String amount = '0';                        // amount user has drank
-  String goal = '100';                       // user's set goal
+  String goal = '?';                       // user's set goal
+  int goalInt = 200;
   TimeOfDay time = TimeOfDay.now();           // Time user has added new water entry
 
   // Pie chart set to UI displaying amount drank //
@@ -60,7 +63,9 @@ class _WaterPageState extends State<WaterPage> {
   void initState() {
     super.initState();
     controller = TextEditingController();
-    updateGoal().then((value) {goalWater = value; createWaterGoal(value);});
+    updateWaterGoal();
+    print("INITSTATE");
+    // updateGoal().then((value) {goalWater = value; createWaterGoal(value);});
     updateTotal().then((value) { totalWater = value; });
     updatePieChart();
   }
@@ -96,8 +101,10 @@ class _WaterPageState extends State<WaterPage> {
                 setState(
                   () => this.goal = goal
                 );
-                createWaterGoal(goalWater);
-                updateGoal();
+                goalInt = int.parse(this.goal);
+                storeSPInt('storedWaterGoal', goalInt);
+                // createWaterGoal(goalWater);
+                updateWaterGoal();
                 updatePieChart();
               } // on pressed for goal amounts
             ),
@@ -112,7 +119,7 @@ class _WaterPageState extends State<WaterPage> {
                     chartType: pie_chart.ChartType.ring,
                     ringStrokeWidth: 24,
                     animationDuration: const Duration(seconds: 2),
-                    centerText: totalWater.toString() + " / " + goal + " oz",
+                    centerText: totalWater.toString() + " / " + goalInt.toString() + " oz",
                     chartValuesOptions: const pie_chart.ChartValuesOptions( showChartValues: false ),
                     legendOptions: const pie_chart.LegendOptions( showLegends: false,),
                   ), 
@@ -191,7 +198,7 @@ class _WaterPageState extends State<WaterPage> {
       return 0;
     }
     else {
-      return (total/goalWater);
+      return (total/goalInt);
     }
   }
 
@@ -203,13 +210,21 @@ class _WaterPageState extends State<WaterPage> {
     return await MicromeDatabase.instance.returnTodaySumWater();
   }
 
+  void updateWaterGoal() async {
+    final SharedPreferences prefs = await _prefs;
+    goalInt = prefs.getInt('storedWaterGoal') ?? 600;
+    print("goalInt is $goalInt");
+    goal = goalInt.toString();
+    print("goal is $goal");
+  }
+
   /*
    * Helper to update goal and grab value from database
    */
-  Future updateGoal() async {
-    goalWater = 300;
-    return 200;
-  }
+  // Future updateGoal() async {
+  //   goalWater = 300;
+  //   return 200;
+  // }
 
   /*
    * Helper to update pieChart UI
@@ -229,6 +244,15 @@ class _WaterPageState extends State<WaterPage> {
     );
     await MicromeDatabase.instance.createWaterGoal(waterGoal);
     return waterGoal;
+  }
+
+  Future<void> storeSPInt(String key, int val) async {
+    final SharedPreferences prefs = await _prefs;
+    setState(() {
+      prefs.setInt(key, val).then((bool success) {
+        return val;
+      });
+    });
   }
 
 } // water
