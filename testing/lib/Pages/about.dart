@@ -44,7 +44,8 @@ class _SettingsState extends State<Settings> {
         MarkdownPageListTile(
           filename: 'Markdown_Files/PURPOSE.md',
           title: Text('Purpose'),
-          icon: Icon(Icons.view_list),
+          icon: Icon(Icons.star),
+          fitContent: true,
         ),
         MarkdownPageListTile(
           filename: 'Markdown_Files/TUTORIAL.md',
