@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:testing/Db/microme_db.dart';
 import 'package:testing/Models/entry_model.dart';
-import 'package:testing/Pages/Journal_Pages/edit_entry_page.dart';
+import 'package:testing/Pages/Journal_Pages/add_edit_entry_page.dart';
 import 'package:testing/Pages/Journal_Pages/entry_detail_page.dart';
 import 'package:testing/Widgets/entry_card_widget.dart';
 import 'package:page_transition/page_transition.dart';

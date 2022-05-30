@@ -24,20 +24,24 @@ class StepsPage extends StatefulWidget {
   _StepsPageState createState() => _StepsPageState();
 }
 class _StepsPageState extends State<StepsPage> {
-  // This line connects to the package for steps //
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  // This line connects to the package for steps //
   late TextEditingController controller;
   late Stream<StepCount> _stepCountStream;
-  late Future<int> _store;
+  // The following five fields are used to calculate, reset, and display steps //
   String _steps = '?';
   String _miles = '?';
-  String goalVal = '1000'; // goal is set by default to be 1000 (fixes infinity err)
-  String percentString = '?';
-  int goalInt = 1000; // default: 1000
   int extSteps = 0;
   int trueStepsGlobal = 0;
   double miles = 0;
+  // The following two fields are used to set and display the user's goal //
+  int goalInt = 1000; // default: 1000
+  String goalVal = '?';
+  // The following two fields are used to display the progress towards the user's
+  // goal
+  String percentString = '?';
   double percentVal = 0;
+
   @override
 
   /*
@@ -66,11 +70,18 @@ Function - storeSPint
     });
   }
 
-  // Future<void> getSPInt(String key) async {
-  //   final SharedPreferences prefs = await _prefs;
-  //   int goalTest = prefs.getInt(key) ?? 0;
-  //   print("GOALTEST IS $goalTest");
-  // }
+  /*
+    Function - updateGoal
+      This function is called everytime a stepcount event is detected.
+      It "queries" the shared preference key-values to see what the
+      latest goalVal that was stored was. If there are none, then it defaults
+      to 1000.
+   */
+  void updateGoal() async {
+    final SharedPreferences prefs = await _prefs;
+    goalInt = prefs.getInt('storedGoal') ?? 1000;
+    goalVal = goalInt.toString();
+  }
 
 /*
  Function - percentCalculation
@@ -126,12 +137,14 @@ Function - setDisplay
 Function - onStepCount
  Function takes in a event which is triggered by the pedometer.
  Starts to update the step counter and displays newly updated steps.
+ Will also update the goal on every step.
 */
   void onStepCount(StepCount event) {
     setState(() {
       extSteps = event.steps;
       int trueSteps = event.steps;
       setDisplay(trueSteps);
+      updateGoal();
     });
   }
 
@@ -209,8 +222,7 @@ Function - dispose
                       goalVal = goal;
                     });
                     goalInt = int.parse(goalVal);
-                    // storeSPInt('storedGoal', int.parse(goalVal));
-                    // getSPInt('storedGoal');
+                    storeSPInt('storedGoal', int.parse(goalVal));
                   }
               ),
               const Divider(
