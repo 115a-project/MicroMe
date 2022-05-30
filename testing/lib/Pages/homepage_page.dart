@@ -19,7 +19,7 @@ import 'package:testing/Models/water_model.dart';
 // Generate a random index into list of quotes to display
 Random random = Random();
 int randomNumber = random.nextInt(1642);
-bool _isConnectionSuccessful = true;
+bool _isConnectionSuccessful = false;
 dynamic waterTotalAmount;
 dynamic journalTotalEntries;
 dynamic stepTotalAmount;
@@ -51,11 +51,10 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     _tryConnection();
-    fetchAllQuotes(); // Populates the quote list upon initialization
+    //fetchAllQuotes(); // Populates the quote list upon initialization
     getAllWater().then((value) { if(value == null) {waterTotalAmount = 0;} else{waterTotalAmount = value;} });
     countAllEntries().then((value) {journalTotalEntries = value; });
     getAllSteps().then((value) {stepTotalAmount = value; });
-    _tryConnection();
   }
 
   /*
@@ -82,8 +81,7 @@ class _HomeState extends State<Home> {
 
   Future<void> _tryConnection() async {
     try {
-      final response = await InternetAddress.lookup('www.woolha2.com');
-
+      final response = await InternetAddress.lookup('www.google.com');
       setState(() {
         _isConnectionSuccessful = response.isNotEmpty;
       });

@@ -32,18 +32,15 @@ class _SettingsState extends State<Settings> {
     MarkdownPageListTile List: List of tiles to display markdown files, each
     with their own icon and associated Markdown file
      */
-    return const AboutPage(
+    return AboutPage(
       // values: {
       //   'version': '1.0',
       //   'year': DateTime.now().year.toString(),
       // },
       applicationVersion: 'Version 1.0',
-      applicationDescription: Text("MicroMe - Taking care of taking care of you"),
-      applicationIcon: ImageIcon(
-        AssetImage('assets/lil_guy.png'),
-        size: 150,
-      ),
-      children: <Widget>[
+      applicationDescription: const Text("MicroMe - Taking care of taking care of you"),
+      applicationIcon: Image.asset('assets/QTZtransparent.png', height: 200, width: 200),
+      children: const <Widget>[
         MarkdownPageListTile(
           filename: 'Markdown_Files/PURPOSE.md',
           title: Text('Purpose'),
