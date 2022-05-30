@@ -69,6 +69,7 @@ class _WaterPageState extends State<WaterPage> {
   @override
   void dispose() {
     controller.dispose();
+    //MicromeDatabase.instance.close();
     super.dispose();
   }
 
@@ -229,8 +230,6 @@ class _WaterPageState extends State<WaterPage> {
     await MicromeDatabase.instance.createWaterGoal(waterGoal);
     return waterGoal;
   }
-
-
 
 } // water
 

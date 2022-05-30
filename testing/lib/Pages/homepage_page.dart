@@ -58,17 +58,17 @@ class _HomeState extends State<Home> {
   }
 
   /*
-    Collects all water entires to display on the stats page
+    Collects all water entries to display on the stats page
     Ensure the database is closed before doing this.
    */
   @override
   void dispose() {
-    MicromeDatabase.instance.close();
+    //MicromeDatabase.instance.close();
     super.dispose();
   }
 
   // /*
-  //   Collect all entries for water to allow statsitics to be created.
+  //   Collect all entries for water to allow statistics to be created.
   //  */
   // Future refreshEntries() async {
   //   setState(() => isLoading = true);

@@ -53,7 +53,7 @@ class _EntriesPageState extends State<EntriesPage> {
 
   @override
   void dispose() {
-    MicromeDatabase.instance.close();
+    //MicromeDatabase.instance.close();
 
     super.dispose();
   }
