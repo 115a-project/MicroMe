@@ -296,7 +296,8 @@ class MicromeDatabase {
 
   Future<int?> getWaterGoal() async {
     final db = await instance.database;
-    return Sqflite.firstIntValue(await db.rawQuery('SELECT SUM(goal) FROM water_goal'));
+    int? goal = Sqflite.firstIntValue(await db.rawQuery('SELECT goal FROM water_goal WHERE _id = (SELECT MAX(_id) FROM water_goal)'));
+    return goal;
   }
   
 

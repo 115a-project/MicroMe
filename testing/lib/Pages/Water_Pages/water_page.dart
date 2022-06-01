@@ -96,8 +96,9 @@ class _WaterPageState extends State<WaterPage> {
                 setState(
                   () => this.goal = goal
                 );
-                createWaterGoal(goalWater);
-                updateGoal();
+                createWaterGoal(int.parse(goal));
+                setGoal().then((value) {goalWater = value; });
+                //updateGoal();
                 updatePieChart();
               } // on pressed for goal amounts
             ),
@@ -112,7 +113,7 @@ class _WaterPageState extends State<WaterPage> {
                     chartType: pie_chart.ChartType.ring,
                     ringStrokeWidth: 24,
                     animationDuration: const Duration(seconds: 2),
-                    centerText: totalWater.toString() + " / " + goal + " oz",
+                    centerText: totalWater.toString() + " / " + goalWater.toString() + " oz",
                     chartValuesOptions: const pie_chart.ChartValuesOptions( showChartValues: false ),
                     legendOptions: const pie_chart.LegendOptions( showLegends: false,),
                   ), 
@@ -157,7 +158,7 @@ class _WaterPageState extends State<WaterPage> {
   // https://www.youtube.com/watch?v=D6icsXS8NeA
   Future<String?> openDialog() => showDialog<String>(
   context: context, builder: (context) => AlertDialog(
-      title: const Text('Enter Amount Drank: '),
+      title: const Text('Enter Amount: '),
       content: TextField(
         autofocus: true,                                              // keeps the keyboard open
         decoration: const InputDecoration(hintText: '32 oz'),
@@ -196,7 +197,6 @@ class _WaterPageState extends State<WaterPage> {
     return await MicromeDatabase.instance.returnTodaySumWater();
   }
 
-
   /*
    * Helper to update goal and grab value from database
    */
@@ -205,7 +205,7 @@ class _WaterPageState extends State<WaterPage> {
     if (goal.toString() == "null") {
       return 100;
     }
-    print('$goal');
+    //print('$goal');
     return goal;
   }
 
@@ -220,21 +220,13 @@ class _WaterPageState extends State<WaterPage> {
   }
 
   Future createWaterGoal(goalVal) async {
-    print('$goalVal');
+    //print('$goalVal');
     dynamic waterGoal = WaterGoal(
         goal : goalVal,
         createdTime: DateFormat('yyyy-MM-dd').format(DateTime.now())
     );
     await MicromeDatabase.instance.createWaterGoal(waterGoal);
     return waterGoal;
-  }
-
-  /*
-   * Helper to update goal and grab value from database
-   */
-  Future updateGoal() async {
-    goalWater = 300;
-    return 200;
   }
 
 } // water
