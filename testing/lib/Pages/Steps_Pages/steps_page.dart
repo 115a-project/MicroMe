@@ -109,7 +109,7 @@ Function - percentToString
   String percentToString(double percent) {
     // This 100 is not a magic number, it's purely for calculations //
     percent *= 100;
-    return percent.toString();
+    return percent.toStringAsFixed(2);
   }
 
 /*
@@ -197,6 +197,11 @@ Function - dispose
                 _steps,
                 style: const TextStyle(fontSize: 30),
               ),
+              const Divider(
+                height: 45,
+                thickness: 0,
+                //color: Colors.white,
+              ),
               LinearPercentIndicator(
                 width: MediaQuery.of(context).size.width,
                 animation: true,
@@ -207,14 +212,20 @@ Function - dispose
                 barRadius: const Radius.circular(16),
                 progressColor: Colors.purple,
               ),
+              const Divider(
+                height: 45,
+                thickness: 0,
+                //color: Colors.white,
+              ),
               Text(
                 'Goal: $goalVal',
                 style: const TextStyle(fontSize: 30),
               ),
-              TextButton(
+              ElevatedButton(
                   child: const Text(
-                      'change goal',
-                      style: TextStyle(fontSize: 25)
+                      'Change Goal',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(fontSize: 20)
                   ),
                   onPressed: () async {
                     final goal = await openDialog();
@@ -227,7 +238,7 @@ Function - dispose
                   }
               ),
               const Divider(
-                height: 100,
+                height: 40,
                 thickness: 0,
                 //color: Colors.white,
               ),
@@ -235,10 +246,10 @@ Function - dispose
                 'You walked $_miles miles',
                 style: const TextStyle(fontSize: 30),
               ),
-              TextButton(
+              ElevatedButton(
                 child: const Text(
-                  'steps reset',
-                  style: TextStyle(fontSize: 30),
+                  'Reset Steps',
+                  style: TextStyle(fontSize: 20),
                 ),
                 onPressed: () async {
                   storeSPInt('subSteps', extSteps);
