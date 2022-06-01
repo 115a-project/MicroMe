@@ -5,7 +5,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:testing/Utils/quote.dart';
-
 import 'package:fl_chart/fl_chart.dart';
 
 // imports for statistics
@@ -13,7 +12,8 @@ import 'package:testing/Pages/charts/data.dart' ;
 
 // Database imports
 import 'package:testing/Db/microme_db.dart';
-import 'package:testing/Models/water_model.dart';
+import 'package:testing/Models/water_model.dart' as waters;
+import 'package:testing/Models/steps_model.dart' as steps;
 
 // Generate a random index into list of quotes to display
 Random random = Random();
@@ -22,6 +22,7 @@ bool _isConnectionSuccessful = false;
 dynamic waterTotalAmount;
 dynamic journalTotalEntries;
 dynamic stepTotalAmount;
+
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -34,8 +35,9 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   Color waterColor = const Color(0xff19bfff);
 
-  // data base entries
-  late List<Water> waterList;
+  // data base entries to populate the charts
+  late List<waters.Water> waterList;
+  late List<steps.Step> stepsList;
   bool isLoading = false;
 
   // Generate dummy data to feed the chart
@@ -45,6 +47,13 @@ class _HomeState extends State<Home> {
             x: index,
             y1: Random().nextInt(40) + Random().nextDouble(),
           ));
+  // Generate dummy data to feed the chart
+  final List<Data> stepsData = List.generate(
+      30,
+          (index) => Data(
+        x: index,
+        y1: Random().nextInt(40) + Random().nextDouble(),
+      ));
 
   @override
   void initState() {
@@ -102,42 +111,47 @@ class _HomeState extends State<Home> {
       body: SingleChildScrollView(
         child:  Column(
               children: <Widget> [
-                // @Niko I made a place for you to put motivational messages here :
-                FutureBuilder(
-                  future: fetchAllQuotes(), // Tells what asynchronous computation to connect
-                  builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) { // If future finishes
-                      if (_isConnectionSuccessful) {
-                        return ListTile( // Creates a list tile with the index
-                          title: Text(
-                            snapshot.data[randomNumber].author,
-                            // Takes author of quote as title
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          // Obtain quote text from snapshot to use as the text
-                          subtitle: Text(snapshot.data[randomNumber].text),
-                        );
-                      } else {
-                        return ListTile( // Creates a list tile with the index
-                          title: Text(
-                            snapshot.data.author,
-                            // Takes author of quote as title
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          // Obtain quote text from snapshot to use as the text
-                          subtitle: Text(snapshot.data.text),
-                        );
-                      }
-                    } else {
-                      return const Center(
-                        // Indicate loading with a progress indicator
-                          child: CircularProgressIndicator(
-                            color: Color(0xffFF8C32),
-                          ));
-                    }
-                  },
+                /*  Quotes  */
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10,20,20,10),
+                  child: Card(
+                    elevation: 0.9,
+                    child: FutureBuilder(
+                      future: fetchAllQuotes(), // Tells what asynchronous computation to connect
+                      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) { // If future finishes
+                          if (_isConnectionSuccessful) {
+                            return ListTile( // Creates a list tile with the index
+                              title: Text(
+                                snapshot.data[randomNumber].author,
+                                // Takes author of quote as title
+                                style: const TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              // Obtain quote text from snapshot to use as the text
+                              subtitle: Text(snapshot.data[randomNumber].text ),
+                            );
+                          } else {
+                            return ListTile( // Creates a list tile with the index
+                              title: Text(
+                                snapshot.data.author,
+                                // Takes author of quote as title
+                                style: const TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              // Obtain quote text from snapshot to use as the text
+                              subtitle: Text(snapshot.data.text),
+                            );
+                          }
+                        } else {
+                          return const Center(
+                            // Indicate loading with a progress indicator
+                              child: CircularProgressIndicator(
+                                color: Color(0xffFF8C32),
+                              ));
+                        }
+                      },
+                    ),
+                  ),
                 ),
-                // Statistics entries //
                 /* Statistics for Water */
                 Container( 
                   // This container is used for padding purposes
@@ -189,10 +203,49 @@ class _HomeState extends State<Home> {
                 ),
                 /* Statistics for Steps */
                 Container( 
-                  margin: const EdgeInsets.all(20),
+                  margin: const EdgeInsets.all(10),
                   child: const Text("Step Statistics ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),),
                 ),
-
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20,10,20,10),
+                  child: Card(
+                    elevation: 0.9,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                    child: SizedBox(
+                      height: 250,
+                      child: BarChart(BarChartData(
+                          alignment: BarChartAlignment.spaceAround,
+                          maxY: 100,
+                          groupsSpace: MediaQuery.of(context).size.width * 0.05,
+                          gridData: FlGridData(show: false),
+                          borderData: FlBorderData(
+                              border: const Border(
+                                top: BorderSide.none,
+                                right: BorderSide.none,
+                                left: BorderSide(width: 1),
+                                bottom: BorderSide(width: 1),
+                              )),
+                          barGroups: stepsData
+                              .map((data) =>
+                              BarChartGroupData(x: data.x, barRods: [
+                                BarChartRodData(
+                                  toY: data.y1,
+                                  color: const Color.fromARGB(255, 181, 136, 240),
+                                  width: 5,
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(6),
+                                    topRight: Radius.circular(6),
+                                  ),
+                                ),
+                              ]))
+                              .toList())),
+                    ),
+                  ),
+                ),
+                Container(
+                  // This container is used for padding purposes
+                  margin: const EdgeInsets.all(10),
+                ),
                 Container(
                   margin: const EdgeInsets.all(5),
                   child: const Text(" Total Lifetime Statistics ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24), ),
