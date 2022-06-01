@@ -294,6 +294,12 @@ class MicromeDatabase {
     );
   }
 
+  Future<int?> getWaterGoal() async {
+    final db = await instance.database;
+    return Sqflite.firstIntValue(await db.rawQuery('SELECT SUM(goal) FROM water_goal'));
+  }
+  
+
   // Function to create a Step object in the Step table
   Future<Step> createStep(Step step) async {
     final db = await instance.database;

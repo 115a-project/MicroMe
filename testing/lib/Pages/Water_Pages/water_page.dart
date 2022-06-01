@@ -60,7 +60,7 @@ class _WaterPageState extends State<WaterPage> {
   void initState() {
     super.initState();
     controller = TextEditingController();
-    updateGoal().then((value) {goalWater = value; createWaterGoal(value);});
+    setGoal().then((value) {goalWater = value; });
     updateTotal().then((value) { totalWater = value; });
     updatePieChart();
   }
@@ -118,14 +118,7 @@ class _WaterPageState extends State<WaterPage> {
                   ), 
             ),
             // Past Entry List View, Allows User to delete mistake entries and view history log for water //
-            SingleChildScrollView(
-              child: Column(
-                children:<Widget> [
-                  const Text("Past Entries: "),
-                  Text("Added " + amount + 'oz ' + " at " + time.toString()),
-                ],
-              ),
-            ),
+            
           ]
         ),
       ), 
@@ -141,7 +134,7 @@ class _WaterPageState extends State<WaterPage> {
     // When pressed updates the (dataMap) map for pie chart to allow values to change // 
     onPressed: () async {
       final amount = await openDialog();
-      if ( amount == null || amount.isEmpty ) return;        // Toss out invalid values, TODO: make sure it is an int
+      if ( amount == null || amount.isEmpty ) return;        // Toss out invalid values
       setState(
         () => this.amount = amount,
       );
@@ -203,12 +196,17 @@ class _WaterPageState extends State<WaterPage> {
     return await MicromeDatabase.instance.returnTodaySumWater();
   }
 
+
   /*
    * Helper to update goal and grab value from database
    */
-  Future updateGoal() async {
-    goalWater = 300;
-    return 200;
+  Future setGoal() async {
+    dynamic goal = await MicromeDatabase.instance.getWaterGoal();
+    if (goal.toString() == "null") {
+      return 100;
+    }
+    print('$goal');
+    return goal;
   }
 
   /*
@@ -229,6 +227,14 @@ class _WaterPageState extends State<WaterPage> {
     );
     await MicromeDatabase.instance.createWaterGoal(waterGoal);
     return waterGoal;
+  }
+
+  /*
+   * Helper to update goal and grab value from database
+   */
+  Future updateGoal() async {
+    goalWater = 300;
+    return 200;
   }
 
 } // water
