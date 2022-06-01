@@ -40,7 +40,7 @@ class _WaterPageState extends State<WaterPage> {
   // Controllers for goal and added amounts //
   late TextEditingController controller;
   String amount = '0';                        // amount user has drank
-  String goal = '100';                       // user's set goal
+  String goal = '100';                        // user's set goal
   TimeOfDay time = TimeOfDay.now();           // Time user has added new water entry
 
   // Pie chart set to UI displaying amount drank //
@@ -69,7 +69,6 @@ class _WaterPageState extends State<WaterPage> {
   @override
   void dispose() {
     controller.dispose();
-    //MicromeDatabase.instance.close();
     super.dispose();
   }
 

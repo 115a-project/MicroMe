@@ -63,7 +63,6 @@ class _HomeState extends State<Home> {
    */
   @override
   void dispose() {
-    //MicromeDatabase.instance.close();
     super.dispose();
   }
 
