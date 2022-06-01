@@ -1,16 +1,13 @@
-# testing
+# MicroMe
 
-A new Flutter project.
+A digital well-being app created at the University of California
 
-## Getting Started
+# About
 
-This project is a starting point for a Flutter application.
+This app allows users to input how much water they drank, monitor how many steps they've taken via a pedometer,
+and keep notes in a journal. Stats about these different functionalities are available in the home page.
 
-A few resources to get you started if this is your first Flutter project:
+# Technologies and dependencies
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The app was written in Dart using the Flutter framework. Some of the biggest packages used within the
+app are: SQFLite, pedometer, shared_preferences, fl_charts, staggered_grid_view, and about.
