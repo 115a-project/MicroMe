@@ -4,6 +4,7 @@ import 'package:pie_chart/pie_chart.dart' as pie_chart;   // in pubspec.yaml dep
 import 'package:flutter/services.dart';
 import 'package:testing/Db/microme_db.dart';
 import 'package:testing/Models/water_model.dart';
+import 'package:testing/Models/water_goal_model.dart';
 import 'package:intl/intl.dart';
 
 // ****************** Structure *************************
@@ -22,9 +23,12 @@ import 'package:intl/intl.dart';
 //             __________________________________________________
 
 
+dynamic totalWater;
+dynamic goalWater;
+
 //******************* Water Class *******************
+
 class WaterPage extends StatefulWidget {
-  // final Water? water;
   const WaterPage({Key? key}) : super(key: key);
   
 
@@ -35,8 +39,7 @@ class _WaterPageState extends State<WaterPage> {
   // Controllers for goal and added amounts //
   late TextEditingController controller;
   String amount = '0';                        // amount user has drank
-  int? total = 0;                         // total amount user has drank
-  String goal = '100';                       // user's set goal
+  String goal = '100';                        // user's set goal
   TimeOfDay time = TimeOfDay.now();           // Time user has added new water entry
 
   // Pie chart set to UI displaying amount drank //
@@ -56,7 +59,9 @@ class _WaterPageState extends State<WaterPage> {
   void initState() {
     super.initState();
     controller = TextEditingController();
-    //var remainder = 100 - (percentageDrank*100);
+    setGoal().then((value) {goalWater = value; });
+    updateTotal().then((value) { totalWater = value; });
+    updatePieChart();
   }
   
   // clean up the controller after updating entries //
@@ -85,18 +90,13 @@ class _WaterPageState extends State<WaterPage> {
               child: const Text('Change Goal', style: TextStyle(fontSize: 15.0),),
               onPressed: () async {
                 final goal = await openDialog();
-                if ( goal == null || goal.isEmpty ) return;    // TODO: Toss out invalid values
+                if ( goal == null || goal.isEmpty ) return; 
                 setState(
                   () => this.goal = goal
                 );
-                var percentageDrank = find_percent_drank(total);
-                var double_pd = double.parse(percentageDrank);
-                // print('$double_pd');
-                print('$total');
-                //var remainder = 100 - (percentageDrank*100);
-
-                dataMap.update("left to drink ", (value) => 100 - (double_pd*100));
-                dataMap.update("drank ", (value) => double.parse(percentageDrank)*100);
+                createWaterGoal(int.parse(goal));
+                setGoal().then((value) {goalWater = value; });
+                updatePieChart();
               } // on pressed for goal amounts
             ),
             // Pie Chart UI Container //
@@ -110,20 +110,13 @@ class _WaterPageState extends State<WaterPage> {
                     chartType: pie_chart.ChartType.ring,
                     ringStrokeWidth: 24,
                     animationDuration: const Duration(seconds: 2),
-                    centerText: total.toString() + " / " + goal + " oz",
+                    centerText: totalWater.toString() + " / " + goalWater.toString() + " oz",
                     chartValuesOptions: const pie_chart.ChartValuesOptions( showChartValues: false ),
                     legendOptions: const pie_chart.LegendOptions( showLegends: false,),
                   ), 
             ),
             // Past Entry List View, Allows User to delete mistake entries and view history log for water //
-            SingleChildScrollView(
-              child: Column(
-                children:<Widget> [
-                  const Text("Past Entries: "),
-                  Text("Added " + amount + 'oz ' + " at " + time.toString()),
-                ],
-              ),
-            ),
+            
           ]
         ),
       ), 
@@ -135,11 +128,11 @@ class _WaterPageState extends State<WaterPage> {
   //Button to control adding more water
   //Expected: opens a text entry where user submits a new value that changes the pi chart
   Widget buildNavigateButton() => FloatingActionButton(
-    child: Icon(Icons.add),
+    child: const Icon(Icons.add),
     // When pressed updates the (dataMap) map for pie chart to allow values to change // 
     onPressed: () async {
       final amount = await openDialog();
-      if ( amount == null || amount.isEmpty ) return;        // Toss out invalid values, TODO: make sure it is an int
+      if ( amount == null || amount.isEmpty ) return;        // Toss out invalid values
       setState(
         () => this.amount = amount,
       );
@@ -150,33 +143,20 @@ class _WaterPageState extends State<WaterPage> {
       );
 
       await MicromeDatabase.instance.createWater(water);
-      // var amountDouble = double.parse(amount) + total;
 
-      total = await MicromeDatabase.instance.returnTodaySumWater();
-
-
-      // insertWater();
-      // updateTotal();
-      var percentageDrank = find_percent_drank(total);
-      print('$percentageDrank');
-      print('$total');
-
-      //var remainder = 100 - (percentageDrank*100);
-
-      // // Update values for pie chart so it changes
-      dataMap.update("left to drink ", (value) => (100 - (double.parse(percentageDrank)*100)));
-      dataMap.update("drank ", (value) => (double.parse(percentageDrank)*100));
-      // updatePieChart(percentageDrank);
+      updateTotal();
+      updatePieChart();
     }
   );
 
 
-  // Updates Controller by allowing floating button to add water.
-  // Returns a string that is amount of water inputted by user
-  // https://www.youtube.com/watch?v=D6icsXS8NeA
+  /* Function - openDialog
+    Updates Controller by allowing floating button to add water.
+      Returns a string that is amount of water inputted by user
+      https://www.youtube.com/watch?v=D6icsXS8NeA */
   Future<String?> openDialog() => showDialog<String>(
   context: context, builder: (context) => AlertDialog(
-      title: const Text('Enter Amount Drank: '),
+      title: const Text('Enter Amount: '),
       content: TextField(
         autofocus: true,                                              // keeps the keyboard open
         decoration: const InputDecoration(hintText: '32 oz'),
@@ -198,35 +178,51 @@ class _WaterPageState extends State<WaterPage> {
     Navigator.of(context).pop(controller.text);
   }
 
-  String find_percent_drank(total) {
+  double findPercentDrank(total) {
     if (total == null) {
-      return "0";
+      return 0;
     }
     else {
-      return (total/double.parse(goal)).toString();
+      return (total/goalWater);
     }
   }
-  //
-  // Future<void> updatePieChart() {
-  //   var percentDrankVal = find_percent_drank(total);
-  //   // Update values for pie chart so it changes
-  //   print('$percentDrankVal');
-  //   dataMap.update("left to drink ", (value) => (100 - (double.parse(percentDrankVal)*100)));
-  //   dataMap.update("drank ", (value) => double.parse(percentDrankVal));
-  // }
 
-  // void insertWater() async {
-  //   final water = Water(
-  //       amount : int.parse(amount),
-  //       createdTime: DateFormat('yyyy-MM-dd').format(DateTime.now())
-  //   );
-  //
-  //   await MicromeDatabase.instance.createWater(water);
-  //   // var amountDouble = double.parse(amount) + total;
-  // }
-  //
-  Future<int?> updateTotal() async {
-    return total = await MicromeDatabase.instance.returnTodaySumWater();
+
+  /*
+   * Helper to update total and grab value from database
+   */
+  Future updateTotal() async {
+    return await MicromeDatabase.instance.returnTodaySumWater();
+  }
+
+  /*
+   * Helper to update goal and grab value from database
+   */
+  Future setGoal() async {
+    dynamic goal = await MicromeDatabase.instance.getWaterGoal();
+    if (goal.toString() == "null") {
+      return 100;
+    }
+    return goal;
+  }
+
+  /*
+   * Helper to update pieChart UI
+   */
+  void updatePieChart() {
+    double percentageDrank = findPercentDrank(totalWater);
+    // Update values for pie chart so it changes
+    dataMap.update( "left to drink ", (value) => (100 - (percentageDrank)*100));
+    dataMap.update( "drank ", (value) => (percentageDrank*100));
+  }
+
+  Future createWaterGoal(goalVal) async {
+    dynamic waterGoal = WaterGoal(
+        goal : goalVal,
+        createdTime: DateFormat('yyyy-MM-dd').format(DateTime.now())
+    );
+    await MicromeDatabase.instance.createWaterGoal(waterGoal);
+    return waterGoal;
   }
 
 } // water

@@ -89,7 +89,7 @@ class MicromeDatabase {
     const boolType = 'BOOLEAN NOT NULL';
     const integerType = 'INTEGER NOT NULL';
 
-    await db.execute('''CREATE TABLE $tableJournal ( 
+    await db.execute('''CREATE TABLE IF NOT EXISTS $tableJournal ( 
       ${EntryFields.id} $idType,
       ${EntryFields.isImportant} $boolType,
       ${EntryFields.number} $integerType,
@@ -99,21 +99,21 @@ class MicromeDatabase {
       )
     ''');
 
-    await db.execute('''CREATE TABLE $tableWater (
+    await db.execute('''CREATE TABLE IF NOT EXISTS $tableWater (
       ${WaterFields.id} $idType,
       ${WaterFields.amount} $integerType,
       ${WaterFields.time} $textType
       )    
     ''');
 
-    await db.execute('''CREATE TABLE $tableWaterGoal (
+    await db.execute('''CREATE TABLE IF NOT EXISTS $tableWaterGoal (
       ${WaterGoalFields.id} $idType,
       ${WaterGoalFields.goal} $integerType,
       ${WaterGoalFields.time} $textType
       )    
     ''');
 
-    await db.execute('''CREATE TABLE $tableSteps (
+    await db.execute('''CREATE TABLE IF NOT EXISTS $tableSteps (
       ${StepFields.id} $idType,
       ${StepFields.steps} $integerType,
       ${StepFields.time} $textType
@@ -293,6 +293,13 @@ class MicromeDatabase {
       whereArgs: [id],
     );
   }
+
+  Future<int?> getWaterGoal() async {
+    final db = await instance.database;
+    int? goal = Sqflite.firstIntValue(await db.rawQuery('SELECT goal FROM water_goal WHERE _id = (SELECT MAX(_id) FROM water_goal)'));
+    return goal;
+  }
+  
 
   // Function to create a Step object in the Step table
   Future<Step> createStep(Step step) async {

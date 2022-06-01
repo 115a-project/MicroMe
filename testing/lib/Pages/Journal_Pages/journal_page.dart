@@ -53,15 +53,13 @@ class _EntriesPageState extends State<EntriesPage> {
 
   @override
   void dispose() {
-    MicromeDatabase.instance.close();
-
     super.dispose();
   }
 
   Future refreshEntries() async {
     setState(() => isLoading = true);
 
-    this.entriesList = await MicromeDatabase.instance.readAllEntries();
+    entriesList = await MicromeDatabase.instance.readAllEntries();
 
     setState(() => isLoading = false);
   }
@@ -79,21 +77,21 @@ class _EntriesPageState extends State<EntriesPage> {
     return Scaffold(
       body: Center(
         child: isLoading
-            ? CircularProgressIndicator()
+            ? const CircularProgressIndicator()
             : entriesList.isEmpty
-            ? Text(
+            ? const Text(
           'No Entries',
           style: TextStyle(color: Colors.white, fontSize: 24),
         )
             : buildEntries(),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         onPressed: () async {
           await Navigator.of(context).push(
             PageTransition(
               type: PageTransitionType.rightToLeft,
-              child: AddEditEntryPage()
+              child: const AddEditEntryPage()
             ),
           );
 
