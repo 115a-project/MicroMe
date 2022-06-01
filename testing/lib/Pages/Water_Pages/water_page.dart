@@ -29,7 +29,6 @@ dynamic goalWater;
 //******************* Water Class *******************
 
 class WaterPage extends StatefulWidget {
-  // final Water? water;
   const WaterPage({Key? key}) : super(key: key);
   
 
@@ -97,7 +96,6 @@ class _WaterPageState extends State<WaterPage> {
                 );
                 createWaterGoal(int.parse(goal));
                 setGoal().then((value) {goalWater = value; });
-                //updateGoal();
                 updatePieChart();
               } // on pressed for goal amounts
             ),
@@ -152,9 +150,10 @@ class _WaterPageState extends State<WaterPage> {
   );
 
 
-  // Updates Controller by allowing floating button to add water.
-  // Returns a string that is amount of water inputted by user
-  // https://www.youtube.com/watch?v=D6icsXS8NeA
+  /* Function - openDialog
+    Updates Controller by allowing floating button to add water.
+      Returns a string that is amount of water inputted by user
+      https://www.youtube.com/watch?v=D6icsXS8NeA */
   Future<String?> openDialog() => showDialog<String>(
   context: context, builder: (context) => AlertDialog(
       title: const Text('Enter Amount: '),
@@ -204,7 +203,6 @@ class _WaterPageState extends State<WaterPage> {
     if (goal.toString() == "null") {
       return 100;
     }
-    //print('$goal');
     return goal;
   }
 
@@ -219,7 +217,6 @@ class _WaterPageState extends State<WaterPage> {
   }
 
   Future createWaterGoal(goalVal) async {
-    //print('$goalVal');
     dynamic waterGoal = WaterGoal(
         goal : goalVal,
         createdTime: DateFormat('yyyy-MM-dd').format(DateTime.now())
